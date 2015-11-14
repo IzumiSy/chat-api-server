@@ -12,22 +12,25 @@ class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   get '/user' do
+    halt 200
   end
 
   post '/user/signup' do
+    halt 200
   end
 
   post '/user/signin' do
+    halt 200
   end
 end
 
 class IndexRoute < Sinatra::Base
   get '/' do
-    "index"
+    halt 200
   end
 end
 
-class ChatAPIServer < Sinatra::Base
+class Application < Sinatra::Base
   enable :logging
 
   use IndexRoute
