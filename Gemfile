@@ -9,8 +9,6 @@ gem 'bson_ext'
 
 gem 'config'
 
-gem 'foreman'
-
 group :test do
   gem 'rspec'
 end
