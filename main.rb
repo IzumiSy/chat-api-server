@@ -6,6 +6,8 @@ require 'rack'
 require 'mongoid'
 require 'config'
 
+require 'models/user'
+
 class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
@@ -22,8 +24,15 @@ class UserRoutes < Sinatra::Base
   end
 end
 
+class IndexRoute < Sinatra::Base
+  get '/' do
+    "index"
+  end
+end
+
 class Application < Sinatra::Base
   enable :logging
 
+  use IndexRoute
   use UserRoutes
 end
