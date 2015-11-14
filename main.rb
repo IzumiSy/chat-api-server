@@ -6,10 +6,10 @@ require 'mongoid'
 require 'config'
 
 get '/' do
-  halt 200
+  body "Hello world"
 end
 
 get '/user' do
-  halt 200
+  body "User World"
 end
 
