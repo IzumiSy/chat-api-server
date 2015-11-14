@@ -6,15 +6,14 @@ require 'rack'
 require 'mongoid'
 require 'config'
 
-class App < Sinatra::Base
+class Application < Sinatra::Base
   helpers Sinatra::Param
 
-  get '/' do
-    body "Hello world"
+  post '/user/signup' do
+
   end
 
-  get '/user' do
-    body "User World"
-  end
+  post '/user/signin' do
 
+  end
 end

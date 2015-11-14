@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem 'sinatra'
-gem 'sinatra-param'
+gem 'sinatra-param', require: 'sinatra/param'
 
 gem 'shotgun'
 gem 'thin'
