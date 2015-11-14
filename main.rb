@@ -6,10 +6,10 @@ require 'mongoid'
 require 'config'
 
 get '/' do
-  { where: 'root' }.to_json
+  halt 200
 end
 
 get '/user' do
-  { where: 'user' }.to_json
+  halt 200
 end
 
