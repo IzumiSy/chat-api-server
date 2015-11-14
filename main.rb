@@ -27,7 +27,7 @@ class IndexRoute < Sinatra::Base
   end
 end
 
-class Application < Sinatra::Base
+class ChatAPIServer < Sinatra::Base
   enable :logging
 
   use IndexRoute
