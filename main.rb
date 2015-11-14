@@ -1,15 +1,20 @@
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
+require 'sinatra/param'
 require 'json'
 require 'rack'
 require 'mongoid'
 require 'config'
 
-get '/' do
-  body "Hello world"
-end
+class App < Sinatra::Base
+  helpers Sinatra::Param
 
-get '/user' do
-  body "User World"
-end
+  get '/' do
+    body "Hello world"
+  end
 
+  get '/user' do
+    body "User World"
+  end
+
+end
