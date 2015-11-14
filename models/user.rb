@@ -1,10 +1,10 @@
 require 'mongoid'
 require 'bcrypt'
 
-Mongoid.load!('../mongoid.yml')
+Mongoid.load!('mongoid.yml')
 
 class User
-  include Mongoid::User
+  include Mongoid::Document
 
   field :name
 

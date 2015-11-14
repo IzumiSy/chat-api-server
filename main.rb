@@ -6,21 +6,18 @@ require 'rack'
 require 'mongoid'
 require 'config'
 
-require 'models/user'
+require_relative 'models/user'
 
 class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   get '/user' do
-    "user"
   end
 
   post '/user/signup' do
-    "signup"
   end
 
   post '/user/signin' do
-    "signin"
   end
 end
 
