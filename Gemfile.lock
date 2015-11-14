@@ -11,7 +11,11 @@ GEM
     bson_ext (1.12.4)
       bson (~> 1.12.4)
     builder (3.0.4)
+    config (1.0.0)
+      activesupport (>= 3.0)
+      deep_merge (~> 1.0.0)
     daemons (1.2.3)
+    deep_merge (1.0.1)
     diff-lcs (1.2.5)
     eventmachine (1.0.8)
     i18n (0.7.0)
@@ -57,6 +61,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
+  config
   mongoid
   rspec
   shotgun
