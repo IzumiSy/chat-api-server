@@ -10,6 +10,7 @@ gem 'mongoid'
 gem 'bson_ext'
 
 gem 'config'
+gem 'bcrypt'
 
 group :test do
   gem 'rspec'

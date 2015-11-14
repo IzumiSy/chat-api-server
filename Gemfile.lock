@@ -7,6 +7,7 @@ GEM
     activesupport (3.2.22)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
+    bcrypt (3.1.10)
     bson (1.12.4)
     bson_ext (1.12.4)
       bson (~> 1.12.4)
@@ -62,6 +63,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   bson_ext
   config
   mongoid
