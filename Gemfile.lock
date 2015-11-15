@@ -13,11 +13,16 @@ GEM
     activesupport (3.2.22)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
+    awesome_print (1.6.1)
     bcrypt (3.1.10)
     bson (1.12.4)
     bson_ext (1.12.4)
       bson (~> 1.12.4)
     builder (3.0.4)
+    byebug (5.0.0)
+      columnize (= 0.9.0)
+    coderay (1.1.0)
+    columnize (0.9.0)
     config (1.0.0)
       activesupport (>= 3.0)
       deep_merge (~> 1.0.0)
@@ -26,6 +31,7 @@ GEM
     diff-lcs (1.2.5)
     eventmachine (1.0.8)
     i18n (0.7.0)
+    method_source (0.8.2)
     mongoid (3.1.7)
       activemodel (~> 3.2)
       moped (~> 1.4)
@@ -34,6 +40,13 @@ GEM
     moped (1.5.3)
     multi_json (1.11.2)
     origin (1.1.0)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-byebug (3.2.0)
+      byebug (~> 5.0)
+      pry (~> 0.10)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -60,6 +73,7 @@ GEM
       tilt (>= 1.3, < 3)
     sinatra-param (1.4.0)
       sinatra (~> 1.3)
+    slop (3.6.0)
     thin (1.6.4)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -71,11 +85,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print
   bcrypt
   bson_ext
   config
   database_cleaner!
   mongoid
+  pry
+  pry-byebug
   rack-test
   rspec
   shotgun

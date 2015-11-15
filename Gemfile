@@ -12,7 +12,10 @@ gem 'bson_ext'
 gem 'config'
 gem 'bcrypt'
 
-group :test do
+group :development, :test do
+  gem 'awesome_print'
+  gem 'pry'
+  gem 'pry-byebug'
   gem 'rspec'
   gem 'rack-test'
   gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
