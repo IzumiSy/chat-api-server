@@ -7,7 +7,7 @@ describe "POST /api/user/signup" do
   }
 
   it "should NOT make users sign up without params" do
-    post "/user/signup"
+    post "/api/user/signup"
     expect(last_response.status).to eq(400)
   end
 

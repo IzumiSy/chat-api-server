@@ -3,7 +3,6 @@ require 'sinatra/base'
 require 'sinatra/param'
 require 'json'
 require 'rack'
-require 'mongoid'
 require 'config'
 
 require_relative 'models/user'
@@ -11,11 +10,11 @@ require_relative 'models/user'
 class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
-  get '/users' do
+  get '/api/users' do
     status 200
   end
 
-  post '/user/signup' do
+  post '/api/user/signup' do
     param :name,  String, required: true
     param :email, String, required: true
 
@@ -27,7 +26,7 @@ class UserRoutes < Sinatra::Base
     status 202
   end
 
-  post '/user/signin' do
+  post '/api/user/signin' do
     param :name,  String, required: true
     param :email, String, required: true
 
