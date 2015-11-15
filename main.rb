@@ -34,6 +34,12 @@ class UserRoutes < Sinatra::Base
   end
 end
 
+class UserRoutes < Sinatra::Base
+  get '/api/ping' do
+    body 'pong'
+  end
+end
+
 class Application < Sinatra::Base
   configure do
     set :raise_errors, true
