@@ -15,5 +15,6 @@ gem 'bcrypt'
 group :test do
   gem 'rspec'
   gem 'rack-test'
+  gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
 end
 

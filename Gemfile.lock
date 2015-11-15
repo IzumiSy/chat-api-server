@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/DatabaseCleaner/database_cleaner.git
+  revision: b87f00320f8aa0f7e499d183128f05ce29cedc33
+  specs:
+    database_cleaner (1.5.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -68,6 +74,7 @@ DEPENDENCIES
   bcrypt
   bson_ext
   config
+  database_cleaner!
   mongoid
   rack-test
   rspec
