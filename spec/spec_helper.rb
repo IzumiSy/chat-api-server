@@ -1,4 +1,5 @@
 require 'rspec'
+require 'json'
 require 'rack/test'
 require 'database_cleaner'
 require_relative '../main.rb'
