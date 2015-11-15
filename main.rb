@@ -16,9 +16,7 @@ class UserRoutes < Sinatra::Base
   post '/api/user/signup' do
     param :name,  String, required: true
     param :email, String, required: true
-
     user = User.create(name:  params[:name], email: params[:email])
-
     body user.to_json
     status 202
   end
