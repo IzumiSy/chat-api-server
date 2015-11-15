@@ -8,7 +8,7 @@ describe "GET /api/:users" do
 
   it "should get an error in trying to fetch an undefined user " do
    get "/api/users/100"
-   expect(last_response.status).to eq(400)
+   expect(last_response.status).to eq(500)
   end
 end
 

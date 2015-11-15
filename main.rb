@@ -11,7 +11,9 @@ class UserRoutes < Sinatra::Base
 
   get '/api/users/:id' do
     param :id, String, require: true
-    User.find(params[:id])
+    user = User.find(params[:id])
+    body user.to_json
+    status 200
   end
 
   post '/api/user/signup' do
