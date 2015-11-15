@@ -12,27 +12,31 @@ class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   get '/user' do
-    halt 200
+    status 200
   end
 
   post '/user/signup' do
-    halt 200
+    param :name,  String, required: true
+    param :email, String, required: true
+
+    status 202
   end
 
   post '/user/signin' do
-    halt 200
-  end
-end
+    param :name,  String, required: true
+    param :email, String, required: true
 
-class IndexRoute < Sinatra::Base
-  get '/' do
-    halt 200
+    status 202
   end
 end
 
 class Application < Sinatra::Base
+  configure do
+    set :raise_errors, true
+    set :show_exceptions, false
+  end
+
   enable :logging
 
-  use IndexRoute
   use UserRoutes
 end
