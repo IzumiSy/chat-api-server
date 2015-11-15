@@ -1,11 +1,6 @@
 require_relative "./spec_helper.rb"
 
 describe "GET /api/:users" do
-  it "should get nothing without id param" do
-    get "/api/users"
-    expect(last_response.status).to eq(404)
-  end
-
   it "should get an error in trying to fetch an undefined user " do
    get "/api/users/100"
    expect(last_response.status).to eq(500)
