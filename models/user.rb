@@ -6,8 +6,8 @@ Mongoid.load!('mongoid.yml')
 class User
   include Mongoid::Document
 
-  field :name
-  field :email
+  field :name,  type: String
+  field :email, type: String
 
   validates :name, presence: true
   validates :name, uniqueness: true
