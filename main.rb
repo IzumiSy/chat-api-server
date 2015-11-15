@@ -34,7 +34,7 @@ class UserRoutes < Sinatra::Base
   end
 end
 
-class UserRoutes < Sinatra::Base
+class BasicRoutes < Sinatra::Base
   get '/api/ping' do
     body 'pong'
   end
@@ -48,5 +48,6 @@ class Application < Sinatra::Base
 
   enable :logging
 
+  use BasicRoutes
   use UserRoutes
 end
