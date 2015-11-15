@@ -2,7 +2,6 @@ require 'sinatra/base'
 require 'sinatra/param'
 require 'json'
 require 'config'
-require 'pry'
 
 require_relative 'models/user'
 
