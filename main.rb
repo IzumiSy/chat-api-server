@@ -1,28 +1,26 @@
-require 'rubygems'
 require 'sinatra/base'
 require 'sinatra/param'
 require 'json'
-require 'rack'
 require 'config'
+require 'pry'
 
 require_relative 'models/user'
 
 class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
-  get '/api/users' do
-    status 200
+  get '/api/users/:id' do
+    param :id, String, require: true
+    User.find(params[:id])
   end
 
   post '/api/user/signup' do
     param :name,  String, required: true
     param :email, String, required: true
 
-    User.create([
-      { name:  params[:name]  },
-      { email: params[:email] }
-    ])
+    user = User.create(name:  params[:name], email: params[:email])
 
+    body user.to_json
     status 202
   end
 
