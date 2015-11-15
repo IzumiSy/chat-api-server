@@ -11,7 +11,7 @@ require_relative 'models/user'
 class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
 
-  get '/user' do
+  get '/users' do
     status 200
   end
 
@@ -19,12 +19,19 @@ class UserRoutes < Sinatra::Base
     param :name,  String, required: true
     param :email, String, required: true
 
+    User.create([
+      { name:  params[:name]  },
+      { email: params[:email] }
+    ])
+
     status 202
   end
 
   post '/user/signin' do
     param :name,  String, required: true
     param :email, String, required: true
+
+    # Log-in transaction
 
     status 202
   end
