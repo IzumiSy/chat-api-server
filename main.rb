@@ -8,11 +8,14 @@ class RoomRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   post '/api/room/new' do
-
+    param :name, String, required: true
+    room = Room.create(name: params[:name])
+    body room.to_json
+    status 202
   end
 
   delete '/api/room/delete/:id' do
-
+    param :id, String, required: true
   end
 end
 
