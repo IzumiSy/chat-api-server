@@ -7,6 +7,7 @@ require_relative 'models/message'
 class RoomRoutes < Sinatra::Base
   helpers Sinatra::Param
 
+  # TODO Error handling on validation error in creating a new channel
   post '/api/room/new' do
     param :name, String, required: true
     room = Room.create(name: params[:name])
@@ -27,6 +28,7 @@ class RoomRoutes < Sinatra::Base
     end
   end
 
+  # TODO Implementation
   delete '/api/room/delete/:id' do
     param :id, String, required: true
   end
