@@ -37,7 +37,7 @@ end
 class MessageRoutes < Sinatra::Base
   helpers Sinatra::Param
 
-  post 'api/message/post' do
+  post '/api/message' do
     param :room_id, String, required: true
     param :content,    String, required: true
     room_id = params[:room_id]
