@@ -20,8 +20,8 @@ class RoomRoutes < Sinatra::Base
     room_id = params[:id]
     return if room_id.empty?
     if Room.where(id: room_id).exists?
-      room = Room.find(room_id)
-      body room.to_json
+      room_messages = Room.find(room_id).messages
+      body room_messages.to_json
       status 200
     else
       status 404

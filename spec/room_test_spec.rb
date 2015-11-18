@@ -35,3 +35,29 @@ describe "POST /api/room/new" do
   end
 end
 
+describe "GET /api/room" do
+  let(:room) { { name: "Room" } }
+
+  it "should get messages of the room" do
+    post "/api/room/new", room
+    expect(last_response.status).to eq(202)
+
+    room_id = JSON.parse(last_response.body)['_id']
+    params =
+      [ { room_id: room_id, content: "Hello1" },
+        { room_id: room_id, content: "Hello2" } ]
+    messages = []
+    params.each_with_index do |param, index|
+      post "/api/message", param
+      expect(last_response.status).to eq(202)
+      messages[index] = param[:content]
+    end
+
+    get "/api/room/#{room_id}"
+    expect(last_response.status).to eq(200)
+    JSON.parse(last_response.body).each_with_index do |data, index|
+      expect(data["content"]).to eq(params[index][:content])
+    end
+  end
+end
+
