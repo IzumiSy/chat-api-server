@@ -1,17 +1,15 @@
 require 'mongoid'
-require 'bcrypt'
 
 Mongoid.load!('mongoid.yml')
 
-class User
+class Room
   include Mongoid::Document
 
+  has_many :messages
+
   field :name,  type: String
-  field :email, type: String
 
   validates :name, presence: true
   validates :name, uniqueness: true
-  validates :email, presence: true
-  validates :email, uniqueness: true
 end
 

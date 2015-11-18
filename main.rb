@@ -1,7 +1,8 @@
 require 'sinatra/base'
 require 'sinatra/param'
 
-require_relative 'models/user'
+require_relative 'models/room'
+require_relative 'models/message'
 
 class UserRoutes < Sinatra::Base
   helpers Sinatra::Param
