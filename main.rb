@@ -19,7 +19,7 @@ class RoomRoutes < Sinatra::Base
   end
 end
 
-class MeesageRoutes < Sinatra::Base
+class MessageRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   post 'api/message/post' do
