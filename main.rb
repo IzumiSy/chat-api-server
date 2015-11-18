@@ -19,11 +19,22 @@ class RoomRoutes < Sinatra::Base
   end
 end
 
-class MeesageRoutes < Sinatra::Bas
+class MeesageRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   post 'api/message/post' do
-
+    param :channel_id, String, required: true
+    param :content,    String, required: true
+    channel_id = params[:channel_id]
+    content = params[:content]
+    return if channel_id.empty? or content.empty?
+=begin
+    if Room.where(_id: channel_id).exists?
+      message = Message.create(channel_id: channel_id, content: content)
+      body message.to_body
+      status 202
+    end
+=end
   end
 end
 

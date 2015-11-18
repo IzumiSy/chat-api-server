@@ -4,7 +4,7 @@ Mongoid.load!('mongoid.yml')
 
 class Message
   include Mongoid::Document
-  include Mongoid::Timestanps
+  include Mongoid::Timestamps
 
   belongs_to :room, index: true
 
