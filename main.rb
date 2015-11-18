@@ -7,7 +7,7 @@ require_relative 'models/message'
 class RoomRoutes < Sinatra::Base
   helpers Sinatra::Param
 
-  # TODO Error handling on validation error in creating a new channel
+  # TODO Error handling on validation error in creating a new room
   post '/api/room/new' do
     param :name, String, required: true
     room = Room.create(name: params[:name])
@@ -19,7 +19,7 @@ class RoomRoutes < Sinatra::Base
     param :id, String, required: true
     room_id = params[:id]
     return if room_id.empty?
-    if Room.where(_id: room_id).exists?
+    if Room.where(id: room_id).exists?
       room = Room.find(room_id)
       body room.to_json
       status 200
@@ -39,13 +39,13 @@ class MessageRoutes < Sinatra::Base
 
   post '/api/message' do
     param :room_id, String, required: true
-    param :content,    String, required: true
+    param :content, String, required: true
     room_id = params[:room_id]
     content = params[:content]
     return if room_id.empty? or content.empty?
-    if Room.where(room_id: channel_id).exists?
+    if Room.where(id: room_id).exists?
       message = Message.create(room_id: room_id, content: content)
-      body message.to_body
+      body message.to_json
       status 202
     else
       status 404
