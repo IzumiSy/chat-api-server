@@ -45,6 +45,8 @@ class MessageRoutes < Sinatra::Base
       message = Message.create(room_id: room_id, content: content)
       body message.to_body
       status 202
+    else
+      status 404
     end
   end
 end
