@@ -18,9 +18,13 @@ class RoomRoutes < Sinatra::Base
     param :id, String, required: true
     room_id = params[:id]
     return if room_id.empty?
-    room = Room.find(room_id)
-    body room.to_json
-    status 200
+    if Room.where(_id: room_id).exists?
+      room = Room.find(room_id)
+      body room.to_json
+      status 200
+    else
+      status 404
+    end
   end
 
   delete '/api/room/delete/:id' do
