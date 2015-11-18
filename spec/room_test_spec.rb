@@ -15,16 +15,21 @@ describe "POST /api/room/new" do
     expect(last_response.status).to eq(202)
   end
 
-  it "should have a post to the channel" do
+  it "should have 2 posts to the channel" do
     post "/api/room/new", room2
     expect(last_response.status).to eq(202)
 
-    params = {
-      room_id: JSON.parse(last_response.body)['_id'],
-      content: "Hello"
-    }
-    post "/api/message", params
-    expect(last_response.status).to eq(202)
+    room_id = JSON.parse(last_response.body)['_id']
+    params =
+      [ { room_id: room_id, content: "Hello1" },
+        { room_id: room_id, content: "Hello2" } ]
+    params.each do |param|
+      post "/api/message", param
+      expect(last_response.status).to eq(202)
+    end
+
+    message_count = Message.where(room_id: room_id).count
+    expect(message_count).to eq(2)
   end
 end
 
