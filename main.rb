@@ -4,31 +4,23 @@ require 'sinatra/param'
 require_relative 'models/room'
 require_relative 'models/message'
 
-class UserRoutes < Sinatra::Base
+class RoomRoutes < Sinatra::Base
   helpers Sinatra::Param
 
-  get '/api/users/:id' do
-    param :id, String, require: true
-    user = User.find(params[:id])
-    body user.to_json
-    status 200
+  post '/api/room/new' do
+
   end
 
-  post '/api/user/signup' do
-    param :name,  String, required: true
-    param :email, String, required: true
-    user = User.create(name:  params[:name], email: params[:email])
-    body user.to_json
-    status 202
+  post '/api/room/delete/:id' do
+
   end
+end
 
-  post '/api/user/signin' do
-    param :name,  String, required: true
-    param :email, String, required: true
+class MeesageRoutes < Sinatra::Bas
+  helpers Sinatra::Param
 
-    # Log-in transaction
+  post 'api/message/post' do
 
-    status 202
   end
 end
 
@@ -47,5 +39,6 @@ class Application < Sinatra::Base
   enable :logging
 
   use BasicRoutes
-  use UserRoutes
+  use RoomRoutes
+  use MessageRoutes
 end
