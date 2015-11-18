@@ -4,7 +4,6 @@ describe "POST /api/room/new" do
   let(:room1) { { name: "Room1" } }
   let(:room2) { { name: "Room2" } }
 
-
   it "should get an error in creating error without a name" do
     post "/api/room/new"
     expect(last_response.status).to eq(400)
@@ -15,7 +14,7 @@ describe "POST /api/room/new" do
     expect(last_response.status).to eq(202)
   end
 
-  it "should have 2 posts to the channel" do
+  it "should have 2 posts that correctly belong to the channel" do
     post "/api/room/new", room2
     expect(last_response.status).to eq(202)
 
@@ -28,8 +27,11 @@ describe "POST /api/room/new" do
       expect(last_response.status).to eq(202)
     end
 
-    message_count = Message.where(room_id: room_id).count
-    expect(message_count).to eq(2)
+    messages_count = Message.where(room_id: room_id).count
+    expect(messages_count).to eq(2)
+
+    room_messages_count = Room.find(room_id).messages.count
+    expect(room_messages_count).to eq(messages_count)
   end
 end
 
