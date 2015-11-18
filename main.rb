@@ -14,6 +14,15 @@ class RoomRoutes < Sinatra::Base
     status 202
   end
 
+  get '/api/room/:id' do
+    param :id, String, required: true
+    room_id = params[:id]
+    return if room_id.empty?
+    room = Room.find(room_id)
+    body room.to_json
+    status 200
+  end
+
   delete '/api/room/delete/:id' do
     param :id, String, required: true
   end
@@ -23,18 +32,16 @@ class MessageRoutes < Sinatra::Base
   helpers Sinatra::Param
 
   post 'api/message/post' do
-    param :channel_id, String, required: true
+    param :room_id, String, required: true
     param :content,    String, required: true
-    channel_id = params[:channel_id]
+    room_id = params[:room_id]
     content = params[:content]
-    return if channel_id.empty? or content.empty?
-=begin
-    if Room.where(_id: channel_id).exists?
-      message = Message.create(channel_id: channel_id, content: content)
+    return if room_id.empty? or content.empty?
+    if Room.where(room_id: channel_id).exists?
+      message = Message.create(room_id: room_id, content: content)
       body message.to_body
       status 202
     end
-=end
   end
 end
 

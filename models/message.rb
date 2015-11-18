@@ -9,7 +9,6 @@ class Message
   belongs_to :room, index: true
 
   field :content, type: String
-  field :channel_id, type: String
 
   validates :content, presence: true
 end
