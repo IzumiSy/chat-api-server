@@ -19,7 +19,7 @@ end
 class MeesageRoutes < Sinatra::Bas
   helpers Sinatra::Param
 
-  post 'api/message/post' do
+  delete 'api/message/post' do
 
   end
 end
