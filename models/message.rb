@@ -9,6 +9,9 @@ class Message
   belongs_to :room, index: true
 
   field :content, type: String
-
   validates :content, presence: true
+
+  after_save do |messsage|
+    # Broadcasts message posting with WebSocket
+  end
 end
