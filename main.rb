@@ -11,7 +11,7 @@ class RoomRoutes < Sinatra::Base
 
   end
 
-  post '/api/room/delete/:id' do
+  delete '/api/room/delete/:id' do
 
   end
 end
@@ -19,7 +19,7 @@ end
 class MeesageRoutes < Sinatra::Bas
   helpers Sinatra::Param
 
-  delete 'api/message/post' do
+  post 'api/message/post' do
 
   end
 end
