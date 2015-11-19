@@ -1,8 +1,12 @@
 require 'sinatra/base'
 require 'sinatra/param'
+require 'sinatra-websocket'
 
 require_relative 'models/room'
 require_relative 'models/message'
+
+set :server, 'thin'
+set :socket, []
 
 class RoomRoutes < Sinatra::Base
   helpers Sinatra::Param
