@@ -1,5 +1,5 @@
 require 'rubygems'
 require 'sinatra'
 
-require './main.rb'
+require './app.rb'
 run Application
