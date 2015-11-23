@@ -6,7 +6,7 @@ class Message
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  belongs_to :room, index: true
+  belongs_to :room, index: true, counter_cache: :messages_count
 
   field :content, type: String
   validates :content, presence: true

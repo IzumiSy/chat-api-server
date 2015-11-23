@@ -8,6 +8,7 @@ class Room
   has_many :messages
 
   field :name, type: String
+  field :messages_count, type: Integer
 
   validates :name, presence: true
   validates :name, uniqueness: true
