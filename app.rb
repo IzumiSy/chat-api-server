@@ -2,7 +2,8 @@ require 'sinatra/base'
 require 'sinatra/param'
 require 'sinatra-websocket'
 
-require "redis"
+require 'redis'
+require 'securerandom'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'

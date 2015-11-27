@@ -7,6 +7,7 @@ class BasicRoutes < Sinatra::Base
 
   post '/api/user/new' do
     param :name, String, required: true
+    uuid = SecureRandom.uuid
   end
 end
 
