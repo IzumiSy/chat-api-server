@@ -14,6 +14,7 @@ gem 'config'
 gem 'bcrypt'
 
 gem 'redis'
+gem 'hiredis'
 
 group :development, :test do
   gem 'awesome_print'
