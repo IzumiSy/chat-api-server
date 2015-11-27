@@ -7,16 +7,17 @@ class BasicRoutes < Sinatra::Base
   end
 
   post '/api/user/new' do
-    redis = Redis.new
-
     begin
+      redis = Redis.new
       redis.ping
     rescue Exception => e
-      print "#{e.message}\n"
+      print("#{e.message}\n")
     end
-
     param :name, String, required: true
     uuid = SecureRandom.uuid
+    name = params[:name]
+    redis.rpush(uuid, name)
+    print("{ uuid: #{uuid}, name: #{name} }\n")
   end
 end
 
