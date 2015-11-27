@@ -8,7 +8,7 @@ class BasicRoutes < Sinatra::Base
 
   post '/api/user/new' do
     begin
-      redis = Redis.new
+      redis = Redis.new(driver: :hiredis)
       redis.ping
     rescue Exception => e
       print("#{e.message}\n")
