@@ -16,7 +16,7 @@ class BasicRoutes < Sinatra::Base
     param :name, String, required: true
     uuid = SecureRandom.uuid
     name = params[:name]
-    redis.rpush(uuid, name)
+    redis.set(uuid, name)
     print("{ uuid: #{uuid}, name: #{name} }\n")
   end
 end
