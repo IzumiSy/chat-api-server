@@ -13,6 +13,8 @@ gem 'bson_ext'
 gem 'config'
 gem 'bcrypt'
 
+gem 'redis'
+
 group :development, :test do
   gem 'awesome_print'
   gem 'pry'
