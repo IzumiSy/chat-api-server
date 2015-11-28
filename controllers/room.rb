@@ -19,6 +19,8 @@ class RoomRoutes < Sinatra::Base
   # Streaming API subscribe port
   get '/api/room/subscribe/:id', provides: 'text/event-stream' do
     param :id, String, required: true
+    client_ip = request.ip
+    p "New suscriber: #{client_ip}"
     run_streaming_loop(params[:id])
   end
 
