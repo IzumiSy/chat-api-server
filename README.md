@@ -3,7 +3,7 @@
 ## Setup
 ```bash
 $ brew update
-$ brew install mongo
+$ brew install mongodb
 $ bundle install
 ```
 
