@@ -8,8 +8,8 @@ class User
   belongs_to :room
   has_many   :messages
 
-  field :name, type: String
-  field :ip,   type: String
+  field :name,  type: String
+  field :ip,    type: String
   field :token, type: String
 
   validates :name, presence: true
