@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require 'sinatra/param'
-require 'sinatra-websocket'
 
 require 'mongoid'
 require 'redis'

@@ -1,7 +1,6 @@
 source "https://rubygems.org"
 
 gem 'sinatra'
-gem 'sinatra-websocket'
 gem 'sinatra-param', require: 'sinatra/param'
 
 gem 'shotgun'
