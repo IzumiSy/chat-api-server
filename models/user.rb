@@ -6,7 +6,7 @@ class User
   include Mongoid::Timestamps
 
   belongs_to :room
-  has_many   :message, index: true
+  has_many   :messages
 
   field :name, type: String
 

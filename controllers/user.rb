@@ -4,7 +4,8 @@ class UserRoutes < Sinatra::Base
 
   post '/api/user/new' do
     param :name, String, required: true
-    uuid = SecureRandom.uuid
-    name = params[:name]
+    client_ip = request.ip
+    client_uuid = SecureRandom.uuid
+    client_name = params[:name]
   end
 end
