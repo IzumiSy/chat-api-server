@@ -4,7 +4,8 @@ Mongoid.load!('mongoid.yml')
 class Room
   include Mongoid::Document
 
-  has_many :messages
+  has_many :messages, index: true
+  has_many :users, index: true
 
   field :name, type: String
   field :messages_count, type: Integer
