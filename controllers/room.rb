@@ -11,6 +11,17 @@ class RoomRoutes < Sinatra::Base
     status 202
   end
 
+  # TODO Implementation
+  delete '/api/room/delete/:id' do
+    param :id, String, required: true
+  end
+
+  # Streaming API subscribe port
+  get '/api/room/subscribe/:id', provides: 'text/event-stream' do
+    param :id, String, required: true
+    run_streaming_loop(params[:id])
+  end
+
   get '/api/room/:id' do
     param :id, String, required: true
 
@@ -26,9 +37,14 @@ class RoomRoutes < Sinatra::Base
     end
   end
 
-  # TODO Implementation
-  delete '/api/room/delete/:id' do
-    param :id, String, required: true
+  protected
+
+  def run_streaming_loop(channel_id)
+    stream :keep_open do |connection|
+      loop do
+        sleep(1)
+      end
+    end
   end
 end
 
