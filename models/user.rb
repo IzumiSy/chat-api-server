@@ -13,6 +13,6 @@ class User
   field :token, type: String
 
   validates :name, presence: true
-  validates :ip, presence: true, uniequness: true
+  validates :ip, presence: true, uniquness: true
   validates :token, presence: true, uniqueness: true
 end
