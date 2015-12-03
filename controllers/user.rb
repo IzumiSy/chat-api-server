@@ -20,8 +20,13 @@ class UserRoutes < Sinatra::Base
   get '/api/user/usable' do
     param :name, String, required: true
 
-    # Check if the provided name is available or not
+    provided_name = params[:name]
+    is_name_availability = User.where(name: provided_name).exists?
 
+    result = {
+      status: is_name_availability
+    }
+    body result.to_json
     status 200
   end
 end
