@@ -16,4 +16,12 @@ class UserRoutes < Sinatra::Base
     body user.to_json
     status 202
   end
+
+  get '/api/user/usable' do
+    param :name, String, required: true
+
+    # Check if the provided name is available or not
+
+    status 200
+  end
 end
