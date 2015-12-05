@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/param'
+require 'sinatra/cross_origin'
 
 require 'mongoid'
 require 'redis'
@@ -21,9 +22,10 @@ class Application < Sinatra::Base
 
     set :server, 'thin'
     set :socket, []
-  end
 
-  enable :logging
+    enable :logging
+    enable :cross_origin
+  end
 
   use BasicRoutes
   use UserRoutes
