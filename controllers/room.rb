@@ -1,6 +1,13 @@
 
 class RoomRoutes < Sinatra::Base
-  helpers Sinatra::Param
+  configure do
+    helpers Sinatra::Param
+
+    register Sinatra::CrossOrigin
+
+    enable :cross_origin
+    enable :logging
+  end
 
   # TODO Error handling on validation error in creating a new room
   post '/api/room/new' do

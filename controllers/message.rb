@@ -1,6 +1,13 @@
 
 class MessageRoutes < Sinatra::Base
-  helpers Sinatra::Param
+  configure do
+    helpers Sinatra::Param
+
+    register Sinatra::CrossOrigin
+
+    enable :cross_origin
+    enable :logging
+  end
 
   post '/api/message' do
     param :room_id, String, required: true
