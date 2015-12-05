@@ -22,9 +22,6 @@ class Application < Sinatra::Base
 
     set :server, 'thin'
     set :socket, []
-
-    enable :logging
-    enable :cross_origin
   end
 
   use BasicRoutes
