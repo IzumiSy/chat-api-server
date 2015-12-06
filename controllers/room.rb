@@ -38,6 +38,7 @@ class RoomRoutes < Sinatra::Base
     end
   end
 
+  # Obtains all messages in the room
   get '/api/room/:id' do
     param :id, String, required: true
 
