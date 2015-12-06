@@ -5,10 +5,10 @@ development:
       hosts:
         - localhost:27017
 
-development:
+test:
   sessions:
     default:
-      database: mongoid_dev
+      database: test
       hosts:
         - localhost:27017
 
