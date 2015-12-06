@@ -8,7 +8,7 @@ development:
 development:
   sessions:
     default:
-      database: test
+      database: mongoid_dev
       hosts:
         - localhost:27017
 
