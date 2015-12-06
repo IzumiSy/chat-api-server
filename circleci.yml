@@ -1,0 +1,7 @@
+machine:
+  services:
+    - mongodb
+
+test:
+  override:
+    - bundle exec rspec
