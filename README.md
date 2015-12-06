@@ -1,5 +1,6 @@
 # Chat API Server
-
+This repository is the backend side of chat application.  
+Frontend side is here: https://github.com/IzumiSy/chat-frontend
 ## Setup
 ```bash
 $ brew update
