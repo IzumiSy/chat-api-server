@@ -23,6 +23,22 @@ class RoomRoutes < Sinatra::Base
     param :id, String, required: true
   end
 
+  # Obtains all messages in the room
+  get '/api/room/:id' do
+    param :id, String, required: true
+
+    room_id = params[:id]
+    return if room_id.empty?
+
+    if Room.where(id: room_id).exists?
+      room_messages = Room.find(room_id).messages
+      body room_messages.to_json
+      status 200
+    else
+      status 404
+    end
+  end
+
   # Streaming API subscribe port
   get '/api/room/subscribe/:id', provides: 'text/event-stream' do
     param :id, String, required: true
@@ -38,20 +54,20 @@ class RoomRoutes < Sinatra::Base
     end
   end
 
-  # Obtains all messages in the room
-  get '/api/room/:id' do
-    param :id, String, required: true
+  # Enters the channel
+  post '/api/room/enter' do
+    param :userId,    String, required: true
+    param :channelId, String, required: true
 
-    room_id = params[:id]
-    return if room_id.empty?
+    # TODO: implementation
+  end
 
-    if Room.where(id: room_id).exists?
-      room_messages = Room.find(room_id).messages
-      body room_messages.to_json
-      status 200
-    else
-      status 404
-    end
+  # Leaves the channel
+  delete '/api/room/leave' do
+    param :userId,    String, required: true
+    param :channelId, String, required: true
+
+    # TODO: implementation
   end
 
   protected
