@@ -56,16 +56,16 @@ class RoomRoutes < Sinatra::Base
 
   # Enters the channel
   post '/api/room/enter' do
-    param :userId,    String, required: true
-    param :channelId, String, required: true
+    param :user_id, String, required: true
+    param :room_id, String, required: true
 
     # TODO: implementation
   end
 
   # Leaves the channel
   delete '/api/room/leave' do
-    param :userId,    String, required: true
-    param :channelId, String, required: true
+    param :user_id, String, required: true
+    param :room_id, String, required: true
 
     # TODO: implementation
   end

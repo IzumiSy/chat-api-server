@@ -61,3 +61,25 @@ describe "GET /api/room" do
   end
 end
 
+describe "POST /api/room/enter" do
+  let(:room) { { name: "Room" } }
+  let(:user) { { name: "test1" } }
+
+  it "should have an user enter the room" do
+    # TODO: Implementation
+  end
+end
+
+describe "DELETE /api/room/leave" do
+  let(:room) { { name: "Room" } }
+  let(:user) { { name: "test1" } }
+
+  it "should have an user enter the room" do
+    # TODO: Implementation
+  end
+
+  it "should have an user leave the room" do
+    # TODO: Implementation
+  end
+end
+
