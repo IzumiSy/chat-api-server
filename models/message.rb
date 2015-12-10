@@ -5,6 +5,8 @@ class Message
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  after_save :broadcast_message
+
   belongs_to :room, counter_cache: :messages_count
   belongs_to :user, counter_cache: :message_count
 
@@ -13,7 +15,9 @@ class Message
 
   validates :content, presence: true
 
-  after_save do |messsage|
-    # Broadcasts message posting with WebSocket
+  protected
+
+  def broadcast_message
+    # Broadcast the message with steaming API in Sinatra
   end
 end
