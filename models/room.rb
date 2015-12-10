@@ -4,6 +4,9 @@ Mongoid.load!('mongoid.yml')
 class Room
   include Mongoid::Document
 
+  after_save :handle_room_enter
+  after_destroy :handle_room_leave
+
   has_many :messages
   has_many :users
 
@@ -13,5 +16,15 @@ class Room
 
   validates :name, presence: true
   validates :name, uniqueness: true
+
+  protected
+
+  def handle_room_enter
+    # Handles user entering to the room
+  end
+
+  def handle_room_leave
+    # Handles user leaving from the room
+  end
 end
 
