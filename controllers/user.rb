@@ -41,14 +41,46 @@ class UserRoutes < Sinatra::Base
     param :id, String, required: true
 
     user_id = params[:id]
-    return if user_id.empty?
+    data = fetch_user_data(user_id, :USER)
 
-    if Room.where(id: user_id).exists?
-      user = User.find(user_id)
-      body user.to_json
+    if data
+      body data
       status 200
     else
       status 404
     end
+  end
+
+
+  get 'api/user/:id/channels' do
+    param :id, String, required: true
+
+    user_id = params[:id]
+    data = fetch_user_data(user_id, :ROOM)
+
+    if data
+      body data
+      status 200
+    else
+      status 404
+    end
+  end
+
+  protected
+
+  def fetch_user_data(user_id, type)
+    return nil if user_id.empty?
+
+    return nil unless User.where(id: user_id).exists?
+    user = User.find(user_id)
+
+    return case
+      when type == :USER
+        user.to_json
+      when type == :ROOM
+        user.rooms.to_json
+      else
+        nil
+      end
   end
 end
