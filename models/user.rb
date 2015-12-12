@@ -12,9 +12,11 @@ class User
   has_many   :messages
 
   field :name,   type: String
+  field :face,   type: String
+  field :status, type: Integer
+
   field :ip,     type: String
   field :token,  type: String
-  field :status, type: Integer
 
   validates :name, presence: true
   validates :ip, presence: true, uniqueness: true

@@ -36,4 +36,19 @@ class UserRoutes < Sinatra::Base
     body result.to_json
     status 200
   end
+
+  get 'api/user/:id' do
+    param :id, String, required: true
+
+    user_id = params[:id]
+    return if user_id.empty?
+
+    if Room.where(id: user_id).exists?
+      user = User.find(user_id)
+      body user.to_json
+      status 200
+    else
+      status 404
+    end
+  end
 end
