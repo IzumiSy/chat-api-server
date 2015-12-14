@@ -52,7 +52,7 @@ class UserRoutes < Sinatra::Base
   end
 
 
-  get 'api/user/:id/channels' do
+  get 'api/user/:id/room' do
     param :id, String, required: true
 
     user_id = params[:id]
@@ -78,7 +78,7 @@ class UserRoutes < Sinatra::Base
       when type == :USER
         user.to_json
       when type == :ROOM
-        user.rooms.to_json
+        user.room.to_json
       else
         nil
       end
