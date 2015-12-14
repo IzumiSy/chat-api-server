@@ -9,6 +9,12 @@ class RoomRoutes < Sinatra::Base
     enable :logging
   end
 
+  get '/api/room' do
+    rooms = Room.all
+    body rooms.to_json
+    status 200
+  end
+
   # TODO Error handling on validation error in creating a new room
   post '/api/room/new' do
     param :name, String, required: true
