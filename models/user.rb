@@ -13,10 +13,12 @@ class User
 
   field :name,   type: String
   field :face,   type: String
-  field :status, type: Integer
 
   field :ip,     type: String
   field :token,  type: String
+
+  field :status, type: Integer, default: 0
+  field :is_delted, type: Boolean, default: false
 
   validates :name, presence: true
   validates :ip, presence: true, uniqueness: true
