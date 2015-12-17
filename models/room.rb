@@ -11,7 +11,9 @@ class Room
   has_many :users
 
   field :name, type: String
+
   field :messages_count, type: Integer
+  field :users_count, type: Integer
 
   field :status, type: Integer, default: 0
   field :is_deleted, type: Boolean, default: false

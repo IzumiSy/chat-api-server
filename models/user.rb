@@ -8,7 +8,7 @@ class User
   after_save :handle_room_enter
   after_destroy :handle_room_leave
 
-  belongs_to :room
+  belongs_to :room, counter_cache: :users_count
   has_many   :messages
 
   field :name,   type: String
@@ -16,6 +16,8 @@ class User
 
   field :ip,     type: String
   field :token,  type: String
+
+  field :messages_count, type: Integer
 
   field :status, type: Integer, default: 0
   field :is_delted, type: Boolean, default: false

@@ -8,7 +8,7 @@ class Message
   after_save :broadcast_message
 
   belongs_to :room, counter_cache: :messages_count
-  belongs_to :user, counter_cache: :message_count
+  belongs_to :user, counter_cache: :messages_count
 
   field :content, type: String
   field :status,  type: Integer
