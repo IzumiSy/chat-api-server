@@ -14,6 +14,7 @@ gem 'bson_ext'
 
 gem 'config'
 gem 'bcrypt'
+gem 'dotenv'
 
 gem 'redis'
 gem 'hiredis'
