@@ -1,4 +1,8 @@
+require_relative '../services/redis_service'
+
 class RoomRoutes < Sinatra::Base
+  include RedisService
+
   configure do
     helpers Sinatra::Param
 
