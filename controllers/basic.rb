@@ -24,9 +24,8 @@ class BasicRoutes < Sinatra::Base
     admin_pass = ENV['ADMIN_PASS']
     login_hash = params[:auth_hash]
 
-    if admin_pass.empty? or login_hash.empty?
-      halt 500
-    end
+    halt 500 if admin_pass.empty?
+    halt 400 if login_hash.empty?
 
     # Checks if MD5 hash is really the same as the one in .env
     # this port gives back an access token for some restricted API
