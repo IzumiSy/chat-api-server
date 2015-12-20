@@ -25,8 +25,8 @@ class RoomRoutes < Sinatra::Base
     param :name, String, required: true
     param :auth_token, String, required: true
 
-    # room = Room.create(name: params[:name])
-    # body room.to_json
+    room = Room.create(name: params[:name])
+    body room.to_json
     status 202
   end
 
