@@ -6,7 +6,20 @@ Frontend side is here: https://github.com/IzumiSy/chat-frontend
 ```bash
 $ brew update
 $ brew install mongodb
+$ brew install redis
 $ bundle install
+```
+
+## Preparation
+**Redis**
+```bash
+$ redis-server
+...
+```
+**MongoDB**
+```bash
+$ mongod --config /usr/local/etc/mongod.conf
+...
 ```
 
 ## Run
