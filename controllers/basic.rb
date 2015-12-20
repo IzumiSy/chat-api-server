@@ -15,7 +15,7 @@ class BasicRoutes < Sinatra::Base
   end
 
   before do
-    @redis = RedisService.connect()
+    @redis = RedisService.connect(takeover: true)
   end
 
   get '/api/ping' do

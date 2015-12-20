@@ -1,17 +1,10 @@
 module RedisService
-  def self.connect
-    unless @redis
-      @redis = Redis.new(
-        host: ENV["REDIS_IP"],
-        port: ENV["REDIS_PORT"]
-      )
-      begin
-        @redis.ping
-      rescue Exception => e
-        p e.message
-      end
-    end
-    @redis
+  def self.connect(options)
+    is_takeover = options[:takeover]
+    redis = @redis ?
+      !is_takeover ? @redis : self.redis() :
+      self.redis_new()
+    redis
   end
 
   def self.set(key, data)
@@ -24,5 +17,17 @@ module RedisService
 
   def self.instance
     @redis
+  end
+
+  protected
+
+  def redis_new
+    redis = Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
+    begin
+      redis.ping
+    rescue Exception => e
+      p e.message
+    end
+    redis
   end
 end
