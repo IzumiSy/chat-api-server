@@ -1,5 +1,11 @@
+require 'dotenv'
+
+Dotenv.load
+
 class BasicRoutes < Sinatra::Base
   configure do
+    helpers Sinatra::Param
+
     register Sinatra::CrossOrigin
 
     enable :cross_origin
