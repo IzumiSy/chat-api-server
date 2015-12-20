@@ -48,6 +48,19 @@ class UserRoutes < Sinatra::Base
     end
   end
 
+  # TODO: Implementation
+  put 'api/user/:id' do
+    param :id, String, required: true
+    param :data, Hash, required: true
+
+  end
+
+  # TODO: Implementation
+  delete 'api/user/:id' do
+    param :id, String, required: true
+    param :data, Hash, required: true
+
+  end
 
   get 'api/user/:id/room' do
     param :id, String, required: true
