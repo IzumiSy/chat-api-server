@@ -34,9 +34,10 @@ class BasicRoutes < Sinatra::Base
     password_hash = Digest::MD5.hexdigest(admin_pass)
     if password_hash == login_hash
       now = Time.now.to_s
-      auth_token = Digest::MD5.new.update(now).to_s
-
       client_ip = request.ip.to_s
+      seed = "#{now}+#{client_ip}"
+
+      auth_token = Digest::MD5.new.update(seed).to_s
       @redis.set(client_ip, auth_token)
 
       response = { auth_token: auth_token }
