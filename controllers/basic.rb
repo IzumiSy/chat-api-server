@@ -1,7 +1,7 @@
 require 'digest/md5'
 require 'dotenv'
 
-Dotenv.load
+Dotenv.load!
 
 class BasicRoutes < Sinatra::Base
   configure do
