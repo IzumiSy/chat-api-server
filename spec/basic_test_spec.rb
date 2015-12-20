@@ -1,4 +1,5 @@
 require_relative "./spec_helper.rb"
+require 'pry'
 
 ENV['ADMIN_PASS'] = 'testpass'
 
@@ -6,7 +7,7 @@ describe "POST /api/admin/auth" do
   let(:env_hash) { ENV["ADMIN_PASS"] }
   let(:success_hash) { Digest::MD5.hexdigest('testpass') }
   let(:error_hash) { Digest::MD5.hexdigest('testpassee') }
-  let(:redis) { Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"]) }
+  let(:redis) { Helpers.redis_connect() }
 
   it "should get auth_token" do
     post 'api/admin/auth', { auth_hash: success_hash }

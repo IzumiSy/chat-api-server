@@ -6,8 +6,15 @@ require_relative '../app.rb'
 
 ENV['RACK_ENV'] = 'test'
 
+module Helpers
+  def redis_connect
+    @redis ? @redis : Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
+  end
+end
+
 RSpec.configure do |config|
   include Rack::Test::Methods
+  include Helpers
 
   def app()
     Application.new
