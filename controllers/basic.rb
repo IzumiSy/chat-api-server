@@ -19,10 +19,10 @@ class BasicRoutes < Sinatra::Base
 
   # Get admin token to use restricted API
   post '/api/admin/auth' do
-    param :md5_hash, String, required: true
+    param :auth_hash, String, required: true
 
     admin_pass = ENV['ADMIN_PASS']
-    login_hash = params[:md5_hash]
+    login_hash = params[:auth_hash]
 
     if admin_pass.empty? or login_hash.empty?
       halt 500
