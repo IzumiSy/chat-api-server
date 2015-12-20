@@ -5,6 +5,11 @@ module RedisService
         host: ENV["REDIS_IP"],
         port: ENV["REDIS_PORT"]
       )
+      begin
+        @redis.ping
+      rescue Exception => e
+        p e.message
+      end
     end
     @redis
   end
