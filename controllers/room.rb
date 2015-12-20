@@ -18,7 +18,9 @@ class RoomRoutes < Sinatra::Base
     status 200
   end
 
-  # TODO Error handling on validation error in creating a new room
+  # TODO
+  # - Error handling on validation error in creating a new room
+  # - Admin authorization
   post '/api/room/new' do
     param :name, String, required: true
     param :auth_token, String, required: true
@@ -28,7 +30,8 @@ class RoomRoutes < Sinatra::Base
     status 202
   end
 
-  # TODO Implementation
+  # TODO
+  # - Implementation
   delete '/api/room/delete/:id' do
     param :id, String, required: true
     param :auth_token, String, required: true
