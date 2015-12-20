@@ -1,6 +1,3 @@
-require 'digest/md5'
-require 'dotenv'
-
 require_relative '../services/redis_service'
 
 Dotenv.load

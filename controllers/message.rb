@@ -1,4 +1,3 @@
-
 class MessageRoutes < Sinatra::Base
   configure do
     helpers Sinatra::Param

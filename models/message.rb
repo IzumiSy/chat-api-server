@@ -1,4 +1,3 @@
-
 Mongoid.load!('mongoid.yml')
 
 class Message

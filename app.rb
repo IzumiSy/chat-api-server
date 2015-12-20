@@ -2,9 +2,14 @@ require 'sinatra/base'
 require 'sinatra/param'
 require 'sinatra/cross_origin'
 
+require 'digest/md5'
+
 require 'mongoid'
 require 'redis'
 require 'securerandom'
+
+require 'dotenv'
+require 'config'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'

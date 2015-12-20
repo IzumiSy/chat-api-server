@@ -1,6 +1,3 @@
-require 'dotenv'
-require 'redis'
-
 module RedisService
   def self.connect
     unless @redis

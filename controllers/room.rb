@@ -1,4 +1,3 @@
-
 class RoomRoutes < Sinatra::Base
   configure do
     helpers Sinatra::Param

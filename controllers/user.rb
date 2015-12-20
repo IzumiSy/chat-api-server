@@ -1,4 +1,3 @@
-
 class UserRoutes < Sinatra::Base
   configure do
     helpers Sinatra::Param
