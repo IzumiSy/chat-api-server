@@ -17,7 +17,6 @@ class BasicRoutes < Sinatra::Base
     body 'pong'
   end
 
-  # Get admin token to use restricted API
   post '/api/admin/auth' do
     param :auth_hash, String, required: true
 
