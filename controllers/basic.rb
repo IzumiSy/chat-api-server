@@ -1,9 +1,13 @@
 require 'digest/md5'
 require 'dotenv'
 
+require_relative '../services/redis_service'
+
 Dotenv.load
 
 class BasicRoutes < Sinatra::Base
+  include RedisService
+
   configure do
     helpers Sinatra::Param
 
@@ -11,6 +15,10 @@ class BasicRoutes < Sinatra::Base
 
     enable :cross_origin
     enable :logging
+  end
+
+  before do
+    @redis = RedisService.connect()
   end
 
   get '/api/ping' do
@@ -31,9 +39,12 @@ class BasicRoutes < Sinatra::Base
     password_hash = Digest::MD5.hexdigest(admin_pass)
     if password_hash == login_hash
       now = Time.now.to_s
-      auth_token = Digest::MD5.new.update(now)
+      auth_token = Digest::MD5.new.update(now).to_s
 
-      response = { auth_token: auth_token.to_s }
+      client_ip = request.ip.to_s
+      @redis.set(client_ip, auth_token)
+
+      response = { auth_token: auth_token }
       body response.to_json
       status 200
     else
