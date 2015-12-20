@@ -20,7 +20,7 @@ class User
   field :messages_count, type: Integer
 
   field :status, type: Integer, default: 0
-  field :is_delted, type: Boolean, default: false
+  field :is_deleted, type: Boolean, default: false
 
   validates :name, presence: true
   validates :ip, presence: true, uniqueness: true
