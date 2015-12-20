@@ -5,10 +5,12 @@ module RedisService
   end
 
   def self.set(key, data)
+    redis_ping(@redis)
     @redis.set(key, data)
   end
 
   def self.get(key)
+    redis_ping(@redis)
     @redis.get(key)
   end
 
@@ -20,11 +22,15 @@ module RedisService
 
   def self.redis_new
     redis = Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
+    redis_ping(redis)
+    redis
+  end
+
+  def self.redis_ping(redis)
     begin
       redis.ping
     rescue Exception => e
       p e.message
     end
-    redis
   end
 end
