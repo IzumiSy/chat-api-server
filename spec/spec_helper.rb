@@ -8,7 +8,17 @@ ENV['RACK_ENV'] = 'test'
 
 module Helpers
   def redis_connect
-    @redis ? @redis : Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
+    @redis = @redis ?
+      @redis :
+      Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
+    @redis
+  end
+
+  # Emulates admin authorize process
+  def generate_test_auth_token
+    auth_token = Digest::MD5.hexdigest("test")
+    @redis.set(ENV["REDIS_IP"], auth_token)
+    auth_token
   end
 end
 

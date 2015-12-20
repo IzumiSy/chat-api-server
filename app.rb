@@ -11,6 +11,8 @@ require 'securerandom'
 require 'dotenv'
 require 'config'
 
+require 'pry'
+
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
 require_relative 'controllers/message'

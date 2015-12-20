@@ -1,8 +1,14 @@
 require_relative "./spec_helper.rb"
 
 describe "POST /api/room/new" do
-  let(:room1) { { name: "Room1" } }
-  let(:room2) { { name: "Room2" } }
+  let(:room1) {
+    { name: "Room1",
+      auth_token: Helpers.generate_test_auth_token() }
+  }
+  let(:room2) {
+    { name: "Room2",
+      auth_token: Helpers.generate_test_auth_token() }
+  }
 
   it "should get an error in creating error without a name" do
     post "/api/room/new"
@@ -36,7 +42,10 @@ describe "POST /api/room/new" do
 end
 
 describe "GET /api/room" do
-  let(:room) { { name: "Room" } }
+  let(:room) {
+    { name: "Room",
+      auth_token: Helpers.generate_test_auth_token() }
+  }
 
   it "should get messages of the room" do
     post "/api/room/new", room
