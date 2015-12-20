@@ -32,6 +32,7 @@ class RoomRoutes < Sinatra::Base
 
   # TODO
   # - Implementation
+  # - Admin authorization
   delete '/api/room/delete/:id' do
     param :id, String, required: true
     param :auth_token, String, required: true
