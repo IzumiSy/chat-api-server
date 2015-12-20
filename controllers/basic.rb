@@ -34,9 +34,7 @@ class BasicRoutes < Sinatra::Base
       now = Time.now.to_s
       auth_token = Digest::MD5.new.update(now)
 
-      response = {
-        auth_token: auth_token.to_s
-      }
+      response = { auth_token: auth_token.to_s }
       body response.to_json
       status 200
     else
