@@ -21,6 +21,7 @@ class RoomRoutes < Sinatra::Base
   # TODO Error handling on validation error in creating a new room
   post '/api/room/new' do
     param :name, String, required: true
+    param :auth_token, String, required: true
 
     room = Room.create(name: params[:name])
     body room.to_json
@@ -30,6 +31,9 @@ class RoomRoutes < Sinatra::Base
   # TODO Implementation
   delete '/api/room/delete/:id' do
     param :id, String, required: true
+    param :auth_token, String, required: true
+
+    status 204
   end
 
   # Obtains all messages in the room
