@@ -1,5 +1,3 @@
-require "pry"
-
 require_relative "./spec_helper.rb"
 
 describe "POST /api/user/new" do
