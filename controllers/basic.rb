@@ -40,7 +40,7 @@ class BasicRoutes < Sinatra::Base
       }
       body response.to_json
       status 200
-    end
+    else
      status 401
     end
   end
