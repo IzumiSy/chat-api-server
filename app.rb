@@ -20,6 +20,8 @@ require_relative 'models/room'
 require_relative 'models/message'
 require_relative 'models/user'
 
+Dotenv.load
+
 class Application < Sinatra::Base
   configure do
     set :raise_errors, true

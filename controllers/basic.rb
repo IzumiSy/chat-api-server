@@ -1,7 +1,5 @@
 require_relative '../services/redis_service'
 
-Dotenv.load
-
 class BasicRoutes < Sinatra::Base
   include RedisService
 
