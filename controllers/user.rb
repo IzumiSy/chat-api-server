@@ -36,7 +36,7 @@ class UserRoutes < Sinatra::Base
     status 200
   end
 
-  get 'api/user/:id' do
+  get '/api/user/:id' do
     param :id,    String, required: true
     param :token, String, required: true
 
@@ -54,7 +54,7 @@ class UserRoutes < Sinatra::Base
   end
 
   # TODO: Implementation
-  put 'api/user/:id' do
+  put '/api/user/:id' do
     param :id,    String, required: true
     param :data,  Hash, required: true
     param :token, String, required: true
@@ -64,7 +64,7 @@ class UserRoutes < Sinatra::Base
   end
 
   # TODO: Implementation
-  delete 'api/user/:id' do
+  delete '/api/user/:id' do
     param :id,    String, required: true
     param :data,  Hash, required: true
     param :token, String, required: true
@@ -73,7 +73,7 @@ class UserRoutes < Sinatra::Base
 
   end
 
-  get 'api/user/:id/room' do
+  get '/api/user/:id/room' do
     param :id,    String, required: true
     param :token, String, required: true
 
