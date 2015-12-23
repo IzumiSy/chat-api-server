@@ -59,15 +59,10 @@ class RoomRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     room_id = params[:id]
-    data = fetch_room_data(room_id, :ROOM)
+    stat_code, data = fetch_room_data(room_id, :ROOM)
 
-    if data
-      body data
-      status 200
-    else
-      body "Room not found"
-      status 404
-    end
+    body data
+    status stat_code
   end
 
   get '/api/room/:id/messages' do
@@ -77,15 +72,10 @@ class RoomRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     room_id = params[:id]
-    data = fetch_room_data(room_id, :MSG)
+    stat_code, data = fetch_room_data(room_id, :MSG)
 
-    if data
-      body data
-      status 200
-    else
-      body "Room not found"
-      status 404
-    end
+    body data
+    status stat_code
   end
 
   # Enters the room
@@ -132,16 +122,19 @@ class RoomRoutes < Sinatra::Base
   protected
 
   def fetch_room_data(room_id, type)
-    return nil unless Room.where(id: room_id).exists?
+    unless Room.where(id: room_id).exists?
+      return 404, "Room not found"
+    end
+
     room = Room.find(room_id)
 
     return case
       when type == :ROOM
-        room.to_json
+        [ 200, room.to_json ]
       when type == :MSG
-        room.messages.to_json
+        [ 200, room.messages.to_json ]
       else
-        nil
+        [ 500, {}.to_json ]
       end
   end
 
