@@ -43,15 +43,23 @@ class UserRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     user_id = params[:id]
-    data = fetch_user_data(user_id, :USER)
+    stat_code, data = fetch_user_data(user_id, :USER)
 
-    if data
-      body data
-      status 200
-    else
-      body "User not found"
-      status 404
-    end
+    body data
+    status stat_code
+  end
+
+  get '/api/user/:id/room' do
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    halt 401 unless AuthService.is_logged_in?(params)
+
+    user_id = params[:id]
+    stat_code, data = fetch_user_data(user_id, :ROOM)
+
+    body data
+    status stat_code
   end
 
   # TODO: Implementation
@@ -74,38 +82,22 @@ class UserRoutes < Sinatra::Base
 
   end
 
-  get '/api/user/:id/room' do
-    param :id,    String, required: true
-    param :token, String, required: true
-
-    halt 401 unless AuthService.is_logged_in?(params)
-
-    user_id = params[:id]
-    data = fetch_user_data(user_id, :ROOM)
-
-    if data
-      body data
-      status 200
-    else
-      status 404
-    end
-  end
-
   protected
 
   def fetch_user_data(user_id, type)
-    return nil if user_id.empty?
+    unless User.where(id: user_id).exists?
+      return 404, "User not found"
+    end
 
-    return nil unless User.where(id: user_id).exists?
     user = User.find(user_id)
 
     return case
       when type == :USER
-        user.to_json
+        [ 200, user.to_json ]
       when type == :ROOM
-        user.room.to_json
+        [ 200, user.room.to_json ]
       else
-        nil
+        [ 500, {}.to_json ]
       end
   end
 end
