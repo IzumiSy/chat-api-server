@@ -69,7 +69,7 @@ describe "GET /api/room" do
       expect(last_response.status).to eq(202)
     end
 
-    get "/api/room/#{room_id}", { token: admin.token }
+    get "/api/room/#{room_id}/messages", { token: admin.token }
     expect(last_response.status).to eq(200)
     JSON.parse(last_response.body).each_with_index do |data, index|
       expect(data["content"]).to eq(msgs[index][:content])

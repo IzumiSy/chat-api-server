@@ -52,7 +52,6 @@ class RoomRoutes < Sinatra::Base
     status 204
   end
 
-  # Obtains all messages in the room
   get '/api/room/:id' do
     param :id,    String, required: true
     param :token, String, required: true
@@ -60,11 +59,10 @@ class RoomRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     room_id = params[:id]
-    return if room_id.empty?
+    data = fetch_room_data(room_id, :ROOM)
 
-    if Room.where(id: room_id).exists?
-      room_messages = Room.find(room_id).messages
-      body room_messages.to_json
+    if data
+      body data
       status 200
     else
       body "Room not found"
@@ -72,19 +70,18 @@ class RoomRoutes < Sinatra::Base
     end
   end
 
-  # Streaming API subscribe port
-  get '/api/room/subscribe/:id', provides: 'text/event-stream' do
+  get '/api/room/:id/messages' do
     param :id,    String, required: true
     param :token, String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-    client_ip  = request.ip
-    channel_id = params[:id]
+    room_id = params[:id]
+    data = fetch_room_data(room_id, :MSG)
 
-    if Room.where(id: channel_id).exists?
-      p "New suscriber: #{client_ip}"
-      run_streaming_loop(channel_id)
+    if data
+      body data
+      status 200
     else
       body "Room not found"
       status 404
@@ -113,7 +110,40 @@ class RoomRoutes < Sinatra::Base
     # TODO: implementation
   end
 
+  # Streaming API subscribe port
+  get '/api/room/subscribe/:id', provides: 'text/event-stream' do
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    halt 401 unless AuthService.is_logged_in?(params)
+
+    client_ip  = request.ip
+    channel_id = params[:id]
+
+    if Room.where(id: channel_id).exists?
+      p "New suscriber: #{client_ip}"
+      run_streaming_loop(channel_id)
+    else
+      body "Room not found"
+      status 404
+    end
+  end
+
   protected
+
+  def fetch_room_data(room_id, type)
+    return nil unless Room.where(id: room_id).exists?
+    room = Room.find(room_id)
+
+    return case
+      when type == :ROOM
+        room.to_json
+      when type == :MSG
+        room.messages.to_json
+      else
+        nil
+      end
+  end
 
   def run_streaming_loop(channel_id)
     stream :keep_open do |connection|
