@@ -1,5 +1,4 @@
 require_relative "./spec_helper.rb"
-require 'pry'
 
 ENV['ADMIN_PASS'] = 'testpass'
 
