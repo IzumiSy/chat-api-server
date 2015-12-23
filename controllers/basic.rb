@@ -31,7 +31,7 @@ class BasicRoutes < Sinatra::Base
     password_hash = Digest::MD5.hexdigest(admin_pass)
     if password_hash == login_hash
       status_code, result = user_admin_promotion(user_id)
-      body result.to_json
+      body result
       status status_code
     else
       body "Invalid authorization"
@@ -42,12 +42,14 @@ class BasicRoutes < Sinatra::Base
   protected
 
   def user_admin_promotion(user_id)
-    return 500, {} unless User.where(id: user_id).exists?
+    unless User.where(id: user_id).exists?
+      return 500, "User not found"
+    end
 
     user = User.find(user_id)
     user.update_attribute(:is_admin, true)
 
-    return 202, user
+    return 202, user.to_json
   end
 end
 
