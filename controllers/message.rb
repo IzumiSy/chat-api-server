@@ -17,7 +17,7 @@ class MessageRoutes < Sinatra::Base
     param :content, String, required: true
     param :token,   String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     room_id = params[:room_id]
     content = params[:content]

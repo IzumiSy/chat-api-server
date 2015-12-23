@@ -15,7 +15,7 @@ class RoomRoutes < Sinatra::Base
   get '/api/room' do
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     rooms = Room.all
     body rooms.to_json
@@ -29,8 +29,9 @@ class RoomRoutes < Sinatra::Base
     param :name,  String, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
-    AuthService.is_admin?(params)
+    halt 401 unless
+      AuthService.is_logged_in?(params) &&
+      AuthService.is_admin?(params)
 
     room = Room.create(name: params[:name])
     body room.to_json
@@ -44,8 +45,9 @@ class RoomRoutes < Sinatra::Base
     param :id,    String, required: true
     param :token, String, required: true
 
-    AuthSertice.is_logged_in?(params)
-    AuthService.is_admin?(params)
+    halt 401 unless
+      AuthSertice.is_logged_in?(params) &&
+      AuthService.is_admin?(params)
 
     status 204
   end
@@ -55,7 +57,7 @@ class RoomRoutes < Sinatra::Base
     param :id,    String, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     room_id = params[:id]
     return if room_id.empty?
@@ -74,7 +76,7 @@ class RoomRoutes < Sinatra::Base
     param :id,    String, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     client_ip  = request.ip
     channel_id = params[:id]
@@ -93,7 +95,7 @@ class RoomRoutes < Sinatra::Base
     param :room_id, String, required: true
     param :token,   String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     # TODO: implementation
   end
@@ -104,7 +106,7 @@ class RoomRoutes < Sinatra::Base
     param :room_id, String, required: true
     param :token,   String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     # TODO: implementation
   end

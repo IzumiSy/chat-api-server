@@ -40,7 +40,7 @@ class UserRoutes < Sinatra::Base
     param :id,    String, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     user_id = params[:id]
     data = fetch_user_data(user_id, :USER)
@@ -59,7 +59,7 @@ class UserRoutes < Sinatra::Base
     param :data,  Hash, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
   end
 
@@ -69,7 +69,7 @@ class UserRoutes < Sinatra::Base
     param :data,  Hash, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
   end
 
@@ -77,7 +77,7 @@ class UserRoutes < Sinatra::Base
     param :id,    String, required: true
     param :token, String, required: true
 
-    AuthService.is_logged_in?(params)
+    halt 401 unless AuthService.is_logged_in?(params)
 
     user_id = params[:id]
     data = fetch_user_data(user_id, :ROOM)
