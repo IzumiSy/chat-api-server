@@ -2,29 +2,35 @@ require_relative "./spec_helper.rb"
 
 describe "POST /api/room/new" do
   let(:admin) { create(:admin) }
-  let(:room1) {
-    { name: "Room1",
-      auth_token: Helpers.generate_test_auth_token() }
+  let(:user) { create(:user) }
+
+  let(:success_room) {
+    { name: "RoomSuccess",
+      auth_token: admin.token }
   }
-  let(:room2) {
-    { name: "Room2",
-      auth_token: Helpers.generate_test_auth_token() }
+  let(:error_room) {
+    { name: "RoomError",
+      auth_token: user.token }
   }
 
-  it "should get an error in creating error without a name" do
+  it "should NOT create a room without parameters" do
     post "/api/room/new"
     expect(last_response.status).to eq(400)
   end
 
-  it "should create a new room with a name" do
+  it "should NOT create a room by non-admin user" do
     pending "Authorization still not implemented"
-    post "/api/room/new", room1
+    post "/api/room/new", error_room
+    expect(last_response.status).to eq(401)
+  end
+
+  it "should create a new room with a name" do
+    post "/api/room/new", success_room
     expect(last_response.status).to eq(202)
   end
 
   it "should have 2 posts that correctly belong to the channel" do
-    pending "Authorization still not implemented"
-    post "/api/room/new", room2
+    post "/api/room/new", success_room
     expect(last_response.status).to eq(202)
 
     room_id = JSON.parse(last_response.body)['_id']
@@ -45,13 +51,14 @@ describe "POST /api/room/new" do
 end
 
 describe "GET /api/room" do
+  let(:admin) { create(:admin) }
+
   let(:room) {
     { name: "Room",
-      auth_token: Helpers.generate_test_auth_token() }
+      auth_token: admin.token }
   }
 
   it "should get messages of the room" do
-    pending "API still not fully implemented"
     post "/api/room/new", room
     expect(last_response.status).to eq(202)
 
@@ -76,7 +83,7 @@ end
 
 describe "POST /api/room/enter" do
   let(:room) { { name: "Room" } }
-  let(:user) { { name: "test1" } }
+  let(:user) { create(:user) }
 
   it "should have an user enter the room" do
     # TODO: Implementation
@@ -85,7 +92,7 @@ end
 
 describe "DELETE /api/room/leave" do
   let(:room) { { name: "Room" } }
-  let(:user) { { name: "test1" } }
+  let(:user) { create(:user) }
 
   it "should have an user enter the room" do
     # TODO: Implementation

@@ -6,6 +6,13 @@ FactoryGirl.define do
     token { "abcdef12345" }
   end
 
+  factory :user2, class: User do
+    name  { "Jimmy Jimmy" }
+    face  { "face1" }
+    ip    { "124.35.46.2" }
+    token { "adhfis21234" }
+  end
+
   factory :admin, class: User do
     name     { "Tetsuya Ishino" }
     face     { "face2" }
