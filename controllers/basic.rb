@@ -34,7 +34,8 @@ class BasicRoutes < Sinatra::Base
       body result.to_json
       status status_code
     else
-     status 401
+      body "Invalid authorization"
+      status 401
     end
   end
 

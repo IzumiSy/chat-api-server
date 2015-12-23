@@ -29,6 +29,7 @@ class MessageRoutes < Sinatra::Base
       body message.to_json
       status 202
     else
+      body "Room to post not found"
       status 404
     end
   end

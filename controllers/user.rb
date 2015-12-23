@@ -49,6 +49,7 @@ class UserRoutes < Sinatra::Base
       body data
       status 200
     else
+      body "User not found"
       status 404
     end
   end

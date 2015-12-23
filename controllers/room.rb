@@ -67,6 +67,7 @@ class RoomRoutes < Sinatra::Base
       body room_messages.to_json
       status 200
     else
+      body "Room not found"
       status 404
     end
   end
@@ -85,6 +86,7 @@ class RoomRoutes < Sinatra::Base
       p "New suscriber: #{client_ip}"
       run_streaming_loop(channel_id)
     else
+      body "Room not found"
       status 404
     end
   end
