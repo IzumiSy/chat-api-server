@@ -29,6 +29,7 @@ class RoomRoutes < Sinatra::Base
     param :name,  String, required: true
     param :token, String, required: true
 
+    AuthService.is_logged_in?(params)
     AuthService.is_admin?(params)
 
     room = Room.create(name: params[:name])
@@ -43,6 +44,7 @@ class RoomRoutes < Sinatra::Base
     param :id,    String, required: true
     param :token, String, required: true
 
+    AuthSertice.is_logged_in?(params)
     AuthService.is_admin?(params)
 
     status 204

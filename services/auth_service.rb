@@ -1,11 +1,22 @@
-require_relative "./redis_service.rb"
+require_relative "./redis_service"
 
 module AuthService
+  include RedisService
+
   def self.is_admin?(params)
-    # TODO: Check id is_admin flag of this user is true or not
+    token = params[:token]
+
+    user = User.find_by(token: token)
+    user.read_attribute(:is_admin)
   end
 
   def self.is_logged_in?(params)
-    # TODO: Check if this user is being logged in or not
+    token = params[:token]
+
+    RedisService.connect(takeover: true)
+    has_session = RedisService.get(token)
+    is_user_found = User.where(token: params[:token]).exists?
+
+    if has_session && is_user_found then true else false end
   end
 end

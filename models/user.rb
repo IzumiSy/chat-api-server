@@ -33,7 +33,7 @@ class User
   def generate_user_token
     token = SecureRandom.uuid
     RedisService.connect(takeover: true)
-    RedisService.set(self.ip, token)
+    RedisService.set(token, self.ip)
     self.token = token
   end
 end
