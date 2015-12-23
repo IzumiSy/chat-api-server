@@ -88,7 +88,7 @@ class RoomRoutes < Sinatra::Base
     end
   end
 
-  # Enters the channel
+  # Enters the room
   post '/api/room/enter' do
     param :user_id, String, required: true
     param :room_id, String, required: true
@@ -99,7 +99,7 @@ class RoomRoutes < Sinatra::Base
     # TODO: implementation
   end
 
-  # Leaves the channel
+  # Leaves the room
   delete '/api/room/leave' do
     param :user_id, String, required: true
     param :room_id, String, required: true
@@ -118,11 +118,11 @@ class RoomRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     client_ip  = request.ip
-    channel_id = params[:id]
+    room_id = params[:id]
 
-    if Room.where(id: channel_id).exists?
+    if Room.where(id: room_id).exists?
       p "New suscriber: #{client_ip}"
-      run_streaming_loop(channel_id)
+      run_streaming_loop(room_id)
     else
       body "Room not found"
       status 404
@@ -145,7 +145,7 @@ class RoomRoutes < Sinatra::Base
       end
   end
 
-  def run_streaming_loop(channel_id)
+  def run_streaming_loop(room_id)
     stream :keep_open do |connection|
       loop do
         sleep(1)
