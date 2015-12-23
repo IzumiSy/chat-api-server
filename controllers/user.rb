@@ -91,13 +91,10 @@ class UserRoutes < Sinatra::Base
 
     user = User.find(user_id)
 
-    return case
-      when type == :USER
-        [ 200, user.to_json ]
-      when type == :ROOM
-        [ 200, user.room.to_json ]
-      else
-        [ 500, {}.to_json ]
+    return case type
+      when :USER then [ 200, user.to_json ]
+      when :ROOM then [ 200, user.room.to_json ]
+      else [ 500, {}.to_json ]
       end
   end
 end
