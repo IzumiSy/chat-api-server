@@ -27,5 +27,6 @@ group :development, :test do
   gem 'rack-test'
   gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
   gem 'factory_girl'
+  gem 'faker'
 end
 

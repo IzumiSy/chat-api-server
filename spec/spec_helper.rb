@@ -1,6 +1,7 @@
 require 'rspec'
 require 'json'
 require 'pry'
+require 'faker'
 require 'rack/test'
 require 'database_cleaner'
 require 'factory_girl'

@@ -1,22 +1,27 @@
 FactoryGirl.define do
+  sequence :name do Faker::Name.name end
+  sequence :ip   do Faker::Internet.ip_v4_address end
+end
+
+FactoryGirl.define do
   factory :user, class: User do
-    name  { "Jonathan Livingston" }
+    name  { generate :name }
     face  { "face1" }
-    ip    { "142.3.23.123" }
+    ip    { generate :ip }
     token { "abcdef12345" }
   end
 
   factory :user2, class: User do
-    name  { "Jimmy Jimmy" }
+    name  { generate :name }
     face  { "face1" }
-    ip    { "124.35.46.2" }
+    ip    { generate :ip }
     token { "adhfis21234" }
   end
 
   factory :admin, class: User do
-    name     { "Tetsuya Ishino" }
+    name     { generate :name }
     face     { "face2" }
-    ip       { "134.4.13.123" }
+    ip       { generate :ip }
     token    { "12345abcd" }
     is_admin { true }
   end
