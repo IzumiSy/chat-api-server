@@ -1,6 +1,7 @@
 require_relative "./spec_helper.rb"
 
 describe "POST /api/room/new" do
+  let(:admin) { create(:admin) }
   let(:room1) {
     { name: "Room1",
       auth_token: Helpers.generate_test_auth_token() }
