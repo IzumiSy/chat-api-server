@@ -14,27 +14,27 @@ describe "POST /api/user/new" do
   end
 end
 
-describe "GET /api/user/usable" do
+describe "POST /api/user/usable" do
   let(:user) { { name: "jonathan" } }
-  let(:inavailable_name) { "jonathan" }
-  let(:available_name) { "bob" }
+  let(:error_name) { { name: "jonathan" } }
+  let(:success_name) { { name: "bob" } }
 
   before do
     post "/api/user/new", user
     expect(last_response.status).to eq(202)
   end
 
-  it "should get TRUE if the user who has the same name already exists" do
-    get "/api/user/usable/#{inavailable_name}"
+  it "should get FALSE if the user who has the same name already exists" do
+    post "/api/user/usable", error_name
     expect(last_response.status).to eq(200)
-    availability_stat = JSON.parse(last_response.body)
-    expect(availability_stat["status"]).to eq(false)
+    is_name_available = JSON.parse(last_response.body)["status"]
+    expect(is_name_available).to eq(false)
   end
 
-  it "should get FALSE if the user who has the same name doesnt exist" do
-    get "/api/user/usable/#{available_name}"
+  it "should get TRUE if the user who has the same name doesnt exist" do
+    post "/api/user/usable", success_name
     expect(last_response.status).to eq(200)
-    availability_stat = JSON.parse(last_response.body)
-    expect(availability_stat["status"]).to eq(true)
+    is_name_available = JSON.parse(last_response.body)["status"]
+    expect(is_name_available).to eq(true)
   end
 end
