@@ -22,7 +22,10 @@ describe "POST /api/admin/auth" do
 
   it "should get auth_token" do
     post 'api/admin/auth', success_param
-    expect(last_response.status).to eq(202)
+    status = last_response.status
+    is_admin = JSON.parse(last_response.body)["is_admin"]
+    expect(status).to eq(202)
+    expect(is_admin).to eq(true)
   end
 
   it "should NOT update an user with undefined user_id" do
