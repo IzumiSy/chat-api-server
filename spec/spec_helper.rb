@@ -3,7 +3,10 @@ require 'json'
 require 'rack/test'
 require 'database_cleaner'
 require 'factory_girl'
+
 require_relative '../app.rb'
+
+require_relative './factories/user.rb'
 
 ENV['RACK_ENV'] = 'test'
 

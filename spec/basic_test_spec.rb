@@ -5,10 +5,11 @@ ENV['ADMIN_PASS'] = 'testpass'
 
 describe "POST /api/admin/auth" do
   let(:redis) { Helpers.redis_connect() }
+  let(:user) { create(:user) }
 
   let(:success_param) {
     { auth_hash: Digest::MD5.hexdigest('testpass'),
-      user_id: "1234" }
+      user_id: user.id }
   }
   let(:undefined_user_param) {
     { auth_hash: Digest::MD5.hexdigest('testpass'),
@@ -16,7 +17,7 @@ describe "POST /api/admin/auth" do
   }
   let(:error_param) {
     { auth_hash: Digest::MD5.hexdigest('testpassee'),
-      user_id: "2345" }
+      user_id: user.id }
   }
 
   it "should get auth_token" do
