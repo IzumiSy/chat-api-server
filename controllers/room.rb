@@ -13,6 +13,10 @@ class RoomRoutes < Sinatra::Base
   end
 
   get '/api/room' do
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
+
     rooms = Room.all
     body rooms.to_json
     status 200
@@ -22,8 +26,10 @@ class RoomRoutes < Sinatra::Base
   # - Error handling on validation error in creating a new room
   # - Admin authorization
   post '/api/room/new' do
-    param :name, String, required: true
-    param :auth_token, String, required: true
+    param :name,  String, required: true
+    param :token, String, required: true
+
+    AuthService.is_admin?(params)
 
     room = Room.create(name: params[:name])
     body room.to_json
@@ -34,15 +40,20 @@ class RoomRoutes < Sinatra::Base
   # - Implementation
   # - Admin authorization
   delete '/api/room/delete/:id' do
-    param :id, String, required: true
-    param :auth_token, String, required: true
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    AuthService.is_admin?(params)
 
     status 204
   end
 
   # Obtains all messages in the room
   get '/api/room/:id' do
-    param :id, String, required: true
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
 
     room_id = params[:id]
     return if room_id.empty?
@@ -58,7 +69,10 @@ class RoomRoutes < Sinatra::Base
 
   # Streaming API subscribe port
   get '/api/room/subscribe/:id', provides: 'text/event-stream' do
-    param :id, String, required: true
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
 
     client_ip  = request.ip
     channel_id = params[:id]
@@ -75,6 +89,9 @@ class RoomRoutes < Sinatra::Base
   post '/api/room/enter' do
     param :user_id, String, required: true
     param :room_id, String, required: true
+    param :token,   String, required: true
+
+    AuthService.is_logged_in?(params)
 
     # TODO: implementation
   end
@@ -83,6 +100,9 @@ class RoomRoutes < Sinatra::Base
   delete '/api/room/leave' do
     param :user_id, String, required: true
     param :room_id, String, required: true
+    param :token,   String, required: true
+
+    AuthService.is_logged_in?(params)
 
     # TODO: implementation
   end

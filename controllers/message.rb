@@ -1,4 +1,4 @@
-require_relative "../service/auth_service"
+require_relative "../services/auth_service"
 
 class MessageRoutes < Sinatra::Base
   include AuthService
@@ -15,6 +15,9 @@ class MessageRoutes < Sinatra::Base
   post '/api/message' do
     param :room_id, String, required: true
     param :content, String, required: true
+    param :token,   String, required: true
+
+    AuthService.is_logged_in?(params)
 
     room_id = params[:room_id]
     content = params[:content]

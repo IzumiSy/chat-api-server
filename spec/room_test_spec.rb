@@ -6,11 +6,11 @@ describe "POST /api/room/new" do
 
   let(:success_room) {
     { name: "RoomSuccess",
-      auth_token: admin.token }
+      token: admin.token }
   }
   let(:error_room) {
     { name: "RoomError",
-      auth_token: user.token }
+      token: user.token }
   }
 
   it "should NOT create a room without parameters" do
@@ -33,12 +33,12 @@ describe "POST /api/room/new" do
     post "/api/room/new", success_room
     expect(last_response.status).to eq(202)
 
+    # TODO: rewrite here with FactoryGirl
     room_id = JSON.parse(last_response.body)['_id']
-    params =
-      [ { room_id: room_id, content: "Hello1" },
-        { room_id: room_id, content: "Hello2" } ]
-    params.each do |param|
-      post "/api/message", param
+    msgs = [ { room_id: room_id, content: "Hello1", token: user.token },
+             { room_id: room_id, content: "Hello2", token: user.token } ]
+    msgs.each do |msg|
+      post "/api/message", msg
       expect(last_response.status).to eq(202)
     end
 
@@ -55,7 +55,7 @@ describe "GET /api/room" do
 
   let(:room) {
     { name: "Room",
-      auth_token: admin.token }
+      token: admin.token }
   }
 
   it "should get messages of the room" do
@@ -63,20 +63,17 @@ describe "GET /api/room" do
     expect(last_response.status).to eq(202)
 
     room_id = JSON.parse(last_response.body)['_id']
-    params =
-      [ { room_id: room_id, content: "Hello1" },
-        { room_id: room_id, content: "Hello2" } ]
-    messages = []
-    params.each_with_index do |param, index|
-      post "/api/message", param
+    msgs = [ { room_id: room_id, content: "Hello1", token: admin.token },
+             { room_id: room_id, content: "Hello2", token: admin.token } ]
+    msgs.each do |msg|
+      post "/api/message", msg
       expect(last_response.status).to eq(202)
-      messages[index] = param[:content]
     end
 
-    get "/api/room/#{room_id}"
+    get "/api/room/#{room_id}", { token: admin.token }
     expect(last_response.status).to eq(200)
     JSON.parse(last_response.body).each_with_index do |data, index|
-      expect(data["content"]).to eq(params[index][:content])
+      expect(data["content"]).to eq(msgs[index][:content])
     end
   end
 end

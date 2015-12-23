@@ -37,7 +37,10 @@ class UserRoutes < Sinatra::Base
   end
 
   get 'api/user/:id' do
-    param :id, String, required: true
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
 
     user_id = params[:id]
     data = fetch_user_data(user_id, :USER)
@@ -52,20 +55,29 @@ class UserRoutes < Sinatra::Base
 
   # TODO: Implementation
   put 'api/user/:id' do
-    param :id, String, required: true
-    param :data, Hash, required: true
+    param :id,    String, required: true
+    param :data,  Hash, required: true
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
 
   end
 
   # TODO: Implementation
   delete 'api/user/:id' do
-    param :id, String, required: true
-    param :data, Hash, required: true
+    param :id,    String, required: true
+    param :data,  Hash, required: true
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
 
   end
 
   get 'api/user/:id/room' do
-    param :id, String, required: true
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    AuthService.is_logged_in?(params)
 
     user_id = params[:id]
     data = fetch_user_data(user_id, :ROOM)
