@@ -2,6 +2,7 @@ require 'rspec'
 require 'json'
 require 'rack/test'
 require 'database_cleaner'
+require 'factory_girl'
 require_relative '../app.rb'
 
 ENV['RACK_ENV'] = 'test'
@@ -24,6 +25,7 @@ end
 
 RSpec.configure do |config|
   include Rack::Test::Methods
+  include FactoryGirl::Syntax::Methods
   include Helpers
 
   def app()
