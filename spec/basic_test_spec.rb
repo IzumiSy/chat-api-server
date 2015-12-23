@@ -21,9 +21,8 @@ describe "POST /api/admin/auth" do
   }
 
   it "should get auth_token" do
-    pending "Still not implemented"
     post 'api/admin/auth', success_param
-    expect(last_response.status).to eq(200)
+    expect(last_response.status).to eq(202)
   end
 
   it "should NOT update an user with undefined user_id" do
