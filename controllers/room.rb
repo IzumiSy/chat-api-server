@@ -137,15 +137,11 @@ class RoomRoutes < Sinatra::Base
 
     room = Room.find(room_id)
 
-    return case
-      when type == :ROOM
-        [ 200, room.to_json ]
-      when type == :MSG
-        [ 200, room.messages.to_json ]
-      when type == :USER
-        [ 200, room.users.to_json ]
-      else
-        [ 500, {}.to_json ]
+    return case type
+      when :ROOM then [ 200, room.to_json ]
+      when :MSG  then [ 200, room.messages.to_json ]
+      when :USER then [ 200, room.users.to_json ]
+      else [ 500, {}.to_json ]
       end
   end
 
