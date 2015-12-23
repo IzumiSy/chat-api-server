@@ -1,7 +1,7 @@
-require_relative '../services/redis_service'
+require_relative '../services/auth_service'
 
 class UserRoutes < Sinatra::Base
-  include RedisService
+  include AuthService
 
   configure do
     helpers Sinatra::Param

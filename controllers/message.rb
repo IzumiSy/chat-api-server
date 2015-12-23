@@ -1,4 +1,8 @@
+require_relative "../service/auth_service"
+
 class MessageRoutes < Sinatra::Base
+  include AuthService
+
   configure do
     helpers Sinatra::Param
 

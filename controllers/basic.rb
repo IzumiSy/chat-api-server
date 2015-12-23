@@ -1,7 +1,7 @@
-require_relative '../services/redis_service'
+require_relative '../services/auth_service'
 
 class BasicRoutes < Sinatra::Base
-  include RedisService
+  include AuthService
 
   configure do
     helpers Sinatra::Param
@@ -10,10 +10,6 @@ class BasicRoutes < Sinatra::Base
 
     enable :cross_origin
     enable :logging
-  end
-
-  before do
-    RedisService.connect(takeover: true)
   end
 
   get '/api/ping' do
