@@ -65,14 +65,23 @@ class RoomRoutes < Sinatra::Base
     status stat_code
   end
 
-  get '/api/room/:id/messages' do
+  get '/api/room/:id/*' do
     param :id,    String, required: true
     param :token, String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
 
+    target_path = params['splat'].first
     room_id = params[:id]
-    stat_code, data = fetch_room_data(room_id, :MSG)
+
+    case target_path
+    when "messages" then
+      stat_code, data = fetch_room_data(room_id, :MSG)
+    when 'users' then
+      stat_code, data = fetch_room_data(room_id, :USER)
+    else
+      stat_code, data = [ 404, {}.to_json ]
+    end
 
     body data
     status stat_code
@@ -133,6 +142,8 @@ class RoomRoutes < Sinatra::Base
         [ 200, room.to_json ]
       when type == :MSG
         [ 200, room.messages.to_json ]
+      when type == :USER
+        [ 200, room.users.to_json ]
       else
         [ 500, {}.to_json ]
       end
