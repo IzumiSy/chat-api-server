@@ -6,23 +6,20 @@ end
 FactoryGirl.define do
   factory :user, class: User do
     name  { generate :name }
-    face  { "face1" }
     ip    { generate :ip }
-    token { "abcdef12345" }
+    face  { "face1" }
   end
 
   factory :user2, class: User do
     name  { generate :name }
-    face  { "face1" }
     ip    { generate :ip }
-    token { "adhfis21234" }
+    face  { "face1" }
   end
 
   factory :admin, class: User do
     name     { generate :name }
-    face     { "face2" }
     ip       { generate :ip }
-    token    { "12345abcd" }
+    face     { "face2" }
     is_admin { true }
   end
 end

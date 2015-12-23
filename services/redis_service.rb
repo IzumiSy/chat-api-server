@@ -1,7 +1,9 @@
 module RedisService
   def self.connect(options)
     is_takeover = options[:takeover]
-    @redis ? is_takeover ? @redis : redis_new() : redis_new()
+    @redis = is_takeover ?
+      @redis ? @redis : redis_new() :
+      redis_new()
   end
 
   def self.set(key, data)

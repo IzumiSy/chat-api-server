@@ -1,8 +1,13 @@
+require_relative "../services/redis_service"
+
 Mongoid.load!('mongoid.yml')
 
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include RedisService
+
+  before_validation :generate_user_token
 
   belongs_to :room, counter_cache: :users_count
   has_many   :messages
@@ -22,4 +27,13 @@ class User
   validates :name, presence: true
   validates :ip, presence: true, uniqueness: true
   validates :token, presence: true, uniqueness: true
+
+  protected
+
+  def generate_user_token
+    token = SecureRandom.uuid
+    RedisService.connect(takeover: true)
+    RedisService.set(self.ip, token)
+    self.token = token
+  end
 end
