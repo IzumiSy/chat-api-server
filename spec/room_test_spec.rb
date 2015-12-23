@@ -16,11 +16,13 @@ describe "POST /api/room/new" do
   end
 
   it "should create a new room with a name" do
+    pending "Authorization still not implemented"
     post "/api/room/new", room1
     expect(last_response.status).to eq(202)
   end
 
   it "should have 2 posts that correctly belong to the channel" do
+    pending "Authorization still not implemented"
     post "/api/room/new", room2
     expect(last_response.status).to eq(202)
 
@@ -48,6 +50,7 @@ describe "GET /api/room" do
   }
 
   it "should get messages of the room" do
+    pending "API still not fully implemented"
     post "/api/room/new", room
     expect(last_response.status).to eq(202)
 
