@@ -19,7 +19,6 @@ describe "POST /api/room/new" do
   end
 
   it "should NOT create a room by non-admin user" do
-    pending "Authorization still not implemented"
     post "/api/room/new", error_room
     expect(last_response.status).to eq(401)
   end
