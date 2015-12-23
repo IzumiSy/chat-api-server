@@ -25,7 +25,7 @@ class UserRoutes < Sinatra::Base
     status 202
   end
 
-  get '/api/user/usable/:name' do
+  post '/api/user/usable' do
     param :name, String, required: true
 
     provided_name = params[:name]
