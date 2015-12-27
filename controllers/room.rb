@@ -17,7 +17,10 @@ class RoomRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-    rooms = Room.all
+    rooms = Room.all.map do |r|
+      { id: r.id,
+        name: r.name }
+    end
     body rooms.to_json
     status 200
   end
