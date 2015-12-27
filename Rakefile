@@ -9,6 +9,10 @@ namespace :db do
   end
 
   task :drop_rooms do
-   p Room.delete_all
+    p Room.delete_all
+  end
+
+  task :drop_users do
+    p User.delete_all
   end
 end
