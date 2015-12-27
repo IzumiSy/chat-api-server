@@ -95,15 +95,12 @@ class RoomRoutes < Sinatra::Base
     param :room_id, String, required: true
     param :token,   String, required: true
 
-    room_id = params[:room_id]
-
     halt 401 unless AuthService.is_logged_in?(params)
-    halt 404 unless Room.where(id: room_id).exists?
 
-    user = User.find_by(token: params[:token])
-    p "user(#{user.id}) entered to room(#{room_id})"
+    stat_code, data = room_transaction(params, :ENTER)
 
-    user.update_attributes!(room_id: room_id)
+    body data
+    status stat_code
   end
 
   # Leaves the room
@@ -111,15 +108,12 @@ class RoomRoutes < Sinatra::Base
     param :room_id, String, required: true
     param :token,   String, required: true
 
-    room_id = params[:room_id]
-
     halt 401 unless AuthService.is_logged_in?(params)
-    halt 404 unless Room.where(id: room_id).exists?
 
-    user = User.find_by(token: params[:token])
-    p "user(#{user_id}) leaved from room(#{room_id})"
+    stat_code, data = room_transaction(params, :LEAVE)
 
-    user.update_attributes!(room_id: nil)
+    body data
+    status stat_code
   end
 
   # Streaming API subscribe port
@@ -155,6 +149,24 @@ class RoomRoutes < Sinatra::Base
       when :MSG  then [ 200, room.messages.to_json ]
       when :USER then [ 200, room.users.to_json ]
       else [ 500, {}.to_json ]
+      end
+  end
+
+  def room_transaction(params, type)
+    user = User.find_by(token: params[:token])
+    room_id = params[:room_id]
+
+    unless Room.where(id: room_id).exists?
+      return [ 404, { status: nil }.to_json ]
+    end
+
+    return case type
+      when :ENTER then
+        [ 202, { status: user.update_attributes!(room_id: room_id) }.to_json ]
+      when :LEAVE then
+        [ 202, { status: user.update_attributes!(room_id: nil) }.to_json ]
+      else
+        [ 500, { status: nil }.to_json ]
       end
   end
 
