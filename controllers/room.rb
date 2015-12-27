@@ -95,13 +95,15 @@ class RoomRoutes < Sinatra::Base
     param :room_id, String, required: true
     param :token,   String, required: true
 
+    room_id = params[:room_id]
+
     halt 401 unless AuthService.is_logged_in?(params)
+    halt 404 unless Room.where(id: room_id).exists?
 
-    user_id = User.find_by(token: params[:token]).id;
-    room_id = params[:room_id];
-    p "user(#{user_id}) entered to room(#{room_id})"
+    user = User.find_by(token: params[:token])
+    p "user(#{user.id}) entered to room(#{room_id})"
 
-    # TODO: implementation
+    user.update_attributes!(room_id: room_id)
   end
 
   # Leaves the room
