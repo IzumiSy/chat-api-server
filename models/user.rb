@@ -25,10 +25,16 @@ class User
   field :is_deleted, type: Boolean, default: false
 
   validates :name, presence: true
-  validates :ip, presence: true, uniqueness: true
+  validates :ip, presence: true, uniqueness: true, if: :is_global_ip?
   validates :token, presence: true, uniqueness: true
 
   protected
+
+  # Disable validation on development env
+  def is_global_ip?
+    env = ENV["RACK_ENV"]
+    return (if env == "production" then true else ip != "127.0.0.1" end)
+  end
 
   def generate_user_token
     token = SecureRandom.uuid
