@@ -18,9 +18,14 @@ class UserRoutes < Sinatra::Base
     client_ip = request.ip
     client_name = params[:name]
 
-    return if client_ip.empty? or client_name.empty?
+    if client_ip.empty? || client_name.empty?
+      status 400
+      return
+    end
 
-    user = User.create(name: client_name, ip: client_ip)
+    user = User.new(name: client_name, ip: client_ip)
+    user.save!
+
     body user.to_json
     status 202
   end
