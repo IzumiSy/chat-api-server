@@ -111,13 +111,15 @@ class RoomRoutes < Sinatra::Base
     param :room_id, String, required: true
     param :token,   String, required: true
 
-    halt 401 unless AuthService.is_logged_in?(params)
+    room_id = params[:room_id]
 
-    user_id = User.find_by(token: params[:token]).id;
-    room_id = params[:room_id];
+    halt 401 unless AuthService.is_logged_in?(params)
+    halt 404 unless Room.where(id: room_id).exists?
+
+    user = User.find_by(token: params[:token])
     p "user(#{user_id}) leaved from room(#{room_id})"
 
-    # TODO: implementation
+    user.update_attributes!(room_id: nil)
   end
 
   # Streaming API subscribe port
