@@ -7,7 +7,7 @@ class User
   include Mongoid::Timestamps
   include RedisService
 
-  before_validation :generate_user_token
+  after_create :generate_user_token
 
   belongs_to :room, counter_cache: :users_count
   has_many   :messages
@@ -26,7 +26,6 @@ class User
 
   validates :name, presence: true
   validates :ip, presence: true, uniqueness: true, if: :is_global_ip?
-  validates :token, presence: true, uniqueness: true
 
   protected
 
