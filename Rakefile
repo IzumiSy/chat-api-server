@@ -14,5 +14,6 @@ namespace :db do
 
   task :drop_users do
     p User.delete_all
+    exec 'redis-cli flushdb'
   end
 end
