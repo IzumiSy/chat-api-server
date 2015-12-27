@@ -92,30 +92,28 @@ class RoomRoutes < Sinatra::Base
 
   # Enters the room
   post '/api/room/enter' do
-    param :user_id, String, required: true
     param :room_id, String, required: true
     param :token,   String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-    user_id = params[:user_id];
+    user_id = User.find_by(token: params[:token]).id;
     room_id = params[:room_id];
-    p "(#{user_id}) entered to room(#{room_id})"
+    p "user(#{user_id}) entered to room(#{room_id})"
 
     # TODO: implementation
   end
 
   # Leaves the room
   delete '/api/room/leave' do
-    param :user_id, String, required: true
     param :room_id, String, required: true
     param :token,   String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-    user_id = params[:user_id];
+    user_id = User.find_by(token: params[:token]).id;
     room_id = params[:room_id];
-    p "(#{user_id}) leaved from room(#{room_id})"
+    p "user(#{user_id}) leaved from room(#{room_id})"
 
     # TODO: implementation
   end
