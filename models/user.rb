@@ -7,7 +7,7 @@ class User
   include Mongoid::Timestamps
   include RedisService
 
-  after_create :generate_user_token
+  before_create :generate_user_token
 
   belongs_to :room, counter_cache: :users_count
   has_many   :messages
