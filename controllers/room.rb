@@ -95,6 +95,10 @@ class RoomRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
+    user_id = params[:user_id];
+    room_id = params[:room_id];
+    p "(#{user_id}) entered to room(#{room_id})"
+
     # TODO: implementation
   end
 
@@ -105,6 +109,10 @@ class RoomRoutes < Sinatra::Base
     param :token,   String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
+
+    user_id = params[:user_id];
+    room_id = params[:room_id];
+    p "(#{user_id}) leaved from room(#{room_id})"
 
     # TODO: implementation
   end
