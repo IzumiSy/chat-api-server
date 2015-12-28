@@ -78,7 +78,7 @@ describe "GET /api/room" do
 end
 
 describe "POST /api/room/enter" do
-  let(:room) { { name: "Room" } }
+  let(:room) { create(:room) }
   let(:user) { create(:user) }
 
   it "should have an user enter the room" do
@@ -87,7 +87,7 @@ describe "POST /api/room/enter" do
 end
 
 describe "DELETE /api/room/leave" do
-  let(:room) { { name: "Room" } }
+  let(:room) { create(:room) }
   let(:user) { create(:user) }
 
   it "should have an user leave the room" do
