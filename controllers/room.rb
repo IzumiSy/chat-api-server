@@ -99,6 +99,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   # Leaves the room
+  # TODO Is really room_id needed here?
   post '/api/room/leave' do
     param :room_id, String, required: true
     param :token,   String, required: true
