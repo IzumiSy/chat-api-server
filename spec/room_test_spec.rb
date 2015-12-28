@@ -81,11 +81,17 @@ describe "POST /api/room/enter" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
   let(:param) { { room_id: room.id, token: user.token } }
+  let(:invalid_param) { { room_id: "12345", token: user.token } }
 
   # TODO Implement room check if the user successfully entered
   it "should have an user enter the room" do
     post "/api/room/enter", param
     expect(last_response.status).to eq(202)
+  end
+
+  it "should get an 404 error with invalid room id" do
+    post "/api/room/enter", invalid_param
+    expect(last_response.status).to eq(404)
   end
 end
 
