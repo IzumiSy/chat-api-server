@@ -99,7 +99,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   # Leaves the room
-  delete '/api/room/leave' do
+  post '/api/room/leave' do
     param :room_id, String, required: true
     param :token,   String, required: true
 

@@ -82,19 +82,22 @@ describe "POST /api/room/enter" do
   let(:user) { create(:user) }
   let(:param) { { room_id: room.id, token: user.token } }
 
+  # TODO Implement room check if the user successfully entered
   it "should have an user enter the room" do
-    binding.pry
-    # TODO: Implementation
+    post "/api/room/enter", param
+    expect(last_response.status).to eq(202)
   end
 end
 
-describe "DELETE /api/room/leave" do
+describe "POST /api/room/leave" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
   let(:param) { { room_id: room.id, token: user.token } }
 
+  # TODO Implement room check if the user successfully leaved
   it "should have an user leave the room" do
-    # TODO: Implementation
+    post "api/room/leave", param
+    expect(last_response.status).to eq(202)
   end
 end
 
