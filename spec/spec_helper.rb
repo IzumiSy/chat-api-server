@@ -9,6 +9,7 @@ require 'factory_girl'
 require_relative '../app.rb'
 
 require_relative './factories/user.rb'
+require_relative './factories/room.rb'
 
 ENV['RACK_ENV'] = 'test'
 
