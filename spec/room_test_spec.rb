@@ -90,10 +90,6 @@ describe "DELETE /api/room/leave" do
   let(:room) { { name: "Room" } }
   let(:user) { create(:user) }
 
-  it "should have an user enter the room" do
-    # TODO: Implementation
-  end
-
   it "should have an user leave the room" do
     # TODO: Implementation
   end
