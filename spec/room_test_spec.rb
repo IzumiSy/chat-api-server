@@ -80,8 +80,10 @@ end
 describe "POST /api/room/enter" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
+  let(:param) { { room_id: room.id, token: user.token } }
 
   it "should have an user enter the room" do
+    binding.pry
     # TODO: Implementation
   end
 end
@@ -89,6 +91,7 @@ end
 describe "DELETE /api/room/leave" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
+  let(:param) { { room_id: room.id, token: user.token } }
 
   it "should have an user leave the room" do
     # TODO: Implementation
