@@ -39,6 +39,7 @@ class RoomRoutes < Sinatra::Base
     status 202
   end
 
+  # TODO Implementation
   delete '/api/room/delete/:id' do
     param :id,    String, required: true
     param :token, String, required: true
