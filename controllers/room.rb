@@ -162,30 +162,22 @@ class RoomRoutes < Sinatra::Base
     room = Room.find(room_id)
     is_user_exist_in_room = room.users.where(id: user.id).exists?
 
-    result_status = nil
-    result_data = nil
-
-    result_status, result_data = case type
+    return case type
       when :ENTER then
         unless is_user_exist_in_room
           Room.increment_counter(:users_count, room_id);
           user.update_attributes!(room_id: room_id)
-          [ 202, room.to_json ]
         end
+        [ 202, room.to_json ]
       when :LEAVE then
         if is_user_exist_in_room
           Room.decrement_counter(:users_count, room_id);
           user.update_attributes!(room_id: nil)
-          [ 202, room.to_json ]
         end
+        [ 202, room.to_json ]
       else
-        [ nil, nil ]
+        [ 500, {}.to_json ]
       end
-
-    result_status = 500 unless result_status
-    result_data = {}.to_json unless result_data
-
-    return [ result_status, result_data ]
   end
 
   def run_streaming_loop(room_id)
