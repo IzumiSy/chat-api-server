@@ -4,6 +4,8 @@ development:
       database: chat-api
       hosts:
         - localhost:27017
+  options:
+    raise_not_found_error: false
 
 test:
   sessions:
@@ -11,9 +13,13 @@ test:
       database: test
       hosts:
         - localhost:27017
+  options:
+    raise_not_found_error: false
 
 production:
   sessions:
     default:
       uri: <%= ENV['MONGOLAB_URI'] =>
+  options:
+    raise_not_found_error: false
 
