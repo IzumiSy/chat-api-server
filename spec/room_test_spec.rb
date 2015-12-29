@@ -34,10 +34,10 @@ describe "POST /api/room/new" do
 
     # TODO: rewrite here with FactoryGirl
     room_id = JSON.parse(last_response.body)['_id']
-    msgs = [ { room_id: room_id, content: "Hello1", token: user.token },
-             { room_id: room_id, content: "Hello2", token: user.token } ]
+    msgs = [ { content: "Hello1", token: user.token },
+             { content: "Hello2", token: user.token } ]
     msgs.each do |msg|
-      post "/api/message", msg
+      post "/api/message/#{room_id}", msg
       expect(last_response.status).to eq(202)
     end
 
@@ -62,10 +62,10 @@ describe "GET /api/room" do
     expect(last_response.status).to eq(202)
 
     room_id = JSON.parse(last_response.body)['_id']
-    msgs = [ { room_id: room_id, content: "Hello1", token: admin.token },
-             { room_id: room_id, content: "Hello2", token: admin.token } ]
+    msgs = [ { content: "Hello1", token: admin.token },
+             { content: "Hello2", token: admin.token } ]
     msgs.each do |msg|
-      post "/api/message", msg
+      post "/api/message/#{room_id}", msg
       expect(last_response.status).to eq(202)
     end
 
