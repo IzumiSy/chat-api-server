@@ -1,5 +1,7 @@
 Mongoid.load!('mongoid.yml')
 
+require_relative "../services/message_service"
+
 class Message
   include Mongoid::Document
   include Mongoid::Timestamps
