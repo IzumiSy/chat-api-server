@@ -33,10 +33,7 @@ class UserRoutes < Sinatra::Base
   post '/api/user/usable' do
     param :name, String, required: true
 
-    provided_name = params[:name]
-    is_name_available = User.where(name: provided_name).exists?
-
-    result = { status: !is_name_available }
+    result = { status: User.find_by(name: params[:name]) ? false : true }
     body result.to_json
     status 200
   end
