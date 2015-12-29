@@ -159,13 +159,22 @@ class RoomRoutes < Sinatra::Base
       return [ 404, { status: nil }.to_json ]
     end
 
+    is_user_exist_in_room = Room.find(room_id).users.where(id: user.id).exists?
+    update_result = false
+
     return case type
       when :ENTER then
-        Room.increment_counter(:users_count, room_id);
-        [ 202, { status: user.update_attributes!(room_id: room_id) }.to_json ]
+        unless is_user_exist_in_room
+          Room.increment_counter(:users_count, room_id);
+          update_result = user.update_attributes!(room_id: room_id)
+        end
+        [ 202, { status: update_result }.to_json ]
       when :LEAVE then
-        Room.decrement_counter(:users_count, room_id);
-        [ 202, { status: user.update_attributes!(room_id: nil) }.to_json ]
+        if is_user_exist_in_room
+          Room.decrement_counter(:users_count, room_id);
+          update_result = user.update_attributes!(room_id: nil)
+        end
+        [ 202, { status: update_result }.to_json ]
       else
         [ 500, { status: nil }.to_json ]
       end
