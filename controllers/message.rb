@@ -24,7 +24,7 @@ class MessageRoutes < Sinatra::Base
 
     return if room_id.empty? or content.empty?
 
-    if Room.where(id: room_id).exists?
+    if Room.find_by(id: room_id)
       message = Message.create(room_id: room_id, content: content)
       body message.to_json
       status 202
