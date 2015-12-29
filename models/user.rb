@@ -9,7 +9,7 @@ class User
 
   before_create :generate_user_token
 
-  belongs_to :room, counter_cache: :users_count
+  belongs_to :room
   has_many   :messages
 
   field :name,   type: String
@@ -18,7 +18,7 @@ class User
   field :ip,     type: String
   field :token,  type: String
 
-  field :messages_count, type: Integer
+  field :messages_count, type: Integer, default: 0
 
   field :status, type: Integer, default: 0
   field :is_admin, type: Boolean, default: false
