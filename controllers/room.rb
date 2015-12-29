@@ -165,16 +165,16 @@ class RoomRoutes < Sinatra::Base
     return case type
       when :ENTER then
         unless is_user_exist_in_room
-          Room.increment_counter(:users_count, room_id);
+          Room.increment_counter(:users_count, room_id)
           user.update_attributes!(room_id: room_id)
         end
-        [ 202, { users_count: room.users_count }.to_json ]
+        [ 202, { users_count: room.reload.users_count }.to_json ]
       when :LEAVE then
         if is_user_exist_in_room
-          Room.decrement_counter(:users_count, room_id);
+          Room.decrement_counter(:users_count, room_id)
           user.update_attributes!(room_id: nil)
         end
-        [ 202, { users_count: room.users_count }.to_json ]
+        [ 202, { users_count: room.reload.users_count }.to_json ]
       else
         [ 500, {}.to_json ]
       end
