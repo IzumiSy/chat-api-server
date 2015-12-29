@@ -43,6 +43,6 @@ describe "GET /api/user/:id" do
 
 end
 
-descrive "GET /api/user/:id/room" do
+describe "GET /api/user/:id/room" do
 
 end
