@@ -15,7 +15,7 @@ module AuthService
 
     RedisService.connect(takeover: true)
     has_session = RedisService.get(token)
-    is_user_found = User.where(token: params[:token]).exists?
+    is_user_found = User.find_by(token: params[:token])
 
     if has_session && is_user_found then true else false end
   end
