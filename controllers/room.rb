@@ -19,8 +19,7 @@ class RoomRoutes < Sinatra::Base
 
     # Use map instead of select querying
     rooms = Room.all.map do |r|
-      { id: r.id,
-        name: r.name }
+      { id: r.id, name: r.name, users_count: r.users_count }
     end
     body rooms.to_json
     status 200
