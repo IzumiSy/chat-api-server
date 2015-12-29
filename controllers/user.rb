@@ -104,7 +104,7 @@ class UserRoutes < Sinatra::Base
   protected
 
   def fetch_user_data(user_id, type)
-    unless user = User.find_by(id: user_id)
+    unless user = User.find(user_id)
       return 404, "User not found"
     end
 

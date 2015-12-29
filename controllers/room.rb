@@ -125,7 +125,7 @@ class RoomRoutes < Sinatra::Base
     client_ip  = request.ip
     room_id = params[:id]
 
-    if Room.find_by(id: room_id)
+    if Room.find(room_id)
       p "New suscriber: #{client_ip}"
       run_streaming_loop(room_id)
     else
@@ -137,7 +137,7 @@ class RoomRoutes < Sinatra::Base
   protected
 
   def fetch_room_data(room_id, type)
-    unless room = Room.find_by(id: room_id)
+    unless room = Room.find(room_id)
       return 404, "Room not found"
     end
 
@@ -153,11 +153,11 @@ class RoomRoutes < Sinatra::Base
     user = User.find_by(token: params[:token])
     room_id = params[:room_id]
 
-    unless room = Room.find_by(id: room_id)
+    unless room = Room.find(room_id)
       return [ 404, { status: nil }.to_json ]
     end
 
-    is_user_exist_in_room = room.users.find_by(id: user.id) ? true : false
+    is_user_exist_in_room = room.users.find(user.id) ? true : false
 
     return case type
       when :ENTER then

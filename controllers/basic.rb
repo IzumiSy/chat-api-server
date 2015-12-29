@@ -42,12 +42,11 @@ class BasicRoutes < Sinatra::Base
   protected
 
   def user_admin_promotion(user_id)
-    unless user = User.find_by(id: user_id)
+    unless user = User.find(user_id)
       return 500, "User not found"
     end
 
     user.update_attribute(:is_admin, true)
-
     return 202, user.to_json
   end
 end
