@@ -33,6 +33,11 @@ class Application < Sinatra::Base
     set :socket, []
   end
 
+  not_found do
+    status 404
+    body "Port not found"
+  end
+
   use BasicRoutes
   use UserRoutes
   use RoomRoutes
