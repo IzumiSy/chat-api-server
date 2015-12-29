@@ -109,11 +109,9 @@ class UserRoutes < Sinatra::Base
   protected
 
   def fetch_user_data(user_id, type)
-    unless User.where(id: user_id).exists?
+    unless user = User.find_by(id: user_id)
       return 404, "User not found"
     end
-
-    user = User.find(user_id)
 
     return case type
       when :USER then [ 200, user.to_json ]
