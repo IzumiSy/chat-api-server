@@ -45,8 +45,8 @@ class UserRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-    body
-      if user = User.find_by(token: token)
+   body
+      if user = User.find_by(token: params[:token])
         status 200
         user.to_json
       else
