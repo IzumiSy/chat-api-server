@@ -33,5 +33,16 @@ class MessageRoutes < Sinatra::Base
       status 404
     end
   end
+
+  # TODO Implementation
+  delete '/api/message/:id' do
+    param :room_id, String, required: true
+    param :token,   String, required: true
+
+    halt 401 unless
+      AuthService.is_logged_in?(params) &&
+      AuthService.is_admin?(params)
+
+  end
 end
 
