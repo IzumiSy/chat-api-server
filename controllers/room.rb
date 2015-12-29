@@ -137,11 +137,9 @@ class RoomRoutes < Sinatra::Base
   protected
 
   def fetch_room_data(room_id, type)
-    unless Room.where(id: room_id).exists?
+    unless room = Room.find_by(id: room_id)
       return 404, "Room not found"
     end
-
-    room = Room.find(room_id)
 
     return case type
       when :ROOM then [ 200, room.to_json ]
@@ -155,12 +153,11 @@ class RoomRoutes < Sinatra::Base
     user = User.find_by(token: params[:token])
     room_id = params[:room_id]
 
-    unless Room.where(id: room_id).exists?
+    unless room = Room.find_by(id: room_id)
       return [ 404, { status: nil }.to_json ]
     end
 
-    room = Room.find(room_id)
-    is_user_exist_in_room = room.users.where(id: user.id).exists?
+    is_user_exist_in_room = room.users.find_by(id: user.id) ? true : false
 
     return case type
       when :ENTER then
