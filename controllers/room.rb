@@ -162,6 +162,9 @@ class RoomRoutes < Sinatra::Base
     return case type
       when :ENTER then
         unless is_user_exist_in_room
+          if user.room && Room.find(user.room.id).users.find(user.id)
+            Room.decrement_counter(:users_count, user.room.id)
+          end
           Room.increment_counter(:users_count, room_id)
           user.update_attributes!(room_id: room_id)
         end
