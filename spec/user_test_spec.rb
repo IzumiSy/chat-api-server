@@ -1,19 +1,5 @@
 require_relative "./spec_helper.rb"
 
-describe "POST /api/user/new" do
-  let(:user1) { { name: "test1" } }
-
-  it "should NOT create a new user without name" do
-    post "/api/user/new"
-    expect(last_response.status).to eq(400)
-  end
-
-  it "should create a new user" do
-    post "/api/user/new", user1
-    expect(last_response.status).to eq(202)
-  end
-end
-
 describe "POST /api/user/usable" do
   let(:user) { { name: "jonathan" } }
   let(:error_name) { { name: "jonathan" } }
@@ -37,4 +23,26 @@ describe "POST /api/user/usable" do
     is_name_available = JSON.parse(last_response.body)["status"]
     expect(is_name_available).to eq(true)
   end
+end
+
+describe "POST /api/user/new" do
+  let(:user1) { { name: "test1" } }
+
+  it "should NOT create a new user without name" do
+    post "/api/user/new"
+    expect(last_response.status).to eq(400)
+  end
+
+  it "should create a new user" do
+    post "/api/user/new", user1
+    expect(last_response.status).to eq(202)
+  end
+end
+
+describe "GET /api/user/:id" do
+
+end
+
+descrive "GET /api/user/:id/room" do
+
 end
