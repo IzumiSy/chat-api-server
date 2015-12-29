@@ -64,6 +64,9 @@ class RoomRoutes < Sinatra::Base
     status stat_code
   end
 
+  # Wild card implementation for two following ports
+  # - /api/room/:id/messages
+  # - /api/room/:id/users
   get '/api/room/:id/*' do
     param :id,    String, required: true
     param :token, String, required: true
