@@ -12,7 +12,7 @@ class MessageRoutes < Sinatra::Base
     enable :logging
   end
 
-  post '/api/message' do
+  post '/api/message/:room_id' do
     param :room_id, String, required: true
     param :content, String, required: true
     param :token,   String, required: true
