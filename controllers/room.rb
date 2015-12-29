@@ -125,7 +125,7 @@ class RoomRoutes < Sinatra::Base
     client_ip  = request.ip
     room_id = params[:id]
 
-    if Room.where(id: room_id).exists?
+    if Room.find_by(id: room_id)
       p "New suscriber: #{client_ip}"
       run_streaming_loop(room_id)
     else
