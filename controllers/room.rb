@@ -176,7 +176,7 @@ class RoomRoutes < Sinatra::Base
         end
         [ 202, { status: update_result }.to_json ]
       else
-        [ 500, { status: nil }.to_json ]
+        [ 500, { status: false }.to_json ]
       end
   end
 
