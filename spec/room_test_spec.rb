@@ -86,6 +86,7 @@ describe "Room enter/leave port" do
     post "/api/room/enter", param
     expect(last_response.status).to eq(202)
     expect(room.users.count).to eq(1)
+    expect(room.users.first.id).to eq(user.id)
   end
 
   # TODO Implement room check if the user successfully leaved
