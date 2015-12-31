@@ -39,8 +39,19 @@ describe "POST /api/user/new" do
   end
 end
 
+# TODO Add user information check
 describe "GET /api/user/:id" do
+  let (:user) { create(:user) }
 
+  it "should NOT get an error when invalid user id" do
+    get "/api/user/12345", { token: user.token }
+    expect(last_response.status).to eq(404)
+  end
+
+  it "should get data of the user with valid user id" do
+    get "/api/user/#{user.id}", { token: user.token }
+    expect(last_response.status).to eq(200)
+  end
 end
 
 describe "GET /api/user/:id/room" do
