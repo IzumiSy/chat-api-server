@@ -65,7 +65,7 @@ describe "GET /api/room" do
   end
 end
 
-describe "Room enter/leave port" do
+describe "POST /api/room/enter and /api/room/leave" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
   let(:param) { { room_id: room.id, token: user.token } }
