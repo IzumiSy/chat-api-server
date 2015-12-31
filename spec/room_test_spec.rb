@@ -51,19 +51,17 @@ end
 
 describe "GET /api/room" do
   let(:admin) { create(:admin) }
-
-  let(:room) {
-    { name: "Room",
-      token: admin.token }
-  }
+  let(:room) { { name: "Room", token: admin.token } }
+  let(:msgs) { [
+    { content: "Hello1", token: admin.token },
+    { content: "Hello2", token: admin.token }
+  ] }
 
   it "should get messages of the room" do
     post "/api/room/new", room
     expect(last_response.status).to eq(202)
 
     room_id = JSON.parse(last_response.body)['_id']
-    msgs = [ { content: "Hello1", token: admin.token },
-             { content: "Hello2", token: admin.token } ]
     msgs.each do |msg|
       post "/api/message/#{room_id}", msg
       expect(last_response.status).to eq(202)
