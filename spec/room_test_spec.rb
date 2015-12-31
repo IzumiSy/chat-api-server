@@ -3,15 +3,12 @@ require_relative "./spec_helper.rb"
 describe "POST /api/room/new" do
   let(:admin) { create(:admin) }
   let(:user) { create(:user) }
-
-  let(:success_room) {
-    { name: "RoomSuccess",
-      token: admin.token }
-  }
-  let(:error_room) {
-    { name: "RoomError",
-      token: user.token }
-  }
+  let(:success_room) { { name: "RoomSuccess", token: admin.token } }
+  let(:error_room) { { name: "RoomError", token: user.token } }
+  let(:msgs) { [
+    { content: "Hello1", token: user.token },
+    { content: "Hello2", token: user.token }
+  ] }
 
   it "should NOT create a room without parameters" do
     post "/api/room/new"
@@ -34,8 +31,6 @@ describe "POST /api/room/new" do
 
     # TODO: rewrite here with FactoryGirl
     room_id = JSON.parse(last_response.body)['_id']
-    msgs = [ { content: "Hello1", token: user.token },
-             { content: "Hello2", token: user.token } ]
     msgs.each do |msg|
       post "/api/message/#{room_id}", msg
       expect(last_response.status).to eq(202)
