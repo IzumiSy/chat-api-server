@@ -20,11 +20,6 @@ describe "POST /api/room/new" do
     expect(last_response.status).to eq(401)
   end
 
-  it "should create a new room with a name" do
-    post "/api/room/new", success_room
-    expect(last_response.status).to eq(202)
-  end
-
   it "should have 2 posts that correctly belong to the room" do
     post "/api/room/new", success_room
     expect(last_response.status).to eq(202)
