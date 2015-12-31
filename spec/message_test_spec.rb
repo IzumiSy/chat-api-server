@@ -3,11 +3,7 @@ require_relative "./spec_helper.rb"
 describe "POST /api/message/:room_id" do
   let(:user) { create(:user) }
   let(:room) { create(:room) }
-
-  let(:invalid_message) {
-    { content: "Hello",
-      token: user.token }
-  }
+  let(:invalid_message) { { content: "Hello", token: user.token } }
 
   it "should get an error when no params" do
     post "/api/message/#{room.id}"
