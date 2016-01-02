@@ -39,7 +39,6 @@ describe "POST /api/user/new" do
   end
 end
 
-# TODO Add user information check
 describe "GET /api/user/:id" do
   let (:user) { create(:user) }
 
@@ -50,7 +49,9 @@ describe "GET /api/user/:id" do
 
   it "should get data of the user with valid user id" do
     get "/api/user/#{user.id}", { token: user.token }
+    body = JSON.parse(last_response.body)
     expect(last_response.status).to eq(200)
+    expect(body["name"]).to eq(user.name);
   end
 end
 
