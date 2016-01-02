@@ -40,8 +40,7 @@ class User
         user = Hash[user.attributes].slice("_id", "name", "face")
         [ 200, user.to_json ]
       when :ROOM then
-        room = user.room.only(:id, :name, :messages_count, :users_count)
-        room = Hash[room.attributes]
+        room = Hash[user.room.attributes].slice("_id", "name", "messages_count", "users_count")
         [ 200, room.to_json ]
       else
         [ 500, {}.to_json ]
