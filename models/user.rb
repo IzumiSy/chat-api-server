@@ -27,6 +27,27 @@ class User
   validates :name, presence: true
   validates :ip, presence: true, uniqueness: true, if: :is_global_ip?
 
+  public
+
+  def self.fetch_user_data(user_id, type)
+    user = User.only(:id, :name, :face, :room).find(user_id)
+    unless user
+      return 404, "User not found"
+    end
+
+    return case type
+      when :USER then
+        user = Hash[user.attributes].slice("_id", "name", "face")
+        [ 200, user.to_json ]
+      when :ROOM then
+        room = user.room.only(:id, :name, :messages_count, :users_count)
+        room = Hash[room.attributes]
+        [ 200, room.to_json ]
+      else
+        [ 500, {}.to_json ]
+      end
+  end
+
   protected
 
   # Disable validation on development env

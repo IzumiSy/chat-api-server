@@ -26,7 +26,7 @@ class UserRoutes < Sinatra::Base
     user = User.new(name: client_name, ip: client_ip)
     user.save!
 
-    body user.to_json
+    body Hash[user.attributes].slice("_id", "name", "face").to_json
     status 202
   end
 
@@ -46,9 +46,9 @@ class UserRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
    body
-      if user = User.find_by(token: params[:token])
+      if user = User.only(:id, :name, :face).find_by(token: params[:token])
         status 200
-        user.to_json
+        Hash[user.attributes].to_json
       else
         status 404
         {}.to_json
@@ -62,7 +62,7 @@ class UserRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     user_id = params[:id]
-    stat_code, data = fetch_user_data(user_id, :USER)
+    stat_code, data = User.fetch_user_data(user_id, :USER)
 
     body data
     status stat_code
@@ -75,7 +75,7 @@ class UserRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     user_id = params[:id]
-    stat_code, data = fetch_user_data(user_id, :ROOM)
+    stat_code, data = User.fetch_user_data(user_id, :ROOM)
 
     body data
     status stat_code
@@ -98,19 +98,5 @@ class UserRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-  end
-
-  protected
-
-  def fetch_user_data(user_id, type)
-    unless user = User.find(user_id)
-      return 404, "User not found"
-    end
-
-    return case type
-      when :USER then [ 200, user.to_json ]
-      when :ROOM then [ 200, user.room.to_json ]
-      else [ 500, {}.to_json ]
-      end
   end
 end
