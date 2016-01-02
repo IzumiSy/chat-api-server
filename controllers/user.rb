@@ -94,7 +94,6 @@ class UserRoutes < Sinatra::Base
   # TODO: Implementation
   delete '/api/user/:id' do
     param :id,    String, required: true
-    param :data,  Hash, required: true
     param :token, String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
