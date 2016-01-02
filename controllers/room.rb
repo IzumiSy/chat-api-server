@@ -17,10 +17,15 @@ class RoomRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
+    if Room.count <= 0
+      logger.info "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\""
+    end
+
     # Use map instead of select querying
     rooms = Room.all.map do |r|
       { id: r.id, name: r.name, users_count: r.users_count }
     end
+
     body rooms.to_json
     status 200
   end
