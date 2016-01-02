@@ -94,26 +94,27 @@ class RoomRoutes < Sinatra::Base
     status stat_code
   end
 
-  # Enters the room
-  post '/api/room/enter' do
-    param :room_id, String, required: true
-    param :token,   String, required: true
+  # This port covers two following ports
+  # - /api/room/:id/enter
+  # - /api/room/:id/leave
+  post '/api/room/:id/*' do
+    param :id,    String, required: true
+    param :token, String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
 
-    stat_code, data = Room.room_transaction(params[:room_id], params[:token], :ENTER)
+    target_path = params['splat'].first
+    room_id = params[:id]
+    token = params[:token]
 
-    body data
-    status stat_code
-  end
-
-  # Leaves the room
-  post '/api/room/leave' do
-    param :token,   String, required: true
-
-    halt 401 unless AuthService.is_logged_in?(params)
-
-    stat_code, data = Room.room_transaction(params[:room_id], params[:token], :LEAVE)
+    case target_path
+    when 'enter' then
+      stat_code, data = Room.room_transaction(room_id, token, :ENTER)
+    when 'leave' then
+      stat_code, data = Room.room_transaction(room_id, token, :LEAVE)
+    else
+      stat_code, data = [ 404, {}.to_json ]
+    end
 
     body data
     status stat_code

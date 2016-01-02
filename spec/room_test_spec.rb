@@ -68,31 +68,31 @@ end
 describe "POST /api/room/enter" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
-  let(:param) { { room_id: room.id, token: user.token } }
-  let(:invalid_param) { { room_id: "12345", token: user.token } }
+  let(:param) { { token: user.token } }
+  let(:invalid_param) { { token: user.token } }
 
   it "should get an 404 error with invalid room id" do
-    post "/api/room/enter", invalid_param
+    post "/api/room/12345/enter", invalid_param
     expect(last_response.status).to eq(404)
   end
 
   # TODO Implement room check if the user successfully entered
   it "should have an user enter the room" do
-    post "/api/room/enter", param
+    post "/api/room/#{room.id}/enter", param
     expect(last_response.status).to eq(202)
     expect(room.users.count).to eq(1)
     expect(room.users.first.id).to eq(user.id)
   end
 end
 
-describe "POST /api/room/leave" do
+describe "POST /api/room/:id/leave" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
-  let(:param) { { room_id: room.id, token: user.token } }
-  let(:invalid_param) { { room_id: "12345", token: user.token } }
+  let(:param) { { token: user.token } }
+  let(:invalid_param) { { token: user.token } }
 
   it "should get an 404 error with invalid room id" do
-    post "/api/room/leave", invalid_param
+    post "/api/room/12345/leave", invalid_param
     expect(last_response.status).to eq(404)
   end
 
@@ -100,7 +100,7 @@ describe "POST /api/room/leave" do
   it "should have an user leave the room" do
     enter_room(room.id, user.token)
 
-    post "/api/room/leave", param
+    post "/api/room/#{room.id}/leave", param
     expect(last_response.status).to eq(202)
     expect(room.users.count).to eq(0)
   end
