@@ -28,7 +28,7 @@ class UserRoutes < Sinatra::Base
     user = User.new(name: client_name, ip: client_ip)
     user.save!
 
-    body user
+    body user.to_json
     status 202
   end
 
@@ -47,10 +47,11 @@ class UserRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
+   user = User.only(:id, :name, :face, :token).find_by(token: params[:token])
    body
-      if user = User.only(:id, :name, :face).find_by(token: params[:token])
+      if user
         status 200
-        Hash[user.attributes].to_json
+        user.to_json
       else
         status 404
         {}.to_json
