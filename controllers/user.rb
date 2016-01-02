@@ -12,6 +12,8 @@ class UserRoutes < Sinatra::Base
     enable :logging
   end
 
+  # This user creation port does not need to use slice
+  # to limite user data to return.
   post '/api/user/new' do
     param :name, String, required: true
 
@@ -26,7 +28,7 @@ class UserRoutes < Sinatra::Base
     user = User.new(name: client_name, ip: client_ip)
     user.save!
 
-    body Hash[user.attributes].slice("_id", "name", "face").to_json
+    body user
     status 202
   end
 
