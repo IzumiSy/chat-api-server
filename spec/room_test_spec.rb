@@ -32,23 +32,15 @@ end
 describe "GET /api/room/:id/messages" do
   let(:user) { create(:user) }
   let(:room) { create(:room) }
-  let(:msgs) { [
-    { content: "Hello1", token: user.token },
-    { content: "Hello2", token: user.token }
-  ] }
+  let!(:msg1) { send_message(room.id, user.token, "Hello1") }
+  let!(:msg2) { send_message(room.id, user.token, "Hello2") }
 
   it "should have 2 messages" do
-    # TODO: rewrite here with FactoryGirl
-    msgs.each do |msg|
-      post "/api/message/#{room.id}", msg
-      expect(last_response.status).to eq(202)
-    end
-
-    messages_count = Message.where(room_id: room.id).count
-    expect(messages_count).to eq(2)
-
-    room_messages_count = Room.find(room.id).messages.count
-    expect(room_messages_count).to eq(messages_count)
+    get "/api/room/#{room.id}/messages", { token: user.token }
+    msgs = []
+    JSON.parse(last_response.body).each { |m| msgs.push(m.to_json) }
+    expect(last_response.status).to eq(200)
+    expect(msgs).to include(msg1, msg2)
   end
 end
 
@@ -65,6 +57,7 @@ describe "GET /api/room/:id/users" do
   it "should have 2 users in the room" do
     get "/api/room/#{room.id}/users", { token: user.token }
     users = JSON.parse(last_response.body)
+    expect(last_response.status).to eq(200)
     expect(users).to include(
       Hash[user.attributes].slice("_id", "name", "face"),
       Hash[admin.attributes].slice("_id", "name", "face")

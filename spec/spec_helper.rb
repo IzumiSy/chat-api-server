@@ -25,6 +25,12 @@ module Helpers
     user = User.find_by(token: token)
     user.update_attributes!(room_id: room_id)
   end
+
+  # TODO: rewrite here with FactoryGirl
+  def send_message(room_id, token, msg)
+    message = Message.create(room_id: room_id, content: msg)
+    Hash[message.attributes].to_json
+  end
 end
 
 RSpec.configure do |config|
