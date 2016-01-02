@@ -20,6 +20,11 @@ module Helpers
       Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
     @redis
   end
+
+  def enter_room(room_id, token)
+    user = User.find_by(token: token)
+    user.update_attributes!(room_id: room_id)
+  end
 end
 
 RSpec.configure do |config|
