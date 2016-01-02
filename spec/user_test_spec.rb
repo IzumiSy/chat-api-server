@@ -1,14 +1,9 @@
 require_relative "./spec_helper.rb"
 
 describe "POST /api/user/usable" do
-  let(:user) { { name: "jonathan" } }
-  let(:error_name) { { name: "jonathan" } }
+  let(:user) { create(:user) }
+  let(:error_name) { { name: user.name } }
   let(:success_name) { { name: "bob" } }
-
-  before do
-    post "/api/user/new", user
-    expect(last_response.status).to eq(202)
-  end
 
   it "should get FALSE if the user who has the same name already exists" do
     post "/api/user/usable", error_name
@@ -26,7 +21,7 @@ describe "POST /api/user/usable" do
 end
 
 describe "POST /api/user/new" do
-  let(:user1) { { name: "test1" } }
+  let(:user) { { name: "test1" } }
 
   it "should NOT create a new user without name" do
     post "/api/user/new"
@@ -34,7 +29,7 @@ describe "POST /api/user/new" do
   end
 
   it "should create a new user" do
-    post "/api/user/new", user1
+    post "/api/user/new", user
     expect(last_response.status).to eq(202)
   end
 end
@@ -56,5 +51,13 @@ describe "GET /api/user/:id" do
 end
 
 describe "GET /api/user/:id/room" do
+  let(:user) { create(:user) }
+  let(:room) { create(:room) }
 
+  it "should get room data the user belongs to" do
+    enter_room(room.id, user.token)
+
+    get "/api/user/#{user.id}/room", { token: user.token }
+    expect(last_response.status).to eq(200)
+  end
 end
