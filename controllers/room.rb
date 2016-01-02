@@ -131,7 +131,7 @@ class RoomRoutes < Sinatra::Base
     room_id = params[:id]
 
     if Room.find(room_id)
-      logger.info "New suscriber: #{client_ip}"
+      logger.info "[INFO] New suscriber: #{client_ip}"
       run_streaming_loop(room_id)
     else
       body "Room not found"

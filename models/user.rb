@@ -40,6 +40,6 @@ class User
     RedisService.connect(takeover: true)
     RedisService.set(token, self.ip)
     self.token = token
-    logger.info "Token set: #{token}"
+    logger.info "[INFO] Token set: #{token}"
   end
 end
