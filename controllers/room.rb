@@ -107,9 +107,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   # Leaves the room
-  # TODO Is really room_id needed here?
   post '/api/room/leave' do
-    param :room_id, String, required: true
     param :token,   String, required: true
 
     halt 401 unless AuthService.is_logged_in?(params)
@@ -176,7 +174,7 @@ class RoomRoutes < Sinatra::Base
         [ 202, { users_count: room.reload.users_count }.to_json ]
       when :LEAVE then
         if is_user_exist_in_room
-          Room.decrement_counter(:users_count, room_id)
+          Room.decrement_counter(:users_count, user.room.id)
           user.update_attributes!(room_id: nil)
         end
         [ 202, { users_count: room.reload.users_count }.to_json ]
