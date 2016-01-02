@@ -30,7 +30,11 @@ class Room
         [ 200, Hash[room.attributes].to_json ]
       when :MSG  then
         # TODO limit data columns to return
-        [ 200, room.messages.to_json ]
+        result = []
+        room.messages.each do |m|
+          result.push(Hash[m.attributes])
+        end
+        [ 200, result.to_json ]
       when :USER then
         result = []
         room.users.only(:id, :name, :face).each do |u|
