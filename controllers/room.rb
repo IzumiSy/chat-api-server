@@ -18,7 +18,7 @@ class RoomRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     if Room.count <= 0
-      logger.info "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\""
+      logger.info "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
     end
 
     # Use map instead of select querying
