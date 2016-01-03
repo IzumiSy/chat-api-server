@@ -88,6 +88,7 @@ end
 describe "POST /api/room/:id/leave" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
+  let(:admin) { create(:admin) }
   let(:param) { { token: user.token } }
   let(:invalid_param) { { token: user.token } }
 
@@ -99,10 +100,21 @@ describe "POST /api/room/:id/leave" do
   # TODO Implement room check if the user successfully leaved
   it "should have an user leave the room" do
     enter_room(room.id, user.token)
-
+    enter_room(room.id, admin.token)
     post "/api/room/#{room.id}/leave", param
     expect(last_response.status).to eq(202)
-    expect(room.users.count).to eq(0)
+    expect(room.users.first).to eq(admin)
+    expect(room.users.count).to eq(1)
+  end
+
+  # TODO Implement room check if the user successfully leaved
+  it "should have an user leave the room with 'all' for :id" do
+    enter_room(room.id, user.token)
+    enter_room(room.id, admin.token)
+    post "/api/room/all/leave", param
+    expect(last_response.status).to eq(202)
+    expect(room.users.first).to eq(admin)
+    expect(room.users.count).to eq(1)
   end
 end
 
