@@ -51,7 +51,7 @@ class UserRoutes < Sinatra::Base
    body
       if user
         status 200
-        user.to_json
+        Hash[user.attributes].to_json
       else
         status 404
         {}.to_json
