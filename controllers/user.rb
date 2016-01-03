@@ -40,24 +40,6 @@ class UserRoutes < Sinatra::Base
     status 200
   end
 
-  # A port to fetch self data only with user token
-  # To fetch other users' data, use id specified port instead.
-  get '/api/user' do
-    param :token, String, required: true
-
-    halt 401 unless AuthService.is_logged_in?(params)
-
-   user = User.only(:id, :name, :face, :token).find_by(token: params[:token])
-   body
-      if user
-        status 200
-        Hash[user.attributes].to_json
-      else
-        status 404
-        {}.to_json
-      end
-  end
-
   get '/api/user/:id' do
     param :id,    String, required: true
     param :token, String, required: true
