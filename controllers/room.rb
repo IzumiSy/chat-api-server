@@ -1,7 +1,9 @@
 require_relative '../services/auth_service'
+require_relative '../services/message_service'
 
 class RoomRoutes < Sinatra::Base
   include AuthService
+  include MessageService
 
   configure do
     helpers Sinatra::Param
@@ -42,6 +44,28 @@ class RoomRoutes < Sinatra::Base
     room = Room.create(name: params[:name])
     body room.to_json
     status 202
+  end
+
+  # Streaming API subscribe port
+  get '/api/room/subscribe/:id' do
+    param :id,    String, required: true
+    param :token, String, required: true
+
+    halt 401 unless AuthService.is_logged_in?(params)
+
+    client_ip  = request.ip
+    room = Room.find(params[:id])
+    token = params[:token]
+
+    if room && room == User.find_by(token: token).room
+      logger.info "[INFO] New suscriber: #{client_ip}"
+      stream :keep_open do |connection|
+        MessageService.addConnection(connection)
+      end
+    else
+      body "Room not found"
+      status 404
+    end
   end
 
   # TODO Implementation
@@ -118,35 +142,6 @@ class RoomRoutes < Sinatra::Base
 
     body data
     status stat_code
-  end
-
-  # Streaming API subscribe port
-  get '/api/room/subscribe/:id', provides: 'text/event-stream' do
-    param :id,    String, required: true
-    param :token, String, required: true
-
-    halt 401 unless AuthService.is_logged_in?(params)
-
-    client_ip  = request.ip
-    room_id = params[:id]
-
-    if Room.find(room_id)
-      logger.info "[INFO] New suscriber: #{client_ip}"
-      run_streaming_loop(room_id)
-    else
-      body "Room not found"
-      status 404
-    end
-  end
-
-  protected
-
-  def run_streaming_loop(room_id)
-    stream :keep_open do |connection|
-      loop do
-        sleep(1)
-      end
-    end
   end
 end
 

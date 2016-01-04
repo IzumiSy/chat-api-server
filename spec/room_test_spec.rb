@@ -65,6 +65,20 @@ describe "GET /api/room/:id/users" do
   end
 end
 
+describe "GET /api/room/subscribe/:id" do
+  let(:user) { create(:user) }
+  let(:room) { create(:room) }
+
+  before do
+    enter_room(room.id, user.token)
+  end
+
+  it "should subscribe incoming messages in the room" do
+    get "/api/room/subscribe/#{room.id}", { token: user.token }
+    expect(last_response.status).to eq(200)
+  end
+end
+
 describe "POST /api/room/enter" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
