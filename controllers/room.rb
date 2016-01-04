@@ -47,7 +47,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   # Streaming API subscribe port
-  get '/api/room/subscribe/:id' do
+  get '/api/room/:id/subscribe' do
     param :id,    String, required: true
     param :token, String, required: true
 

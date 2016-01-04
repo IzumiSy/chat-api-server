@@ -65,7 +65,7 @@ describe "GET /api/room/:id/users" do
   end
 end
 
-describe "GET /api/room/subscribe/:id" do
+describe "GET /api/room/:id/subscribe" do
   let(:user) { create(:user) }
   let(:room) { create(:room) }
 
@@ -74,7 +74,7 @@ describe "GET /api/room/subscribe/:id" do
   end
 
   it "should subscribe incoming messages in the room" do
-    get "/api/room/subscribe/#{room.id}", { token: user.token }
+    get "/api/room/#{room.id}/subscribe", { token: user.token }
     expect(last_response.status).to eq(200)
   end
 end
