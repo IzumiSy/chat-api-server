@@ -5,6 +5,7 @@ require_relative "../services/message_service"
 class Message
   include Mongoid::Document
   include Mongoid::Timestamps
+  include MessageService
 
   after_save :broadcast_message
 
@@ -19,6 +20,6 @@ class Message
   protected
 
   def broadcast_message
-    # Broadcast the message with steaming API in Sinatra
+    # Broadcast a message with MessageService
   end
 end
