@@ -11,7 +11,7 @@ module MessageService
 
   def self.broadcastMessage(message)
     @@connections.each do |connection|
-      # Send message
+      connection << "data: #{message}\n\n"
     end
   end
 end
