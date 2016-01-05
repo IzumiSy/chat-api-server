@@ -47,7 +47,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   # Streaming API subscribe port
-  get '/api/room/:id/subscribe' do
+  get '/api/room/:id/subscribe', provides: 'text/event-stream' do
     param :id,    String, required: true
     param :token, String, required: true
 
