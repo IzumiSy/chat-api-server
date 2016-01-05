@@ -49,13 +49,16 @@ class Room
   # If "all" is specfied to room_id parameter, this function proceeds
   # the transaction that the specified user leaves from the current room.
   def self.room_transaction(room_id, token, type)
-    user = User.find_by(token: token)
+    unless user = User.find_by(token: token)
+      return [ 500, "Invalid token" ]
+    end
+
     is_all_leave_mode = (room_id == "all" && type == :LEAVE)
     room_id = user.room.id if is_all_leave_mode
 
     room = Room.only(:users, :users_count).find(room_id)
-    if !room
-      return [ 404, { status: nil }.to_json ]
+    unless room
+      return [ 404, "Room not found" ]
     end
 
     is_user_exist_in_room = room.users.find(user.id) ? true : false
