@@ -2,4 +2,5 @@ dump.rdb
 log.txt
 .env
 .rspec
+.ruby-version
 tmp/
