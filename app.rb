@@ -27,6 +27,8 @@ require_relative 'models/user'
 Dotenv.load
 
 class Application < Sinatra::Base
+  register Sinatra::RocketIO
+
   configure do
     set :raise_errors, true
     set :show_exceptions, false
