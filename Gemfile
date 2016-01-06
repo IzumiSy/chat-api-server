@@ -10,7 +10,7 @@ gem 'sinatra-rocketio'
 gem 'shotgun'
 gem 'thin'
 
-gem 'mongoid'
+gem 'mongoid', '~> 5.0.0'
 
 gem 'config'
 gem 'bcrypt'

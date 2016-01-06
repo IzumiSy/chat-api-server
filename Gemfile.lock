@@ -7,6 +7,9 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    activemodel (4.2.5)
+      activesupport (= 4.2.5)
+      builder (~> 3.1)
     activesupport (4.2.5)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -16,9 +19,8 @@ GEM
     awesome_print (1.6.1)
     backports (3.6.7)
     bcrypt (3.1.10)
-    bson (1.12.5)
-    bson_ext (1.12.5)
-      bson (~> 1.12.5)
+    bson (4.0.0)
+    builder (3.2.2)
     byebug (8.2.1)
     coderay (1.1.0)
     config (1.0.0)
@@ -28,7 +30,6 @@ GEM
     deep_merge (1.0.1)
     diff-lcs (1.2.5)
     dotenv (2.0.2)
-    durran-validatable (2.0.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -46,18 +47,18 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.3)
-    leshill-will_paginate (2.3.11)
     method_source (0.8.2)
     minitest (5.8.3)
-    mongo (1.12.5)
-      bson (= 1.12.5)
-    mongoid (1.0.6)
-      activesupport (>= 2.2.2)
-      durran-validatable (>= 2.0.1)
-      leshill-will_paginate (>= 2.3.11)
-      mongo (>= 0.18.2)
+    mongo (2.2.1)
+      bson (~> 4.0)
+    mongoid (5.0.2)
+      activemodel (~> 4.0)
+      mongo (~> 2.1)
+      origin (~> 2.1)
+      tzinfo (>= 0.3.37)
     multi_json (1.11.2)
     multi_xml (0.5.5)
+    origin (2.1.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -142,14 +143,13 @@ PLATFORMS
 DEPENDENCIES
   awesome_print
   bcrypt
-  bson_ext
   config
   database_cleaner!
   dotenv
   factory_girl
   faker
   hiredis
-  mongoid
+  mongoid (~> 5.0.0)
   pry
   pry-byebug
   rack-test
