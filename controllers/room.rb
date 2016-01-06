@@ -46,28 +46,6 @@ class RoomRoutes < Sinatra::Base
     status 202
   end
 
-  # Streaming API subscribe port
-  get '/api/room/:id/subscribe', provides: 'text/event-stream' do
-    param :id,    String, required: true
-    param :token, String, required: true
-
-    halt 401 unless AuthService.is_logged_in?(params)
-
-    client_ip  = request.ip
-    room = Room.find(params[:id])
-    token = params[:token]
-
-    if room && room == User.find_by(token: token).room
-      logger.info "[INFO] New suscriber: #{client_ip}"
-      stream :keep_open do |connection|
-        MessageService.addConnection(connection)
-      end
-    else
-      body "Room not found"
-      status 404
-    end
-  end
-
   # TODO Implementation
   delete '/api/room/:id' do
     param :id,    String, required: true
