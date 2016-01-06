@@ -11,7 +11,6 @@ gem 'shotgun'
 gem 'thin'
 
 gem 'mongoid'
-gem 'bson_ext'
 
 gem 'config'
 gem 'bcrypt'
