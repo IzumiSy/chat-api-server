@@ -28,9 +28,6 @@ class Application < Sinatra::Base
   configure do
     set :raise_errors, true
     set :show_exceptions, false
-
-    set :server, 'thin'
-    set :socket, []
   end
 
   not_found do
