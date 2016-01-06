@@ -1,17 +1,13 @@
 module MessageService
-  @@connections = []
+  @clients = []
+  @io = Sinatra::RocketIO
 
-  def self.addConnection(connection)
-    @@connections << connection
+  @io.on :connect do |client|
+    logger.info "New client connected: #{client.session}, #{client.address}"
+    @clients << client
   end
 
-  def self.getConnections
-    @@connections
-  end
+  def self.broadcastMessage(room_id, message)
 
-  def self.broadcastMessage(message)
-    @@connections.each do |connection|
-      connection << "data: #{message}\n\n"
-    end
   end
 end
