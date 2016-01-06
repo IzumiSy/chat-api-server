@@ -24,11 +24,7 @@ $ mongod --config /usr/local/etc/mongod.conf
 
 ## Run
 ```bash
-$ bundle exec thin -p 3000
-```
-or
-```bash
-$ bundle exec shotgun -p 3000
+$ bundle exec thin start -p 3000
 ```
 
 ## Test
