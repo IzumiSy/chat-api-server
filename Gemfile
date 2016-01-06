@@ -5,6 +5,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-param', require: 'sinatra/param'
 gem 'sinatra-cross_origin'
+gem 'sinatra-rocketio'
 
 gem 'shotgun'
 gem 'thin'
