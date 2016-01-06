@@ -56,12 +56,9 @@ describe "GET /api/room/:id/users" do
 
   it "should have 2 users in the room" do
     get "/api/room/#{room.id}/users", { token: user.token }
-    users = JSON.parse(last_response.body)
+    users = JSON.parse(last_response.body).collect { |user| user["_id"]["$oid"] }
     expect(last_response.status).to eq(200)
-    expect(users).to include(
-      Hash[user.attributes].slice("_id", "name", "face"),
-      Hash[admin.attributes].slice("_id", "name", "face")
-    )
+    expect(users).to include(user.id.to_s, admin.id.to_s)
   end
 end
 
