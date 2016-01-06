@@ -2,18 +2,18 @@ require_relative './app'
 
 namespace :db do
   task :seed_rooms do
-    p Room.create!(name: "Lobby")
-    p Room.create!(name: "Michelle")
-    p Room.create!(name: "Blankey")
-    p Room.create!(name: "Number")
+    Room.create!(name: "Lobby")
+    Room.create!(name: "Michelle")
+    Room.create!(name: "Blankey")
+    Room.create!(name: "Number")
   end
 
   task :drop_rooms do
-    p Room.delete_all
+    Room.delete_all
   end
 
   task :drop_users do
-    p User.delete_all
+    User.delete_all
     exec 'redis-cli flushdb'
   end
 end
