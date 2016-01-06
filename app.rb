@@ -1,6 +1,8 @@
+require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/param'
 require 'sinatra/cross_origin'
+require 'sinatra/rocketio'
 
 require 'digest/md5'
 
@@ -28,6 +30,10 @@ class Application < Sinatra::Base
   configure do
     set :raise_errors, true
     set :show_exceptions, false
+
+    set :cometio, timeout: 120, allow_crossdomain: true
+    set :websocketio, port: 3001
+    set :rocketio, websocket: true, comet: true
   end
 
   not_found do
