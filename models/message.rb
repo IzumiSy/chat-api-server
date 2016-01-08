@@ -20,6 +20,6 @@ class Message
   protected
 
   def broadcast_message
-    # Broadcast a message with MessageService
+    MessageService.broadcastMessage(self.room_id.to_s, self.content)
   end
 end

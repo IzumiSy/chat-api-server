@@ -6,6 +6,6 @@ module MessageService
   end
 
   def self.broadcastMessage(room_id, message)
-
+    @io.push :newMessage, message, channel: room_id
   end
 end
