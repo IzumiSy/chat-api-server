@@ -13,7 +13,7 @@ class Message
   belongs_to :user
 
   field :content, type: String
-  field :status,  type: Integer
+  field :status,  type: Integer, default: 0
 
   validates :content, presence: true
 
