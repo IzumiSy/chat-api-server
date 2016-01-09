@@ -19,10 +19,11 @@ gem 'dotenv'
 gem 'redis'
 gem 'hiredis'
 
+gem 'pry'
+gem 'pry-byebug'
+
 group :development, :test do
   gem 'awesome_print'
-  gem 'pry'
-  gem 'pry-byebug'
   gem 'rspec'
   gem 'rack-test'
   gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
