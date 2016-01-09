@@ -21,13 +21,14 @@ class MessageRoutes < Sinatra::Base
 
     room_id = params[:room_id]
     content = params[:content]
-    user_id = User.find_by(token: token)
+    token   = params[:token]
+    user    = User.find_by(token: token)
 
     return if room_id.empty? or content.empty?
-    return unless user_id
+    return unless user
 
     if Room.find(room_id)
-      message = Message.create(room_id: room_id, user_id: user_id, content: content)
+      message = Message.create(room_id: room_id, user_id: user.id, content: content)
       body message.to_json
       status 202
     else
