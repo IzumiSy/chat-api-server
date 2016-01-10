@@ -13,8 +13,13 @@ module MessageService
     puts "[INFO] Client error: #{client.session}, #{client.address}"
   end
 
-  def self.broadcastMessage(room_id, user_id, message)
-    params = { message: message, user_id: user_id }
-    @io.push :newMessage, params, { channel: room_id }
+  def self.broadcastMessage(message_object)
+    params = {
+      _id: message_object.id,
+      content: message_object.content,
+      user_id: message_object.user_id,
+      created_at: message_object.created_at
+    }
+    @io.push :newMessage, params, { channel: message_object.room_id }
   end
 end
