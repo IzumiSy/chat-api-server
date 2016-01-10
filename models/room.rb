@@ -27,7 +27,6 @@ class Room
       when :ROOM then
         [ 200, Hash[room.attributes].to_json ]
       when :MSG  then
-        # TODO limit data columns to return
         result = []
         room.messages.only(:id, :user_id, :content, :created_at).each do |m|
           result.push(Hash[m.attributes])
