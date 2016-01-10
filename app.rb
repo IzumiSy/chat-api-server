@@ -33,7 +33,6 @@ Mongoid.configure do |config|
   end
 end
 
-
 class Application < Sinatra::Base
   register Sinatra::RocketIO
 
