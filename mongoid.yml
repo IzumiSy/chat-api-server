@@ -19,7 +19,7 @@ test:
 production:
   clients:
     default:
-      uri: <%= ENV['MONGOLAB_URI'] =>
+      database: chat-api
   options:
     raise_not_found_error: false
 
