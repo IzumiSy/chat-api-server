@@ -1,7 +1,5 @@
 require_relative "../services/redis_service"
 
-Mongoid.load!('mongoid.yml')
-
 class User
   include Mongoid::Document
   include Mongoid::Timestamps

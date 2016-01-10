@@ -1,5 +1,3 @@
-Mongoid.load!('mongoid.yml')
-
 require_relative "../services/message_service"
 
 class Message

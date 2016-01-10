@@ -25,6 +25,7 @@ require_relative 'models/message'
 require_relative 'models/user'
 
 Dotenv.load
+Mongoid.load!('mongoid.yml')
 
 class Application < Sinatra::Base
   register Sinatra::RocketIO

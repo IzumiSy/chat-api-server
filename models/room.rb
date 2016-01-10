@@ -1,5 +1,3 @@
-Mongoid.load!('mongoid.yml')
-
 class Room
   include Mongoid::Document
 
