@@ -28,8 +28,9 @@ module Helpers
 
   # TODO: rewrite here with FactoryGirl
   def send_message(room_id, token, msg)
-    message = Message.create(room_id: room_id, content: msg)
-    Hash[message.attributes].to_json
+    user = User.find_by(token: token)
+    message = Message.create(room_id: room_id, user_id: user.id, content: msg)
+    Hash[message.attributes].slice("_id", "user_id", "content", "created_at").to_json
   end
 end
 
