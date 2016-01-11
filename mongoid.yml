@@ -16,14 +16,12 @@ test:
   options:
     raise_not_found_error: false
 
-# "hosts" section is now spcified to localhost:27017,
-# but it is going to be overwritten in app.rb to use MongoLab
+# "uri" section in production config below is now set to null,
+# but it is going to be overwritten in app.rb to use MongoLab.
 production:
   clients:
     default:
-      database: chat-api
-      hosts:
-        - null
+      uri: null
   options:
     raise_not_found_error: false
 
