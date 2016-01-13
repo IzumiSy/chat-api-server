@@ -27,17 +27,9 @@ class Room
       when :ROOM then
         [ 200, Hash[room.attributes].to_json ]
       when :MSG  then
-        result = []
-        room.messages.only(:id, :user_id, :content, :created_at).each do |m|
-          result.push(Hash[m.attributes])
-        end
-        [ 200, result.to_json ]
+        [ 200, room.messages.to_json(only: [:_id, :user_id, :content, :created_at]) ]
       when :USER then
-        result = []
-        room.users.only(:id, :name, :face).each do |u|
-          result.push(Hash[u.attributes])
-        end
-        [ 200, result.to_json ]
+        [ 200, room.users.to_json(only: [:_id, :name, :face]) ]
       else
         [ 500, {}.to_json ]
       end
