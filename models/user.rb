@@ -10,6 +10,16 @@ class User
   belongs_to :room
   has_many   :messages
 
+  FACE_TYPES = [
+    FACE1 = 1867,
+    FACE2 = 1870,
+    FACE3 = 1874,
+    FACE4 = 1898,
+    FACE5 = 1900,
+    FACE6 = 1968,
+    FACE7 = 1973
+  ].freeze
+
   field :name,   type: String
   field :face,   type: String
 
@@ -17,6 +27,10 @@ class User
   field :token,  type: String
 
   field :messages_count, type: Integer, default: 0
+
+  STATUS = [
+    NEUTRAL = 0
+  ].freeze
 
   field :status, type: Integer, default: 0
   field :is_admin, type: Boolean, default: false
