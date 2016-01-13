@@ -23,10 +23,10 @@ class User
   field :messages_count, type: Integer, default: 0
 
   STATUS = [
-    NEUTRAL = 0
+    STATUS_NEUTRAL = 0
   ].freeze
 
-  field :status, type: Integer, default: 0
+  field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
   field :is_deleted, type: Boolean, default: false
 
