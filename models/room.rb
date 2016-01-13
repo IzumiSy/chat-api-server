@@ -27,7 +27,10 @@ class Room
       when :ROOM then
         [ 200, room.to_json(only: [:_id, :name, :messages_count, :users_count]) ]
       when :MSG  then
-        [ 200, room.messages.to_json(only: [:_id, :user_id, :content, :created_at]) ]
+        [ 200, room.messages.to_json(
+          only: [:_id, :user_id, :content, :created_at],
+          include: { :user => { only: [:_id, :name, :face] } }
+        ) ]
       when :USER then
         [ 200, room.users.to_json(only: [:_id, :name, :face]) ]
       else
