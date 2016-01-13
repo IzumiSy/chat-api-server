@@ -25,7 +25,7 @@ class Room
 
     return case type
       when :ROOM then
-        [ 200, Hash[room.attributes].to_json ]
+        [ 200, room.to_json(only: [:_id, :name, :messages_count, :users_count]) ]
       when :MSG  then
         [ 200, room.messages.to_json(only: [:_id, :user_id, :content, :created_at]) ]
       when :USER then
