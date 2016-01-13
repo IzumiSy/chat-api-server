@@ -30,7 +30,7 @@ module Helpers
   def send_message(room_id, token, msg)
     user = User.find_by(token: token)
     message = Message.create(room_id: room_id, user_id: user.id, content: msg)
-    Hash[message.attributes].slice("_id", "user_id", "content", "created_at").to_json
+    message.to_json(only: [:_id, :user_id, :content, :created_at])
   end
 end
 
