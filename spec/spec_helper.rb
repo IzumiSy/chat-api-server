@@ -31,8 +31,8 @@ module Helpers
     user = User.find_by(token: token)
     message = Message.create(room_id: room_id, user_id: user.id, content: msg)
     message.to_json(
-      only: [:_id, :user_id, :content, :created_at],
-      include: { :user => { only: [:_id, :name, :face] }
+      only: Message::MESSAGE_DATA_LIMITS,
+      include: { :user => { only: User::USER_DATA_LIMITS }
     } )
   end
 end
