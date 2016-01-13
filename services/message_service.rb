@@ -14,12 +14,10 @@ module MessageService
   end
 
   def self.broadcastMessage(message_object)
-    params = {
-      _id: message_object.id,
-      content: message_object.content,
-      user_id: message_object.user_id,
-      created_at: message_object.created_at
-    }
+    params = message_object.to_json({
+      only: Message::MESSAGE_DATA_LIMITS,
+      include: { :user => { only: User::USER_DATA_LIMITS } }
+    })
     @io.push :newMessage, params, { channel: message_object.room_id }
   end
 end
