@@ -45,7 +45,6 @@ class MessageRoutes < Sinatra::Base
     halt 401 unless
       AuthService.is_logged_in?(params) &&
       AuthService.is_admin?(params)
-
   end
 end
 
