@@ -30,7 +30,10 @@ module Helpers
   def send_message(room_id, token, msg)
     user = User.find_by(token: token)
     message = Message.create(room_id: room_id, user_id: user.id, content: msg)
-    message.to_json(only: [:_id, :user_id, :content, :created_at])
+    message.to_json(
+      only: [:_id, :user_id, :content, :created_at],
+      include: { :user => { only: [:_id, :name, :face] }
+    } )
   end
 end
 
