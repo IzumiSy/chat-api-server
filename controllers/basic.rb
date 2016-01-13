@@ -47,7 +47,7 @@ class BasicRoutes < Sinatra::Base
     end
 
     user.update_attribute(:is_admin, true)
-    return 202, user.to_json(only: User::USER_DATA_COLUMNS.dup << :is_admin)
+    return 202, user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
   end
 end
 

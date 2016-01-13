@@ -5,7 +5,7 @@ class User
   include Mongoid::Timestamps
   include RedisService
 
-  USER_DATA_COLUMNS = [:_id, :name, :face]
+  USER_DATA_LIMITS = [:_id, :name, :face]
 
   before_create :generate_user_token, :set_face_id
 
@@ -46,9 +46,9 @@ class User
 
     return case type
       when :USER then
-        [ 200, user.to_json(only: USER_DATA_COLUMNS) ]
+        [ 200, user.to_json(only: USER_DATA_LIMITS) ]
       when :ROOM then
-        [ 200, user.room.to_json(only: Room::ROOM_DATA_COLUMNS) ]
+        [ 200, user.room.to_json(only: Room::ROOM_DATA_LIMITS) ]
       else
         [ 500, {}.to_json ]
       end
