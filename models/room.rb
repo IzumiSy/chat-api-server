@@ -30,7 +30,7 @@ class Room
         [ 200, room.to_json(only: ROOM_DATA_COLUMNS) ]
       when :MSG  then
         [ 200, room.messages.to_json(
-          only: [:_id, :user_id, :content, :created_at],
+          only: Message::MESSAGE_DATA_COLUMNS,
           include: { :user => { only: User::USER_DATA_COLUMNS } }
         ) ]
       when :USER then

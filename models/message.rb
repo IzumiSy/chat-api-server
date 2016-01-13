@@ -5,6 +5,8 @@ class Message
   include Mongoid::Timestamps
   include MessageService
 
+  MESSAGE_DATA_COLUMNS = [:_id, :created_at, :user_id, :content].freeze
+
   after_save :broadcast_message
 
   belongs_to :room

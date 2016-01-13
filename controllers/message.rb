@@ -29,7 +29,7 @@ class MessageRoutes < Sinatra::Base
 
     if Room.find(room_id)
       message = Message.create(room_id: room_id, user_id: user.id, content: content)
-      body message.to_json(only: [:_id, :created_at, :user_id, :content])
+      body message.to_json(only: Message::MESSAGE_DATA_COLUMNS)
       status 202
     else
       body "Room to post not found"
