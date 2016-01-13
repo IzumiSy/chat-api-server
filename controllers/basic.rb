@@ -47,7 +47,7 @@ class BasicRoutes < Sinatra::Base
     end
 
     user.update_attribute(:is_admin, true)
-    return 202, user.to_json(only: [:_id, :name, :face])
+    return 202, user.to_json(only: [:_id, :name, :face, :is_admin])
   end
 end
 
