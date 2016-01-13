@@ -4,6 +4,8 @@ class Room
   has_many :messages
   has_many :users
 
+  ROOM_DATA_COLUMNS = [:_id, :name, :messages_count, :users_count].freeze
+
   field :name, type: String
 
   field :messages_count, type: Integer, default: 0
@@ -25,7 +27,7 @@ class Room
 
     return case type
       when :ROOM then
-        [ 200, room.to_json(only: [:_id, :name, :messages_count, :users_count]) ]
+        [ 200, room.to_json(only: ROOM_DATA_COLUMNS) ]
       when :MSG  then
         [ 200, room.messages.to_json(
           only: [:_id, :user_id, :content, :created_at],

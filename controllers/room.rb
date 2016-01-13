@@ -23,7 +23,7 @@ class RoomRoutes < Sinatra::Base
       puts "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
     end
 
-    body Room.all.to_json(only: [:_id, :name, :messages_count, :users_count])
+    body Room.all.to_json(only: Room::ROOM_DATA_COLUMNS)
     status 200
   end
 
@@ -36,7 +36,7 @@ class RoomRoutes < Sinatra::Base
       AuthService.is_admin?(params)
 
     room = Room.create(name: params[:name])
-    body room.to_json
+    body room.to_json(only: Room::ROOM_DATA_COLUMNS)
     status 202
   end
 
