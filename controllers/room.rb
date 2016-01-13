@@ -23,13 +23,7 @@ class RoomRoutes < Sinatra::Base
       puts "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
     end
 
-    # Use map instead of select querying
-    rooms = []
-    Room.only(:id, :name, :messages_count, :users_count).all.map do |room|
-      rooms.push(Hash[room.attributes])
-    end
-
-    body rooms.to_json
+    body Room.all.to_json(only: [:_id, :name, :messages_count, :users_count])
     status 200
   end
 
