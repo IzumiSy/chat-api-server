@@ -5,11 +5,12 @@ class User
   include Mongoid::Timestamps
   include RedisService
 
-  before_create :generate_user_token
+  before_create :generate_user_token, :set_face_id
 
   belongs_to :room
   has_many   :messages
 
+  FACE_ID_BASE = 144995
   FACE_IDS = [
     1867, 1870, 1874, 1898, 1900, 1968, 1973
   ].freeze
@@ -67,5 +68,10 @@ class User
     RedisService.set(token, self.ip)
     self.token = token
     puts "[INFO] Token set: #{token}"
+  end
+
+  # Set random face id
+  def set_face_id
+    self.face = (FACE_ID_BASE.to_s + FACE_IDS[rand(FACE_IDS.length)].to_s)
   end
 end
