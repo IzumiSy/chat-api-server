@@ -4,7 +4,7 @@ class Room
   has_many :messages
   has_many :users
 
-  ROOM_DATA_COLUMNS = [:_id, :name, :messages_count, :users_count].freeze
+  ROOM_DATA_COLUMNS = [:_id, :name, :messages_count, :users_count]
 
   field :name, type: String
 
@@ -31,10 +31,10 @@ class Room
       when :MSG  then
         [ 200, room.messages.to_json(
           only: [:_id, :user_id, :content, :created_at],
-          include: { :user => { only: [:_id, :name, :face] } }
+          include: { :user => { only: User::USER_DATA_COLUMNS } }
         ) ]
       when :USER then
-        [ 200, room.users.to_json(only: [:_id, :name, :face]) ]
+        [ 200, room.users.to_json(only: User::USER_DATA_COLUMNS) ]
       else
         [ 500, {}.to_json ]
       end
