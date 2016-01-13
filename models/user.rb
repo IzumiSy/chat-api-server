@@ -10,14 +10,8 @@ class User
   belongs_to :room
   has_many   :messages
 
-  FACE_TYPES = [
-    FACE1 = 1867,
-    FACE2 = 1870,
-    FACE3 = 1874,
-    FACE4 = 1898,
-    FACE5 = 1900,
-    FACE6 = 1968,
-    FACE7 = 1973
+  FACE_IDS = [
+    1867, 1870, 1874, 1898, 1900, 1968, 1973
   ].freeze
 
   field :name,   type: String
