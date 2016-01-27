@@ -80,16 +80,16 @@ class Room
         Room.decrement_counter(:users_count, user.room.id)
       end
       Room.increment_counter(:users_count, room_id)
+      MessageService.broadcastEnterLog(user)
       user.update_attributes!(room_id: room_id)
-      MessageService.broadcastEnterLog()
     end
   end
 
   def self.transaction_leave(is_in_room, room_id, user)
     if is_in_room
       Room.decrement_counter(:users_count, room_id)
+      MessageService.broadcastLeaveLog(user)
       user.update_attributes!(room_id: nil)
-      MessageService.broadcastLeaveLog()
     end
   end
 end

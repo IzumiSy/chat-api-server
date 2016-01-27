@@ -21,14 +21,33 @@ module MessageService
     @io.push :newMessage, params, { channel: message_object.room_id }
   end
 
-  # TODO broadcast message that someone left from the room
-  def self.broadcastEnterLog()
-    roomUpdate();
+  # Pseudo enum
+  module SYSTEM_LOG_TYPE
+    USER_ENTER = 0
+    USER_LEAVE = 1
   end
 
-  # TODO broaadcast message that someone got in to the room
-  def self.broadcastLeaveLog()
-    rooUpdate();
+  def self.broadcastEnterLog(user)
+    broadcastSystemLog(SYSTEM_LOG_TYPE::USER_ENTER, user)
+    broadcastRoomUpdate()
+  end
+
+  def self.broadcastLeaveLog(user)
+    broadcastSystemLog(SYSTEM_LOG_TYPE::USER_LEAVE, user)
+    broadcastRoomUpdate()
+  end
+
+  private
+
+  def self.broadcastSystemLog(type, user)
+    case type
+    when SYSTEM_LOG_TYPE::USER_ENTER then
+      # @io.push :userEnter
+    when SYSTEM_LOG_TYPE::USER_LEAVE then
+      # @io.push :userLeave
+    else
+      # TODO kinda exception handling is needed here
+    end
   end
 
   def self.broadcastRoomUpdate()
