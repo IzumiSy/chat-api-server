@@ -13,7 +13,7 @@ module MessageService
     puts "[INFO] Client error: #{client.session}, #{client.address}"
   end
 
-  def self.broadcastMessage(message_object)
+  def self.broadcast_message(message_object)
     params = message_object.to_json({
       only: Message::MESSAGE_DATA_LIMITS,
       include: { :user => { only: User::USER_DATA_LIMITS } }

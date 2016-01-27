@@ -20,6 +20,6 @@ class Message
   protected
 
   def broadcast_message
-    MessageService.broadcastMessage(self)
+    MessageService.broadcast_message(self)
   end
 end
