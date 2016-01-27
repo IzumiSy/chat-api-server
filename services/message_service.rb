@@ -27,19 +27,19 @@ module MessageService
     USER_LEAVE = 1
   end
 
-  def self.broadcastEnterLog(user)
-    broadcastSystemLog(SYSTEM_LOG_TYPE::USER_ENTER, user)
-    broadcastRoomUpdate()
+  def self.broadcast_enter_msg(user)
+    broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user)
+    broadcast_room_update()
   end
 
-  def self.broadcastLeaveLog(user)
-    broadcastSystemLog(SYSTEM_LOG_TYPE::USER_LEAVE, user)
-    broadcastRoomUpdate()
+  def self.broadcast_leave_msg(user)
+    broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user)
+    broadcast_room_update()
   end
 
   private
 
-  def self.broadcastSystemLog(type, user)
+  def self.broadcast_system_log(type, user)
     case type
     when SYSTEM_LOG_TYPE::USER_ENTER then
       # @io.push :userEnter
@@ -50,7 +50,7 @@ module MessageService
     end
   end
 
-  def self.broadcastRoomUpdate()
+  def self.broadcast_room_update()
     params = Room.all.to_json(only: Room::ROOM_DATA_LIMITS)
     @io.push :updateRooms, params
   end
