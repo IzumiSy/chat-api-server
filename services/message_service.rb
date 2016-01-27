@@ -20,4 +20,19 @@ module MessageService
     })
     @io.push :newMessage, params, { channel: message_object.room_id }
   end
+
+  # TODO broadcast message that someone left from the room
+  def self.broadcastEnterLog()
+    roomUpdate();
+  end
+
+  # TODO broaadcast message that someone got in to the room
+  def self.broadcastLeaveLog()
+    rooUpdate();
+  end
+
+  def self.broadcastRoomUpdate()
+    params = Room.all.to_json(only: Room::ROOM_DATA_LIMITS)
+    @io.push :updateRooms, params
+  end
 end

@@ -1,5 +1,8 @@
+require_relative "../services/message_service"
+
 class Room
   include Mongoid::Document
+  include MessageService
 
   has_many :messages
   has_many :users
@@ -78,6 +81,7 @@ class Room
       end
       Room.increment_counter(:users_count, room_id)
       user.update_attributes!(room_id: room_id)
+      MessageService.broadcastEnterLog()
     end
   end
 
@@ -85,6 +89,7 @@ class Room
     if is_in_room
       Room.decrement_counter(:users_count, room_id)
       user.update_attributes!(room_id: nil)
+      MessageService.broadcastLeaveLog()
     end
   end
 end
