@@ -37,7 +37,7 @@ class Room
           include: { :user => { only: User::USER_DATA_LIMITS } }
         ) ]
       when :USER then
-        [ 200, room.users.to_json(only: User::USER_DATA_LIMITS) ]
+        [ 200, room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS) ]
       else
         [ 500, {}.to_json ]
       end
