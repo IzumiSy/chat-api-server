@@ -1,5 +1,9 @@
 require_relative './app'
 
+task :console do
+  exec 'pry -r ./app.rb'
+end
+
 namespace :db do
   task :seed_rooms do
     Room.create!(name: "Lobby")
