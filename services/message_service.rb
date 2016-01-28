@@ -60,6 +60,6 @@ module MessageService
   def self.broadcast_members_update(room_id)
     room = Room.find(room_id)
     users = room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
-    @io.push :newMessage, users, { channel: room_id }
+    @io.push :updateMembers, users, { channel: room_id }
   end
 end
