@@ -19,6 +19,9 @@ namespace :db do
   task :drop_users do
     User.delete_all
     exec 'redis-cli flushdb'
+    Room.all.each do |room|
+      room.update_attribute(:users_count, 0);
+    end
   end
 
   task :drop_messages do
