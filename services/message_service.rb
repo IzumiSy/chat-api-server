@@ -29,13 +29,13 @@ module MessageService
 
   def self.broadcast_enter_msg(user)
     broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user)
-    broadcast_members_update()
+    broadcast_members_update(user.room.id)
     broadcast_room_update()
   end
 
   def self.broadcast_leave_msg(user)
     broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user)
-    broadcast_members_update()
+    broadcast_members_update(user.room.id)
     broadcast_room_update()
   end
 
@@ -57,7 +57,9 @@ module MessageService
     @io.push :updateRooms, params
   end
 
-  def self.broadcast_members_update(user)
-    # TODO impementation here
+  def self.broadcast_members_update(room_id)
+    room = Room.find(room_id)
+    users = room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
+    @io.push :newMessage, users, { channel: room_id }
   end
 end
