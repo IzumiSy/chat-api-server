@@ -80,7 +80,7 @@ class Room
         Room.decrement_counter(:users_count, user.room.id)
       end
       Room.increment_counter(:users_count, room_id)
-      MessageService.broadcast_enter_msg(user)
+      MessageService.broadcast_enter_msg(user, room_id)
       user.update_attributes!(room_id: room_id)
     end
   end

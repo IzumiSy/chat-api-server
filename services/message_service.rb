@@ -27,9 +27,9 @@ module MessageService
     USER_LEAVE = 1
   end
 
-  def self.broadcast_enter_msg(user)
+  def self.broadcast_enter_msg(user, room_id)
     broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user)
-    broadcast_members_update(user.room.id)
+    broadcast_members_update(room_id)
     broadcast_room_update()
   end
 
