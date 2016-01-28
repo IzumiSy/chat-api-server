@@ -29,11 +29,13 @@ module MessageService
 
   def self.broadcast_enter_msg(user)
     broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user)
+    broadcast_members_update()
     broadcast_room_update()
   end
 
   def self.broadcast_leave_msg(user)
     broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user)
+    broadcast_members_update()
     broadcast_room_update()
   end
 
@@ -53,5 +55,9 @@ module MessageService
   def self.broadcast_room_update()
     params = Room.all.to_json(only: Room::ROOM_DATA_LIMITS)
     @io.push :updateRooms, params
+  end
+
+  def self.broadcast_members_update(user)
+    # TODO impementation here
   end
 end
