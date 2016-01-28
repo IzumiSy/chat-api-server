@@ -89,7 +89,7 @@ class Room
     if is_in_room
       Room.decrement_counter(:users_count, room_id)
       user.update_attributes!(room_id: nil)
-      MessageService.broadcast_leave_msg(user)
+      MessageService.broadcast_leave_msg(user, room_id)
     end
   end
 end

@@ -28,25 +28,25 @@ module MessageService
   end
 
   def self.broadcast_enter_msg(user, room_id)
-    broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user)
+    broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name)
     broadcast_members_update(room_id)
     broadcast_room_update()
   end
 
-  def self.broadcast_leave_msg(user)
-    broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user)
-    broadcast_members_update(user.room.id)
+  def self.broadcast_leave_msg(user, room_id)
+    broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name)
+    broadcast_members_update(room_id)
     broadcast_room_update()
   end
 
   private
 
-  def self.broadcast_system_log(type, user)
+  def self.broadcast_system_log(type, user_name)
     case type
     when SYSTEM_LOG_TYPE::USER_ENTER then
-      # @io.push :userEnter
+      # Message.new(...)
     when SYSTEM_LOG_TYPE::USER_LEAVE then
-      # @io.push :userLeave
+      # Message.new(...)
     else
       # TODO kinda exception handling is needed here
     end
