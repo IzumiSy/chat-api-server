@@ -1,7 +1,9 @@
 require_relative "../services/auth_service"
+require_relative "../services/message_service"
 
 class MessageRoutes < Sinatra::Base
   include AuthService
+  include MessageService
 
   configure do
     helpers Sinatra::Param
@@ -28,8 +30,12 @@ class MessageRoutes < Sinatra::Base
     return unless user
 
     if Room.find(room_id)
-      message = Message.create(room_id: room_id, user_id: user.id, content: content)
-      body message.to_json(only: Message::MESSAGE_DATA_LIMITS)
+      data = {
+        room_id: room_id,
+        user_id: user.id,
+        content: content
+      }
+      MessageService.broadcast_message(data)
       status 202
     else
       body "Room to post not found"

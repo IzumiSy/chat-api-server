@@ -21,7 +21,6 @@ require_relative 'controllers/message'
 require_relative 'controllers/user'
 
 require_relative 'models/room'
-require_relative 'models/message'
 require_relative 'models/user'
 
 Dotenv.load

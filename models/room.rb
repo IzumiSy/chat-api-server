@@ -31,11 +31,6 @@ class Room
     return case type
       when :ROOM then
         [ 200, room.to_json(only: ROOM_DATA_LIMITS) ]
-      when :MSG  then
-        [ 200, room.messages.asc(:created_at).to_json(
-          only: Message::MESSAGE_DATA_LIMITS,
-          include: { :user => { only: User::USER_DATA_LIMITS } }
-        ) ]
       when :USER then
         [ 200, room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS) ]
       else
