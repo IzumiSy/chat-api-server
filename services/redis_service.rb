@@ -16,6 +16,11 @@ module RedisService
     @redis.get(key)
   end
 
+  def self.delete(key)
+    redis_ping(@redis)
+    @redis.del(key)
+  end
+
   def self.instance
     @redis
   end
