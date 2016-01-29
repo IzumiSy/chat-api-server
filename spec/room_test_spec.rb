@@ -29,21 +29,6 @@ describe "GET /api/room" do
   end
 end
 
-describe "GET /api/room/:id/messages" do
-  let(:user) { create(:user) }
-  let(:room) { create(:room) }
-  let!(:msg1) { send_message(room.id, user.token, "Hello1") }
-  let!(:msg2) { send_message(room.id, user.token, "Hello2") }
-
-  it "should have 2 messages" do
-    get "/api/room/#{room.id}/messages", { token: user.token }
-    msgs = []
-    JSON.parse(last_response.body).each { |m| msgs.push(m.to_json) }
-    expect(last_response.status).to eq(200)
-    expect(msgs).to include(msg1, msg2)
-  end
-end
-
 describe "GET /api/room/:id/users" do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }

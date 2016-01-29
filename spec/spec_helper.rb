@@ -25,16 +25,6 @@ module Helpers
     user = User.find_by(token: token)
     user.update_attributes!(room_id: room_id)
   end
-
-  # TODO: rewrite here with FactoryGirl
-  def send_message(room_id, token, msg)
-    user = User.find_by(token: token)
-    message = Message.create(room_id: room_id, user_id: user.id, content: msg)
-    message.to_json(
-      only: Message::MESSAGE_DATA_LIMITS,
-      include: { :user => { only: User::USER_DATA_LIMITS }
-    } )
-  end
 end
 
 RSpec.configure do |config|

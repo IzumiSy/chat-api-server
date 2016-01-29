@@ -23,8 +23,4 @@ namespace :db do
     end
     exec 'redis-cli flushdb'
   end
-
-  task :drop_messages do
-    Message.delete_all
-  end
 end

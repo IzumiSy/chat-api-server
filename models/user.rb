@@ -10,7 +10,6 @@ class User
   before_create :generate_user_token, :set_face_id
 
   belongs_to :room
-  has_many   :messages
 
   FACE_ID_BASE = 144995
   FACE_IDS = [

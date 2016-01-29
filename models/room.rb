@@ -4,7 +4,6 @@ class Room
   include Mongoid::Document
   include MessageService
 
-  has_many :messages
   has_many :users
 
   ROOM_DATA_LIMITS = [:_id, :name, :messages_count, :users_count]
