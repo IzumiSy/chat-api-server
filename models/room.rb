@@ -60,6 +60,7 @@ class Room
         [ 202, { users_count: room.reload.users_count }.to_json ]
       when :LEAVE then
         transaction_leave(is_user_exist_in_room, room_id, user)
+        User.user_deletion(user) if is_all_leave_mode
         [ 202, { users_count: room.reload.users_count }.to_json ]
       else
         [ 500, {}.to_json ]
