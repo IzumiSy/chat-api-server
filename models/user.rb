@@ -19,8 +19,9 @@ class User
   field :name,   type: String
   field :face,   type: String
 
-  field :ip,     type: String
-  field :token,  type: String
+  field :ip,      type: String
+  field :token,   type: String
+  field :session, type: String
 
   field :messages_count, type: Integer, default: 0
 
