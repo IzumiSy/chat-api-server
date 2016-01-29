@@ -3,10 +3,19 @@ module MessageService
 
   @io.on :connect do |client|
     puts "[INFO] New client: #{client.session}, #{client.address}"
+    user = User.find_by(ip: client.address)
+    user.update_attributes(session: client.session)
   end
 
   @io.on :disconnect do |client|
     puts "[INFO] Client diconnected: #{client.session}, #{client.address}"
+    user = User.find_by(session: client.session)
+    if user
+      if user.room
+        # Room.room_transaction(user.room.id, user.token, :LEAVE)
+      end
+      user.delete
+    end
   end
 
   @io.on :error do |client|
