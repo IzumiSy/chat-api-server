@@ -13,12 +13,8 @@ module MessageService
     puts "[INFO] Client error: #{client.session}, #{client.address}"
   end
 
-  def self.broadcast_message(message_object)
-    params = message_object.to_json({
-      only: Message::MESSAGE_DATA_LIMITS,
-      include: { :user => { only: User::USER_DATA_LIMITS } }
-    })
-    @io.push :newMessage, params, { channel: message_object.room_id }
+  def self.broadcast_message(room_id, params)
+    @io.push :newMessage, params.to_json, { channel: room_id }
   end
 
   # Pseudo enum

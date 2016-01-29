@@ -30,12 +30,8 @@ class MessageRoutes < Sinatra::Base
     return unless user
 
     if Room.find(room_id)
-      data = {
-        room_id: room_id,
-        user_id: user.id,
-        content: content
-      }
-      MessageService.broadcast_message(data)
+      data = { user_id: user.id, content: content, user: user }
+      MessageService.broadcast_message(room_id, data)
       status 202
     else
       body "Room to post not found"
