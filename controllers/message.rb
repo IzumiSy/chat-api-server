@@ -30,7 +30,7 @@ class MessageRoutes < Sinatra::Base
     return unless user
 
     if Room.find(room_id)
-      data = { user_id: user.id, content: content, user: user }
+      data = { user_id: user.id, content: content, created_at: Time.now, user: user }
       MessageService.broadcast_message(room_id, data)
       status 202
     else
