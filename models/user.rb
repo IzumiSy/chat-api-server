@@ -29,7 +29,7 @@ class User
     STATUS_NEUTRAL = 0
   ].freeze
 
-  DISCONNECTION_RESOLVE_INTERVAL = 10
+  DISCONNECTION_RESOLVE_INTERVAL = 5
 
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
