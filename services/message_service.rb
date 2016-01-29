@@ -15,6 +15,8 @@ module MessageService
 
   @io.on :error do |client|
     puts "[INFO] Client error: #{client.session}, #{client.address}"
+    user = User.find_by(session: client.session)
+    User.user_deletion(user)
   end
 
   def self.broadcast_message(room_id, params)
