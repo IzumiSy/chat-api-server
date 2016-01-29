@@ -11,11 +11,7 @@ module MessageService
 
   @io.on :disconnect do |client|
     puts "[INFO] Client diconnected: #{client.session}, #{client.address}"
-    EM.defer do
-      if user = User.find_by(session: client.session)
-        EM.add_timer(10) { MessageService.resolve_disconnected_users(user.id, client.session) }
-      end
-    end
+    User.trigger_disconnection_resolver(client)
   end
 
   @io.on :error do |client|

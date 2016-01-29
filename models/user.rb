@@ -29,6 +29,8 @@ class User
     STATUS_NEUTRAL = 0
   ].freeze
 
+  DISCONNECTION_RESOLVE_INTERVAL = 10
+
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
   field :is_deleted, type: Boolean, default: false
@@ -62,6 +64,16 @@ class User
       RedisService.connect(takeover: true)
       RedisService.delete(user.token)
       user.delete
+    end
+  end
+
+  def self.trigger_disconnection_resolver(client)
+    EM.defer do
+      user = User.find_by(session: client.session)
+      return unless user
+      EM.add_timer(DISCONNECTION_RESOLVE_INTERVAL) do
+        MessageService.resolve_disconnected_users(user.id, client.session)
+      end
     end
   end
 
