@@ -57,7 +57,7 @@ class User
   def self.user_deletion(user)
     if user
       if user.room
-        # Room.room_transaction(user.room.id, user.token, :LEAVE)
+        Room.room_transaction(user.room.id, user.token, :LEAVE)
       end
       RedisService.connect(takeover: true)
       RedisService.delete(user.token)

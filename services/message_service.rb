@@ -11,6 +11,11 @@ module MessageService
 
   @io.on :disconnect do |client|
     puts "[INFO] Client diconnected: #{client.session}, #{client.address}"
+    EM.defer do
+      if user = User.find_by(session: client.session)
+        EM.add_timer(10) { MessageService.resolve_disconnected_users(user.id, client.session) }
+      end
+    end
   end
 
   @io.on :error do |client|
@@ -63,5 +68,13 @@ module MessageService
     room = Room.find(room_id)
     users = room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
     @io.push :updateMembers, users, { channel: room_id }
+  end
+
+  def self.resolve_disconnected_users(user_id, new_session)
+    user = User.find(user_id)
+    return unless user
+    if user.session == new_session
+      User.user_deletion(user)
+    end
   end
 end
