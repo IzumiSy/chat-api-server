@@ -4,7 +4,9 @@ module MessageService
   @io.on :connect do |client|
     puts "[INFO] New client: #{client.session}, #{client.address}"
     user = User.find_by(ip: client.address)
-    user.update_attributes(session: client.session)
+    if user
+      user.update_attributes!(session: client.session)
+    end
   end
 
   @io.on :disconnect do |client|
