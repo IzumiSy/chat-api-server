@@ -54,6 +54,15 @@ class User
       end
   end
 
+  def self.user_deletion(user)
+    if user
+      if user.room
+        # Room.room_transaction(user.room.id, user.token, :LEAVE)
+      end
+      user.delete
+    end
+  end
+
   protected
 
   # Disable validation on development env

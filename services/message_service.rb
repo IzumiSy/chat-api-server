@@ -10,12 +10,7 @@ module MessageService
   @io.on :disconnect do |client|
     puts "[INFO] Client diconnected: #{client.session}, #{client.address}"
     user = User.find_by(session: client.session)
-    if user
-      if user.room
-        # Room.room_transaction(user.room.id, user.token, :LEAVE)
-      end
-      user.delete
-    end
+    User.user_deletion(user)
   end
 
   @io.on :error do |client|
