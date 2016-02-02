@@ -16,6 +16,12 @@ FactoryGirl.define do
     face  { "face1" }
   end
 
+  factory :Jonathan, class: User do
+    name  { "Jonathan" }
+    ip    { generate :ip }
+    face  { "face3" }
+  end
+
   factory :admin, class: User do
     name     { generate :name }
     ip       { generate :ip }
