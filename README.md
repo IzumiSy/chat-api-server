@@ -21,6 +21,10 @@ $ redis-server
 $ mongod --config /usr/local/etc/mongod.conf
 ...
 ```
+**Seed**
+```bash
+$ rake db:seed_rooms
+```
 
 ## Run
 ```bash
