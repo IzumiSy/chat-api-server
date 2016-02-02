@@ -38,14 +38,6 @@ class UserRoutes < Sinatra::Base
     status 202
   end
 
-  post '/api/user/usable' do
-    param :name, String, required: true
-
-    result = { status: User.find_by(name: params[:name]) ? false : true }
-    body result.to_json
-    status 200
-  end
-
   get '/api/user/:id' do
     param :id,    String, required: true
     param :token, String, required: true
