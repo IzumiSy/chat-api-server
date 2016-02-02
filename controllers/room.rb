@@ -35,7 +35,14 @@ class RoomRoutes < Sinatra::Base
       AuthService.is_logged_in?(params) &&
       AuthService.is_admin?(params)
 
-    room = Room.create(name: params[:name])
+    room_name = params[:name]
+    if Room.find_by(name: room_name)
+      body "Duplicated room name"
+      status 409
+      return
+    end
+
+    room = Room.create(name: room_name)
     body room.to_json(only: Room::ROOM_DATA_LIMITS)
     status 202
   end

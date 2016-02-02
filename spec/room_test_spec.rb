@@ -5,6 +5,8 @@ describe "POST /api/room/new" do
   let(:admin) { create(:admin) }
   let(:success_room) { { name: "RoomSuccess", token: admin.token } }
   let(:error_room) { { name: "RoomError", token: user.token } }
+  let(:duplicated_room) { { name: "SuperRoom", token: admin.token } }
+  let!(:SuperRoom) { create(:SuperRoom) }
 
   it "should NOT create a room without parameters" do
     post "/api/room/new"
@@ -16,7 +18,13 @@ describe "POST /api/room/new" do
     expect(last_response.status).to eq(401)
   end
 
-  it "should have 2 posts that correctly belong to the room" do
+  it "should NOT create a room because of name duplication" do
+    post "/api/room/new", duplicated_room
+    expect(last_response.status).to eq(409)
+    expect(last_response.body).to eq("Duplicated room name")
+  end
+
+  it "should craete a room successfully" do
     post "/api/room/new", success_room
     expect(last_response.status).to eq(202)
   end
