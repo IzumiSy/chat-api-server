@@ -17,7 +17,7 @@ describe "POST /api/user/new" do
 
   it "should NOT create a new user" do
     post "/api/user/new", error_user
-    expect(last_response.status).to eq(500)
+    expect(last_response.status).to eq(409)
     expect(last_response.body).to eq("Duplicated username")
   end
 end

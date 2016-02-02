@@ -27,7 +27,7 @@ class UserRoutes < Sinatra::Base
 
     if User.find_by(name: client_name)
       body "Duplicated username"
-      status 500
+      status 409
       return
     end
 
