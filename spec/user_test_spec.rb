@@ -1,27 +1,9 @@
 require_relative "./spec_helper.rb"
 
-describe "POST /api/user/usable" do
-  let(:user) { create(:user) }
-  let(:error_name) { { name: user.name } }
-  let(:success_name) { { name: "bob" } }
-
-  it "should get FALSE if the user who has the same name already exists" do
-    post "/api/user/usable", error_name
-    expect(last_response.status).to eq(200)
-    is_name_available = JSON.parse(last_response.body)["status"]
-    expect(is_name_available).to eq(false)
-  end
-
-  it "should get TRUE if the user who has the same name doesnt exist" do
-    post "/api/user/usable", success_name
-    expect(last_response.status).to eq(200)
-    is_name_available = JSON.parse(last_response.body)["status"]
-    expect(is_name_available).to eq(true)
-  end
-end
-
 describe "POST /api/user/new" do
   let(:user) { { name: "test1" } }
+  let(:error_user) { { name: "Jonathan" } }
+  let!(:Jonathan) { create(:Jonathan) }
 
   it "should NOT create a new user without name" do
     post "/api/user/new"
@@ -31,6 +13,12 @@ describe "POST /api/user/new" do
   it "should create a new user" do
     post "/api/user/new", user
     expect(last_response.status).to eq(202)
+  end
+
+  it "should NOT create a new user" do
+    post "/api/user/new", error_user
+    expect(last_response.status).to eq(500)
+    expect(last_response.body).to eq("Duplicated username")
   end
 end
 
