@@ -25,6 +25,12 @@ class UserRoutes < Sinatra::Base
       return
     end
 
+    if User.find_by(name: name)
+      body "Duplicated username"
+      status 500
+      return
+    end
+
     user = User.new(name: client_name, ip: client_ip)
     user.save!
 
