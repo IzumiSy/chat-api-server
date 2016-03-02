@@ -64,7 +64,7 @@ class UserRoutes < Sinatra::Base
     status stat_code
   end
 
-  # TODO: Implementation
+  # TODO Need to write test here
   put '/api/user/:id' do
     param :id,    String, required: true
     param :data,  Hash, required: true
@@ -72,6 +72,13 @@ class UserRoutes < Sinatra::Base
 
     halt 401 unless AuthService.is_logged_in?(params)
 
+    user_id = params[:id]
+    user = User.find(user_id);
+    user.update_attributes!(params[:data]);
+    user.save
+
+    body user.to_json(only: USER_DATA_LIMITS)
+    status 202
   end
 
   # TODO: Implementation
