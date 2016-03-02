@@ -65,7 +65,9 @@ class UserRoutes < Sinatra::Base
   end
 
   # TODO Need to write test here
-  put '/api/user/:id' do
+  # Notes: somehow PUT is not working well in this port
+  # so I decided to use POST instead for updating user's data
+  post '/api/user/:id' do
     param :id,    String, required: true
     param :data,  Hash,   required: true
     param :token, String, required: true
@@ -73,11 +75,12 @@ class UserRoutes < Sinatra::Base
     halt 401 unless AuthService.is_logged_in?(params)
 
     user_id = params[:id]
+    data = params[:data]
     user = User.find(user_id);
-    user.update_attributes!(params[:data]);
+    user.update_attributes!(data);
     user.save
 
-    body user.to_json(only: USER_DATA_LIMITS)
+    body user.to_json(only: User::USER_DATA_LIMITS)
     status 202
   end
 
