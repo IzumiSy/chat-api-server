@@ -40,38 +40,40 @@ class User
 
   public
 
-  def self.fetch_user_data(user_id, type)
-    user = User.only(:id, :name, :face, :room).find(user_id)
-    unless user
-      return 404, "User not found"
+  class << self
+    def fetch_user_data(user_id, type)
+      user = User.only(:id, :name, :face, :room).find(user_id)
+      unless user
+        return 404, "User not found"
+      end
+
+      return case type
+        when :USER then
+          [ 200, user.to_json(only: USER_DATA_LIMITS) ]
+        when :ROOM then
+          [ 200, user.room.to_json(only: Room::ROOM_DATA_LIMITS) ]
+        else
+          [ 500, {}.to_json ]
+        end
     end
 
-    return case type
-      when :USER then
-        [ 200, user.to_json(only: USER_DATA_LIMITS) ]
-      when :ROOM then
-        [ 200, user.room.to_json(only: Room::ROOM_DATA_LIMITS) ]
-      else
-        [ 500, {}.to_json ]
+    def user_deletion(user)
+      if user
+        if user.room
+          Room.room_transaction(user.room.id, user.token, :LEAVE)
+        end
+        RedisService.connect(takeover: true)
+        RedisService.delete(user.token)
+        user.delete
       end
-  end
-
-  def self.user_deletion(user)
-    if user
-      if user.room
-        Room.room_transaction(user.room.id, user.token, :LEAVE)
-      end
-      RedisService.connect(takeover: true)
-      RedisService.delete(user.token)
-      user.delete
     end
-  end
 
-  def self.trigger_disconnection_resolver(client)
-    EM.defer do
-      if user = User.find_by(session: client.session)
-        EM.add_timer(DISCONNECTION_RESOLVE_INTERVAL) do
-          MessageService.resolve_disconnected_users(user.id, client.session)
+    def trigger_disconnection_resolver(client)
+      EM.defer do
+        if user = User.find_by(session: client.session)
+          EM.add_timer(DISCONNECTION_RESOLVE_INTERVAL) do
+            MessageService.resolve_disconnected_users(user.id, client.session)
+          end
         end
       end
     end
