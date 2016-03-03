@@ -3,9 +3,9 @@ require_relative "./spec_helper.rb"
 describe "POST /api/room/new" do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
-  let(:success_room) { { name: "RoomSuccess", token: admin.token } }
-  let(:error_room) { { name: "RoomError", token: user.token } }
-  let(:duplicated_room) { { name: "SuperRoom", token: admin.token } }
+  let(:success_room) { { name: "RoomSuccess" } }
+  let(:error_room) { { name: "RoomError" } }
+  let(:duplicated_room) { { name: "SuperRoom" } }
   let!(:SuperRoom) { create(:SuperRoom) }
 
   it "should NOT create a room without parameters" do
@@ -14,18 +14,21 @@ describe "POST /api/room/new" do
   end
 
   it "should NOT create a room by non-admin user" do
-    post "/api/room/new", error_room
+    post "/api/room/new", error_room,
+      { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(401)
   end
 
   it "should NOT create a room because of name duplication" do
-    post "/api/room/new", duplicated_room
+    post "/api/room/new", duplicated_room,
+      { "HTTP_AUTHORIZATION" => "Basic #{admin.token}" }
     expect(last_response.status).to eq(409)
     expect(last_response.body).to eq("Duplicated room name")
   end
 
   it "should craete a room successfully" do
-    post "/api/room/new", success_room
+    post "/api/room/new", success_room,
+      { "HTTP_AUTHORIZATION" => "Basic #{admin.token}" }
     expect(last_response.status).to eq(202)
   end
 end
@@ -48,7 +51,8 @@ describe "GET /api/room/:id/users" do
   end
 
   it "should have 2 users in the room" do
-    get "/api/room/#{room.id}/users", { token: user.token }
+    get "/api/room/#{room.id}/users",
+      { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     users = JSON.parse(last_response.body).collect { |user| user["_id"]["$oid"] }
     expect(last_response.status).to eq(200)
     expect(users).to include(user.id.to_s, admin.id.to_s)
@@ -58,17 +62,15 @@ end
 describe "POST /api/room/enter" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
-  let(:param) { { token: user.token } }
-  let(:invalid_param) { { token: user.token } }
 
   it "should get an 404 error with invalid room id" do
-    post "/api/room/12345/enter", invalid_param
+    post "/api/room/12345/enter", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(404)
   end
 
   # TODO Implement room check if the user successfully entered
   it "should have an user enter the room" do
-    post "/api/room/#{room.id}/enter", param
+    post "/api/room/#{room.id}/enter", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(202)
     expect(room.users.count).to eq(1)
     expect(room.users.first.id).to eq(user.id)
@@ -79,11 +81,9 @@ describe "POST /api/room/:id/leave" do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
-  let(:param) { { token: user.token } }
-  let(:invalid_param) { { token: user.token } }
 
   it "should get an 404 error with invalid room id" do
-    post "/api/room/12345/leave", invalid_param
+    post "/api/room/12345/leave", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(404)
   end
 
@@ -91,7 +91,7 @@ describe "POST /api/room/:id/leave" do
   it "should have an user leave the room" do
     enter_room(room.id, user.token)
     enter_room(room.id, admin.token)
-    post "/api/room/#{room.id}/leave", param
+    post "/api/room/#{room.id}/leave", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(202)
     expect(room.users.first).to eq(admin)
     expect(room.users.count).to eq(1)
@@ -101,7 +101,7 @@ describe "POST /api/room/:id/leave" do
   it "should have an user leave the room with 'all' for :id" do
     enter_room(room.id, user.token)
     enter_room(room.id, admin.token)
-    post "/api/room/all/leave", param
+    post "/api/room/all/leave", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(202)
     expect(room.users.first).to eq(admin)
     expect(room.users.count).to eq(1)
