@@ -17,13 +17,11 @@ class MessageRoutes < Sinatra::Base
   post '/api/message/:room_id' do
     param :room_id, String, required: true
     param :content, String, required: true
-    param :token,   String, required: true
 
-    halt 401 unless AuthService.is_logged_in?(params)
+    halt 401 unless token = AuthService.is_logged_in?(request)
 
     room_id = params[:room_id]
     content = params[:content]
-    token   = params[:token]
     user    = User.find_by(token: token)
 
     return if room_id.empty? or content.empty?

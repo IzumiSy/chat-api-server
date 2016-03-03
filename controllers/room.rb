@@ -15,9 +15,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   get '/api/room' do
-    param :token, String, required: true
-
-    halt 401 unless AuthService.is_logged_in?(params)
+    halt 401 unless _token = AuthService.is_logged_in?(request)
 
     if Room.count <= 0
       puts "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
@@ -29,11 +27,10 @@ class RoomRoutes < Sinatra::Base
 
   post '/api/room/new' do
     param :name,  String, required: true
-    param :token, String, required: true
 
     halt 401 unless
-      AuthService.is_logged_in?(params) &&
-      AuthService.is_admin?(params)
+      AuthService.is_logged_in?(request) &&
+      AuthService.is_admin?(request)
 
     room_name = params[:name]
     if Room.find_by(name: room_name)
@@ -50,20 +47,18 @@ class RoomRoutes < Sinatra::Base
   # TODO Implementation
   delete '/api/room/:id' do
     param :id,    String, required: true
-    param :token, String, required: true
 
     halt 401 unless
-      AuthSertice.is_logged_in?(params) &&
-      AuthService.is_admin?(params)
+      AuthSertice.is_logged_in?(request) &&
+      AuthService.is_admin?(request)
 
     status 204
   end
 
   get '/api/room/:id' do
     param :id,    String, required: true
-    param :token, String, required: true
 
-    halt 401 unless AuthService.is_logged_in?(params)
+    halt 401 unless _token = AuthService.is_logged_in?(request)
 
     room_id = params[:id]
     stat_code, data = Room.fetch_room_data(room_id, :ROOM)
@@ -77,9 +72,8 @@ class RoomRoutes < Sinatra::Base
   # - /api/room/:id/users
   get '/api/room/:id/*' do
     param :id,    String, required: true
-    param :token, String, required: true
 
-    halt 401 unless AuthService.is_logged_in?(params)
+    halt 401 unless _token = AuthService.is_logged_in?(request)
 
     target_path = params['splat'].first
     room_id = params[:id]
@@ -102,13 +96,11 @@ class RoomRoutes < Sinatra::Base
   # - /api/room/:id/leave
   post '/api/room/:id/*' do
     param :id,    String, required: true
-    param :token, String, required: true
 
-    halt 401 unless AuthService.is_logged_in?(params)
+    halt 401 unless token = AuthService.is_logged_in?(request)
 
     target_path = params['splat'].first
     room_id = params[:id]
-    token = params[:token]
 
     case target_path
     when 'enter' then
