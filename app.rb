@@ -39,9 +39,8 @@ class Application < Sinatra::Base
     set :raise_errors, true
     set :show_exceptions, false
 
-    set :cometio, timeout: 120, allow_crossdomain: true
-    set :websocketio, port: 3001
-    set :rocketio, websocket: true, comet: true
+    set :cometio, allow_crossdomain: true
+    set :rocketio, websocket: false, comet: true
   end
 
   not_found do
