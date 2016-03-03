@@ -12,7 +12,6 @@ module AuthService
       token = auth.params
       user = User.find_by(token: token)
       user.read_attribute(:is_admin)
-      user
     end
 
     def is_logged_in?(request)
