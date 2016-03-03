@@ -52,4 +52,10 @@ class Application < Sinatra::Base
   use UserRoutes
   use RoomRoutes
   use MessageRoutes
+
+  options "*" do
+    response.headers["Access-Control-Allow-Headers"] =
+      "Authorization"
+    200
+  end
 end
