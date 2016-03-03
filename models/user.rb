@@ -35,7 +35,7 @@ class User
   field :is_admin, type: Boolean, default: false
   field :is_deleted, type: Boolean, default: false
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 
   public
 
@@ -88,6 +88,7 @@ class User
     end
   end
 
+  # Generate user token randomly
   def generate_user_token
     token = SecureRandom.uuid
     RedisService.connect(takeover: true)
