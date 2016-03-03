@@ -29,7 +29,9 @@ module RedisService
     protected
 
     def redis_new
-      redis = Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
+      opts = { host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"] }
+      opts.store(:pass, ENV["REDIS_PASS"]) if ENV["REDIS_PASS"]
+      redis = Redis.new(opts)
       redis_ping(redis)
       redis
     end
