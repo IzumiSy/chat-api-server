@@ -7,7 +7,7 @@ class User
 
   USER_DATA_LIMITS = [:_id, :name, :face]
 
-  before_create :generate_user_token, :set_face_id
+  before_create :generate_user_token, :set_face_id, :oust_same_ip_user
 
   belongs_to :room
 
@@ -36,7 +36,6 @@ class User
   field :is_deleted, type: Boolean, default: false
 
   validates :name, presence: true
-  validates :ip, presence: true, uniqueness: true, if: :is_global_ip?
 
   public
 
@@ -81,10 +80,12 @@ class User
 
   protected
 
-  # Disable validation on development env
-  def is_global_ip?
-    env = ENV["RACK_ENV"]
-    return (if env == "production" then true else ip != "127.0.0.1" end)
+  # If there is an user who has the same IP when the new user attempts to enter a channel,
+  # just oust him/her out of the channel and let the new user enter to there.
+  def oust_same_ip_user
+    if user = User.find_by(ip: self.ip)
+      MessageService.resolve_disconnected_users(user.id, user.session)
+    end
   end
 
   def generate_user_token
