@@ -26,12 +26,14 @@ describe "GET /api/user/:id" do
   let (:user) { create(:user) }
 
   it "should NOT get an error when invalid user id" do
-    get "/api/user/12345", { token: user.token }
+    get "/api/user/12345",
+      { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(404)
   end
 
   it "should get data of the user with valid user id" do
-    get "/api/user/#{user.id}", { token: user.token }
+    get "/api/user/#{user.id}",
+      { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     body = JSON.parse(last_response.body)
     expect(last_response.status).to eq(200)
     expect(body["name"]).to eq(user.name);
@@ -45,7 +47,8 @@ describe "GET /api/user/:id/room" do
   it "should get room data the user belongs to" do
     enter_room(room.id, user.token)
 
-    get "/api/user/#{user.id}/room", { token: user.token }
+    get "/api/user/#{user.id}/room",
+      { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(200)
   end
 end
