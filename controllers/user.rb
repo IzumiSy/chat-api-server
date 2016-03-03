@@ -39,7 +39,7 @@ class UserRoutes < Sinatra::Base
   end
 
   get '/api/user/:id' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
@@ -51,7 +51,7 @@ class UserRoutes < Sinatra::Base
   end
 
   get '/api/user/:id/room' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
@@ -83,7 +83,7 @@ class UserRoutes < Sinatra::Base
 
   # TODO: Implementation
   delete '/api/user/:id' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless _token = AuthService.is_logged_in?(request)
 

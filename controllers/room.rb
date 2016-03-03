@@ -46,7 +46,7 @@ class RoomRoutes < Sinatra::Base
 
   # TODO Implementation
   delete '/api/room/:id' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless
       AuthSertice.is_logged_in?(request) &&
@@ -56,7 +56,7 @@ class RoomRoutes < Sinatra::Base
   end
 
   get '/api/room/:id' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
@@ -71,7 +71,7 @@ class RoomRoutes < Sinatra::Base
   # - /api/room/:id/messages
   # - /api/room/:id/users
   get '/api/room/:id/*' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
@@ -95,7 +95,7 @@ class RoomRoutes < Sinatra::Base
   # - /api/room/:id/enter
   # - /api/room/:id/leave
   post '/api/room/:id/*' do
-    param :id,    String, required: true
+    param :id, String, required: true
 
     halt 401 unless token = AuthService.is_logged_in?(request)
 
