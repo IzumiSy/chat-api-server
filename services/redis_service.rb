@@ -8,17 +8,17 @@ module RedisService
     end
 
     def set(key, data)
-      redis_ping(@redis)
+      # redis_ping(@redis)
       @redis.set(key, data)
     end
 
     def get(key)
-      redis_ping(@redis)
+      # redis_ping(@redis)
       @redis.get(key)
     end
 
     def delete(key)
-      redis_ping(@redis)
+      # redis_ping(@redis)
       @redis.del(key)
     end
 
