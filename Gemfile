@@ -22,6 +22,8 @@ gem 'hiredis'
 gem 'pry'
 gem 'pry-byebug'
 
+gem 'newrelic_rpm'
+
 group :development, :test do
   gem 'awesome_print'
   gem 'rspec'
