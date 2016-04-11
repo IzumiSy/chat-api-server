@@ -41,7 +41,7 @@ class Application < Sinatra::Base
     set :raise_errors, true
     set :show_exceptions, false
 
-    set :cometio, timeout: 20, post_interval: 1, allow_crossdomain: true
+    set :cometio, timeout: 20, post_interval: 1
     set :rocketio, websocket: false, comet: true
   end
 
