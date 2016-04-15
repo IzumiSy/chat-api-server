@@ -1,6 +1,10 @@
 module MessageService
   @io = Sinatra::RocketIO
 
+  @io.once :start do
+    puts "[ROCKET.IO] Started."
+  end
+
   @io.on :connect do |client|
     puts "[INFO] New client: #{client.session}, #{client.address}"
     user = User.find_by(ip: client.address)
