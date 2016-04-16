@@ -17,6 +17,10 @@ package "nginx" do
   action :install
 end
 
+service "nginx" do
+  action :start
+end
+
 # ------------------------
 #   MongoDB installation
 # ------------------------
@@ -39,11 +43,14 @@ package "mongodb" do
   action :install
 end
 
+service "mongodb" do
+  action :start
+end
+
 # ----------------------
 #   Redis installation
 # ----------------------
 
-# Update redis repl only if the current platform is CentOS
 execute "Register repo and install the latest redis" do
   only_if "test -e /etc/redhat-release"
   command "rpm -ivh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm"
@@ -52,10 +59,13 @@ execute "Register repo and install the latest redis" do
   command "yum --enablerepo=remi,remi-test,epel install redis"
 end
 
-# If the current platform is not CentOS, just install redis with the package manager
 package "redis" do
   not_if "test -e /etc/redhat-release"
   action :install
+end
+
+service "redis" do
+  action :start
 end
 
 
