@@ -12,11 +12,19 @@ What you need are only three things: **Sinatra**, **MongoDB**, and **Redis**
 
 Sample front-end app: https://github.com/IzumiSy/chat-frontend
 ## Setup
+Install tools and dependencies
 ```bash
 $ brew update
 $ brew install mongodb
 $ brew install redis
 $ bundle install
+```
+
+Edit .env
+```bash
+$ cp .env.sample .env
+$ vi .env
+...
 ```
 
 ## Preparation
