@@ -22,6 +22,8 @@ $ brew install redis
 $ bundle install
 ```
 
+Itamae recipe file for EC2 instance is available: `itamae/ec2-recipe.rb`
+
 Edit .env
 ```bash
 $ cp .env.sample .env
