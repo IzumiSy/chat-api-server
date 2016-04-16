@@ -1,0 +1,5 @@
+[mongodb-org]
+name=MongoDB Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+gpgpackage=0
+enabled=1
