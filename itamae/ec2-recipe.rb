@@ -19,6 +19,10 @@ package 'nginx' do
   options "--nogpgcheck"
 end
 
+service 'nginx' do
+  action :start
+end
+
 # -------------------
 #   Install mongodb
 # -------------------
@@ -33,6 +37,10 @@ package 'mongodb-org' do
   options "--nogpgcheck"
 end
 
+service 'mongod' do
+  action :start
+end
+
 # -----------------
 #   Install redis
 # -----------------
@@ -40,5 +48,9 @@ end
 package "redis" do
   action :install
   options "--enablerepo=remi,remi-test,epel"
+end
+
+service 'redis-server' do
+  action :start
 end
 
