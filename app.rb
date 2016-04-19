@@ -26,13 +26,7 @@ require_relative 'models/room'
 require_relative 'models/user'
 
 Dotenv.load
-
 Mongoid.load!('mongoid.yml')
-Mongoid.configure do |config|
-  if ENV['RACK_ENV'] == 'production'
-    config.clients['default']['uri'] = ENV['MONGOLAB_URI']
-  end
-end
 
 class Application < Sinatra::Base
   register Sinatra::RocketIO
