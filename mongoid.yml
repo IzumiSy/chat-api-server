@@ -1,27 +1,28 @@
+
+options: &options
+  raise_not_found_error: false
+
+default: &default
+  default:
+    uri: <%= ENV['MONGOLAB_URI'] %>
+    options:
+      user: <%= ENV['MONGOLAB_USER'] %>
+      password: <%= ENV['MONGOLAB_PASSWORD'] %>
+
 development:
-  clients:
-    default:
-      database: chat-api
-      hosts:
-        - localhost:27017
   options:
-    raise_not_found_error: false
+    <<: *options
+  clients:
+    <<: *default
 
 test:
-  clients:
-    default:
-      database: test
-      hosts:
-        - localhost:27017
   options:
-    raise_not_found_error: false
+    <<: *options
+  clients:
+    <<: *default
 
-# "uri" section in production config below is now set to null,
-# but it is going to be overwritten in app.rb to use MongoLab.
 production:
-  clients:
-    default:
-      uri: null
   options:
-    raise_not_found_error: false
-
+    <<: *options
+  clients:
+    <<: *default
