@@ -4,10 +4,10 @@ options: &options
 
 default: &default
   default:
-    uri: <%= ENV['MONGOLAB_URI'] %>
+    uri: <%= ENV['MONGO_URI'] %>
     options:
-      user: <%= ENV['MONGOLAB_USER'] %>
-      password: <%= ENV['MONGOLAB_PASSWORD'] %>
+      user: <%= ENV['MONGO_USER'] %>
+      password: <%= ENV['MONGO_PASSWORD'] %>
 
 development:
   options:
