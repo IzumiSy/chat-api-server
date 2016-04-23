@@ -9,13 +9,16 @@ default: &default
       user: <%= ENV['MONGO_USER'] %>
       password: <%= ENV['MONGO_PASSWORD'] %>
 
-development:
+test:
   options:
     <<: *options
   clients:
-    <<: *default
+    default:
+      database: test
+      hosts:
+        - localhost:27017
 
-test:
+development:
   options:
     <<: *options
   clients:
