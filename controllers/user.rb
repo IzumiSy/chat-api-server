@@ -25,10 +25,10 @@ class UserRoutes < Sinatra::Base
       return
     end
 
-    if User.find_by(name: client_name)
-      body "Duplicated user name"
-      status 409
-      return
+    # If there is an user who has the same IP when the new user attempts to enter a channel,
+    # just oust him/her out of the channel and let the new user enter to there.
+    if user = User.find_by(ip: client_ip)
+      User.resolve_disconnected_users(user.id, user.session)
     end
 
     user = User.new(name: client_name, ip: client_ip)

@@ -7,7 +7,7 @@ class User
 
   USER_DATA_LIMITS = [:_id, :name, :face]
 
-  before_create :generate_user_token, :set_face_id, :oust_same_ip_user
+  before_create :generate_user_token, :set_face_id
 
   belongs_to :room
 
@@ -56,6 +56,14 @@ class User
         end
     end
 
+    def resolve_disconnected_users(user_id, new_session)
+      user = User.find(user_id)
+      return unless user
+      if user.session == new_session
+        User.user_deletion(user)
+      end
+    end
+
     def user_deletion(user)
       if user
         if user.room
@@ -79,14 +87,6 @@ class User
   end
 
   protected
-
-  # If there is an user who has the same IP when the new user attempts to enter a channel,
-  # just oust him/her out of the channel and let the new user enter to there.
-  def oust_same_ip_user
-    if user = User.find_by(ip: self.ip)
-      MessageService.resolve_disconnected_users(user.id, user.session)
-    end
-  end
 
   # Generate user token randomly
   def generate_user_token
