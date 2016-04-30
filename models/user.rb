@@ -82,7 +82,7 @@ class User
       EM.defer do
         if user = User.find_by(session: client.session)
           EM.add_timer(DISCONNECTION_RESOLVE_INTERVAL) do
-            MessageService.resolve_disconnected_users(user.id, client.session)
+            User.resolve_disconnected_users(user.id, client.session)
           end
         end
       end
