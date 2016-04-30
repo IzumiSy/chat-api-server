@@ -6,6 +6,7 @@ class Room
 
   has_many :users
 
+  ROOM_MAX = 200
   ROOM_DATA_LIMITS = [:_id, :name, :messages_count, :users_count]
 
   field :name, type: String
