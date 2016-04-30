@@ -47,14 +47,6 @@ module MessageService
       broadcast_room_update()
     end
 
-    def resolve_disconnected_users(user_id, new_session)
-      user = User.find(user_id)
-      return unless user
-      if user.session == new_session
-        User.user_deletion(user)
-      end
-    end
-
     private
 
     def broadcast_system_log(type, user_name, room_id)
