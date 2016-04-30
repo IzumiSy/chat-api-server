@@ -2,33 +2,33 @@
 options: &options
   raise_not_found_error: false
 
-mongo_production: &mongo_production
+default: &default
   default:
     uri: <%= ENV['MONGO_URI'] %>
     options:
       user: <%= ENV['MONGO_USER'] %>
       password: <%= ENV['MONGO_PASSWORD'] %>
 
-mongo_development: &mongo_development
-  default:
-    database: test
-    hosts:
-      - localhost:27017
-
 test:
   options:
     <<: *options
   clients:
-    <<: *mongo_development
+    default:
+      database: test
+      hosts:
+        - localhost:27017
 
 development:
   options:
     <<: *options
   clients:
-    <<: *mongo_development
+    default:
+      database: development
+      hosts:
+        - localhost:27017
 
 production:
   options:
     <<: *options
   clients:
-    <<: *mongo_production
+    <<: *default
