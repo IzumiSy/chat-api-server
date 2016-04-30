@@ -6,3 +6,5 @@ log.txt
 
 tmp/
 log/
+
+newrelic.yml
