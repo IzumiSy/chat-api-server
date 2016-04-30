@@ -24,9 +24,9 @@ module AuthService
 
       RedisService.connect(takeover: true)
       has_session = RedisService.get(token)
-      is_user_found = User.find_by(token: token)
+      # is_user_found = User.find_by(token: token)
 
-      if has_session && is_user_found then token else nil end
+      if has_session then token else nil end
     end
   end
 end
