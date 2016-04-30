@@ -1,0 +1,32 @@
+#
+# Generated April 10, 2016
+#
+# For full documentation of agent configuration options, please refer to
+# https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
+
+common: &default_settings
+  app_name: OpenChat-Server
+  log_level: info
+
+  # To disable the agent regardless of other settings, uncomment the following:
+  # agent_enabled: false
+
+
+# Environment-specific settings are in this section.
+# RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
+# If your application has other named environments, configure them here.
+development:
+  <<: *default_settings
+  app_name: OpenChat-Server (Development)
+  developer_mode: true
+
+test:
+  <<: *default_settings
+  monitor_mode: false
+
+staging:
+  <<: *default_settings
+  app_name: OpenChat-Server (Staging)
+
+production:
+  <<: *default_settings
