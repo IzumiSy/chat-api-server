@@ -15,13 +15,16 @@ class RoomRoutes < Sinatra::Base
   end
 
   get '/api/room' do
+    # [NOTE] Performance tuning tip
+    #
+    # - to_json calls find() internally, so it is called here only once.
+    # - length property and count() calls internal counting method internally
+    #   that is relatively slow, so to avoid that overhead, here use JSON conversion.
+    #
+
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
-    # to_json calls find() internally, so here to_json needs reducing.
     room_all = Room.all.limit(10).to_json(only: Room::ROOM_DATA_LIMITS)
-
-    # length property and count() calls internal counting method internally
-    # that is relatively slow, so to avoid that overhead, here use JSON conversion.
     if JSON.parse(room_all).length <= 0
       puts "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
     end
