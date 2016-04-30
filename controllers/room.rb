@@ -15,12 +15,10 @@ class RoomRoutes < Sinatra::Base
   end
 
   get '/api/room' do
-    # [NOTE] Performance tuning tip
-    #
+    # [NOTE] Performance tuning tips
     # - to_json calls find() internally, so it is called here only once.
-    # - length property and count() calls internal counting method internally
+    # - length property and count() calls a counting method internally
     #   that is relatively slow, so to avoid that overhead, here use JSON conversion.
-    #
 
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
