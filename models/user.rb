@@ -32,7 +32,7 @@ class User
     STATUS_NEUTRAL = 0
   ].freeze
 
-  DISCONNECTION_RESOLVE_INTERVAL = 5
+  DISCONNECTION_RESOLVE_INTERVAL = 3
 
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
@@ -60,10 +60,12 @@ class User
     end
 
     def resolve_disconnected_users(user_id, new_session)
-      user = User.find(user_id)
-      return unless user
-      if user.session == new_session
-        User.user_deletion(user)
+      EM.defer do
+        user = User.find(user_id)
+        return unless user
+        if user.session == new_session
+          User.user_deletion(user)
+        end
       end
     end
 
