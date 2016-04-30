@@ -17,11 +17,14 @@ class RoomRoutes < Sinatra::Base
   get '/api/room' do
     halt 401 unless _token = AuthService.is_logged_in?(request)
 
-    if Room.count <= 0
+    # to_json calls find() internally, so here to_json needs reducing.
+    room_all = Room.all.limit(10).to_json(only: Room::ROOM_DATA_LIMITS)
+
+    if JSON.parse(room_all).length <= 0
       puts "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
     end
 
-    body Room.all.to_json(only: Room::ROOM_DATA_LIMITS)
+    body room_all
     status 200
   end
 
