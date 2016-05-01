@@ -73,7 +73,8 @@ class Room
 
     def transaction_enter(is_in_room, room_id, user)
       unless is_in_room
-        if user.room && Room.find(user.room.id).users.find(user.id)
+        is_target_exist = !!User.first({ id: user.id, room_id: user.room.id })
+        if user.room && is_target_exist
           Room.decrement_counter(:users_count, user.room.id)
         end
         Room.increment_counter(:users_count, room_id)
