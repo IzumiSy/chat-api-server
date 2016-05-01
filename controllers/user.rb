@@ -53,7 +53,7 @@ class UserRoutes < Sinatra::Base
       MessageService.broadcast_enter_msg(user, room_id)
     end
 
-    body user.to_json(only: User::USER_DATA_LIMITS.dup << :token)
+    body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
     status 202
   end
 
