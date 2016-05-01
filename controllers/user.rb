@@ -38,6 +38,17 @@ class UserRoutes < Sinatra::Base
     status 202
   end
 
+  get '/api/user/duplicate/:name' do
+    param :name, String, required: true
+
+    status = {
+      status: !User.find_by(name: params[:name]) ? true : false
+    }
+
+    body status
+    status 200
+  end
+
   get '/api/user/:id' do
     param :id, String, required: true
 
