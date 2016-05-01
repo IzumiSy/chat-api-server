@@ -24,7 +24,7 @@ class Room
 
   class << self
     def fetch_room_data(room_id, type)
-      room = Room.only(:id, :name, :messages_count, :users_count, :users).find(room_id)
+      room = Room.find(room_id)
       unless room
         return 404, "Room not found"
       end
