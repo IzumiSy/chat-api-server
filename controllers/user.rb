@@ -39,10 +39,17 @@ class UserRoutes < Sinatra::Base
     # If room_id is specified, put it into the parameter
     if (params[:room_id])
       create_user_param.room_id = params[:room_id]
+      Room.increment_counter(:users_count, room_id)
     end
 
     user = User.new(create_user_param)
     user.save!
+
+    # If room_id is specified, it means that user enters into
+    # the room with room_id, so it makes a broadcasting.
+    if (params[:room_id])
+      MessageService.broadcast_enter_msg(user, room_id)
+    end
 
     body user.to_json
     status 202
@@ -53,9 +60,9 @@ class UserRoutes < Sinatra::Base
 
     status = {
       status: !User.find_by(name: params[:name]) ? true : false
-    }.to_json
+    }
 
-    body status
+    body status.to_json
     status 200
   end
 
