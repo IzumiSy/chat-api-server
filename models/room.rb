@@ -47,14 +47,14 @@ class Room
       end
 
       is_all_leave_mode = (room_id == "all" && type == :LEAVE)
-      room_id = user.room.id if is_all_leave_mode
+      room_id = user.room_id if is_all_leave_mode
 
-      room = Room.only(:users, :users_count).find(room_id)
+      room = Room.find(room_id)
       unless room
         return [ 404, "Room not found" ]
       end
 
-      is_user_exist_in_room = room.users.find(user.id) ? true : false
+      is_user_exist_in_room = room.id == user.room_id ? true : false
 
       return case type
         when :ENTER then
@@ -73,7 +73,7 @@ class Room
 
     def transaction_enter(is_in_room, room_id, user)
       unless is_in_room
-        is_target_exist = !!User.where(id: user.id, room_id: user.room.id).first
+        is_target_exist = !!User.find_by(id: user.id, room_id: user.room.id)
         if user.room && is_target_exist
           Room.decrement_counter(:users_count, user.room.id)
         end
