@@ -9,7 +9,7 @@ class User
 
   before_create :generate_user_token, :set_face_id
 
-  belongs_to :room
+  belongs_to :room, foreign_key: 'room_id'
 
   FACE_ID_BASE = 144995
   FACE_IDS = [
