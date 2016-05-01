@@ -17,6 +17,7 @@ class UserRoutes < Sinatra::Base
   post '/api/user/new' do
     param :name,    String, required: true
     param :room_id, String
+    param :face,    String
 
     client_ip = request.ip
     client_name = params[:name]
@@ -35,6 +36,10 @@ class UserRoutes < Sinatra::Base
     create_user_param = {
       name: client_name, ip: client_ip
     }
+
+    if (params[:face])
+      create_user_param.face = params[:user]
+    end
 
     # If room_id is specified, put it into the parameter
     if (params[:room_id])
