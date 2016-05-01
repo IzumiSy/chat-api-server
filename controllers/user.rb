@@ -42,6 +42,7 @@ class UserRoutes < Sinatra::Base
 
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
+      Room.increment_counter(:users_count, room_id)
     end
 
     user = User.new(create_user_param)
