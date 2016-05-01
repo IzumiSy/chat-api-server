@@ -43,7 +43,7 @@ class UserRoutes < Sinatra::Base
 
     status = {
       status: !User.find_by(name: params[:name]) ? true : false
-    }
+    }.to_json
 
     body status
     status 200
