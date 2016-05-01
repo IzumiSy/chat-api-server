@@ -15,7 +15,8 @@ class UserRoutes < Sinatra::Base
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do
-    param :name, String, required: true
+    param :name,    String, required: true
+    param :room_id, String
 
     client_ip = request.ip
     client_name = params[:name]
@@ -31,7 +32,16 @@ class UserRoutes < Sinatra::Base
       User.resolve_disconnected_users(user.id, user.session)
     end
 
-    user = User.new(name: client_name, ip: client_ip)
+    create_user_param = {
+      name: client_name, ip: client_ip
+    }
+
+    # If room_id is specified, put it into the parameter
+    if (params[:room_id])
+      create_user_param.room_id = params[:room_id]
+    end
+
+    user = User.new(create_user_param)
     user.save!
 
     body user.to_json
