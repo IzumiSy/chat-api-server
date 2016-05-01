@@ -37,11 +37,11 @@ class UserRoutes < Sinatra::Base
     }
 
     if (params[:face])
-      create_user_param.face = params[:user]
+      create_user_param[:face] = params[:user]
     end
 
     if lobby_room = Room.find_by(name: "Lobby")
-      create_user_param.room_id = lobby_room.id
+      create_user_param[:room_id] = lobby_room.id
     end
 
     user = User.new(create_user_param)
