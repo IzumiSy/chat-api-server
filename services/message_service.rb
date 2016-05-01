@@ -36,15 +36,19 @@ module MessageService
     end
 
     def broadcast_enter_msg(user, room_id)
-      broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name, room_id)
-      broadcast_members_update(room_id)
-      broadcast_room_update()
+      EM::defer do
+        broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name, room_id)
+        broadcast_members_update(room_id)
+        broadcast_room_update()
+      end
     end
 
     def broadcast_leave_msg(user, room_id)
-      broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, room_id)
-      broadcast_members_update(room_id)
-      broadcast_room_update()
+      EM::defer do
+        broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, room_id)
+        broadcast_members_update(room_id)
+        broadcast_room_update()
+      end
     end
 
     private
