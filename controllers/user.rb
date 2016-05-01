@@ -16,7 +16,6 @@ class UserRoutes < Sinatra::Base
   # to limite user data to return.
   post '/api/user/new' do
     param :name,    String, required: true
-    param :room_id, String
     param :face,    String
 
     client_ip = request.ip
@@ -41,10 +40,8 @@ class UserRoutes < Sinatra::Base
       create_user_param.face = params[:user]
     end
 
-    # If room_id is specified, put it into the parameter
-    if (params[:room_id])
-      create_user_param.room_id = params[:room_id]
-      Room.increment_counter(:users_count, room_id)
+    if lobby_room = Room.find_by(name: "Lobby")
+      create_user_param.room_id = lobby_room.id
     end
 
     user = User.new(create_user_param)
