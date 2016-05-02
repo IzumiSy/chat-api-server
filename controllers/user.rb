@@ -15,8 +15,8 @@ class UserRoutes < Sinatra::Base
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do
-    param :name,    String, required: true
-    param :face,    String
+    param :name, String, required: true
+    param :face, String
 
     client_ip = request.ip
     client_name = params[:name]
