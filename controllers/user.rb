@@ -42,7 +42,9 @@ class UserRoutes < Sinatra::Base
 
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
-      Room.increment_counter(:users_count, lobby_room.id)
+      EM::defer do
+        Room.increment_counter(:users_count, lobby_room.id)
+      end
     else
       body "No lobby room"
       status 500
@@ -59,7 +61,9 @@ class UserRoutes < Sinatra::Base
     # If room_id is specified, it means that user enters into
     # the room with room_id, so it makes a broadcasting.
     if (params[:room_id])
-      MessageService.broadcast_enter_msg(user, room_id)
+      EM::defer do
+        MessageService.broadcast_enter_msg(user, room_id)
+      end
     end
 
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
