@@ -49,46 +49,40 @@ class Room
       is_all_leave_mode = (room_id == "all" && type == :LEAVE)
       room_id = user.room_id if is_all_leave_mode
 
-      room = Room.find(room_id)
-      unless room
-        return [ 404, "Room not found" ]
-      end
-
-      is_user_exist_in_room = room.id == user.room_id ? true : false
-
       return case type
         when :ENTER then
-          transaction_enter(is_user_exist_in_room, room_id, user)
-          [ 202, { users_count: room.reload.users_count }.to_json ]
+          transaction_enter(room_id, user)
+          [ 202, { status: "ok" }.to_json ]
         when :LEAVE then
-          transaction_leave(is_user_exist_in_room, room_id, user)
+          transaction_leave(room_id, user)
           User.user_deletion(user) if is_all_leave_mode
-          [ 202, { users_count: room.reload.users_count }.to_json ]
+          [ 202, { status: "ok" }.to_json ]
         else
-          [ 500, {}.to_json ]
+          [ 500, { status: "Internal error"}.to_json ]
         end
     end
 
     protected
 
-    def transaction_enter(is_in_room, room_id, user)
-      unless is_in_room
-        is_target_exist = !!User.find_by(id: user.id, room_id: user.room.id)
-        if user.room && is_target_exist
-          Room.decrement_counter(:users_count, user.room.id)
-        end
-        Room.increment_counter(:users_count, room_id)
-        user.update_attributes!(room_id: room_id)
-        MessageService.broadcast_enter_msg(user, room_id)
+    def transaction_enter(new_room_id, user)
+      current_room_id = user.room.id
+      EM::defer do
+        Room.decrement_counter(:users_count, current_room_id)
+        Room.increment_counter(:users_count, new_room_id)
+        MessageService.broadcast_enter_msg(user, new_room_id)
       end
+      user.update_attributes!(room_id: new_room_id)
     end
 
-    def transaction_leave(is_in_room, room_id, user)
-      if is_in_room
-        Room.decrement_counter(:users_count, room_id)
-        user.update_attributes!(room_id: nil)
-        MessageService.broadcast_leave_msg(user, room_id)
+    def transaction_leave(current_room_id, user)
+      is_user_exist_in_room =
+        current_room_id == user.room_id ? true : false
+      return unless is_user_exist_in_room
+      EM::defer do
+        Room.decrement_counter(:users_count, current_room_id)
+        MessageService.broadcast_leave_msg(user, current_room_id)
       end
+      user.update_attributes!(room_id: nil)
     end
   end
 end
