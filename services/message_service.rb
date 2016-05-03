@@ -48,8 +48,8 @@ module MessageService
     end
 
     def broadcast_leave_msg(user)
+      return unless user.room
       EmService.defer do
-        return unless user.room
         broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, user.room.id)
         broadcast_members_update(user.room)
         broadcast_room_update()
