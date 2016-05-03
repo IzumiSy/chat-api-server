@@ -32,10 +32,13 @@ class UserRoutes < Sinatra::Base
     end
 
     user = User.new(name: client_name, ip: client_ip)
-    user.save!
-
-    body user.to_json
-    status 202
+    if user.save
+      body user.to_json
+      status 202
+    else
+      body "Duplicated user name"
+      status 409
+    end
   end
 
   get '/api/user/:id' do
