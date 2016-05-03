@@ -7,7 +7,7 @@ module EmService
         EventMachine.reactor_running? &&
         EventMachine.reactor_thread.alive?
         Thread.new { EventMachine.run }
-        Sleep1
+        Sleep 1
       end
     end
 
