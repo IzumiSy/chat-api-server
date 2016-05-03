@@ -44,9 +44,6 @@ class UserRoutes < Sinatra::Base
 
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
-      EmService.defer do
-        Room.increment_counter(:users_count, lobby_room.id)
-      end
     else
       body "No lobby room"
       status 500
@@ -64,6 +61,7 @@ class UserRoutes < Sinatra::Base
     # the room with room_id, so it makes a broadcasting.
     if (params[:room_id])
       EmService.defer do
+        Room.increment_counter(:users_count, lobby_room.id)
         MessageService.broadcast_enter_msg(user, lobby_room)
       end
     end
