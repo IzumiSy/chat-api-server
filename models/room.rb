@@ -65,9 +65,11 @@ class Room
     protected
 
     def transaction_enter(new_room_id, user)
-      current_room_id = user.room.id
       EM::defer do
-        Room.decrement_counter(:users_count, current_room_id)
+        if user.room
+          current_room_id = user.room.id
+          Room.decrement_counter(:users_count, current_room_id)
+        end
         Room.increment_counter(:users_count, new_room_id)
         MessageService.broadcast_enter_msg(user, new_room_id)
       end
