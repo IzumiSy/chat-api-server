@@ -32,7 +32,6 @@ class UserRoutes < Sinatra::Base
       User.resolve_disconnected_users(user.id, user.session)
     end
 
-<<<<<<< HEAD
     create_user_param = {
       name: client_name, ip: client_ip
     }
