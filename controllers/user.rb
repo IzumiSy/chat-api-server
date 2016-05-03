@@ -59,7 +59,7 @@ class UserRoutes < Sinatra::Base
 
     # If room_id is specified, it means that user enters into
     # the room with room_id, so it makes a broadcasting.
-    if (params[:room_id])
+    if lobby_room
       EmService.defer do
         Room.increment_counter(:users_count, lobby_room.id)
         MessageService.broadcast_enter_msg(user, lobby_room)
