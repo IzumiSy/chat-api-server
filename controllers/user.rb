@@ -32,6 +32,7 @@ class UserRoutes < Sinatra::Base
       User.resolve_disconnected_users(user.id, user.session)
     end
 
+<<<<<<< HEAD
     create_user_param = {
       name: client_name, ip: client_ip
     }
@@ -45,8 +46,12 @@ class UserRoutes < Sinatra::Base
       Room.increment_counter(:users_count, lobby_room.id)
     end
 
-    user = User.new(create_user_param)
-    user.save!
+    user = User.new(name: client_name, ip: client_ip)
+    unless user.save
+      body "Duplicated user name"
+      status 409
+      return
+    end
 
     # If room_id is specified, it means that user enters into
     # the room with room_id, so it makes a broadcasting.
