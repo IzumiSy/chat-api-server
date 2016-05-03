@@ -1,4 +1,8 @@
+require_relative "./em_service"
+
 module MessageService
+  include EmService
+
   @io = Sinatra::RocketIO
 
   @io.once :start do
@@ -35,18 +39,19 @@ module MessageService
       @io.push :newMessage, params.to_json, { channel: room_id }
     end
 
-    def broadcast_enter_msg(user, room_id)
-      EM::defer do
-        broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name, room_id)
-        broadcast_members_update(room_id)
+    def broadcast_enter_msg(user, room)
+      EmService.defer do
+        broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name, room.id)
+        broadcast_members_update(room)
         broadcast_room_update()
       end
     end
 
-    def broadcast_leave_msg(user, room_id)
-      EM::defer do
-        broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, room_id)
-        broadcast_members_update(room_id)
+    def broadcast_leave_msg(user)
+      EmService.defer do
+        return unless user.room
+        broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, user.room.id)
+        broadcast_members_update(user.room)
         broadcast_room_update()
       end
     end
@@ -69,10 +74,9 @@ module MessageService
       @io.push :updateRooms, params
     end
 
-    def broadcast_members_update(room_id)
-      room = Room.find(room_id)
+    def broadcast_members_update(room)
       users = room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
-      @io.push :updateMembers, users, { channel: room_id }
+      @io.push :updateMembers, users, { channel: room.id }
     end
   end
 end
