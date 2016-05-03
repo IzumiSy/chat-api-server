@@ -1,3 +1,5 @@
+require 'eventmachine'
+
 module EmService
   class << self
     def ensure_em
@@ -7,6 +9,11 @@ module EmService
         Thread.new { EventMachine.run }
         Sleep1
       end
+    end
+
+    def defer(&block)
+      ensure_em
+      EM::defer(block)
     end
   end
 end
