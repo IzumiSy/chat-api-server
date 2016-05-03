@@ -1,8 +1,10 @@
 require_relative "../services/message_service"
+require_relative "../services/em_service"
 
 class Room
   include Mongoid::Document
   include MessageService
+  include EmService
 
   has_many :users
 
@@ -24,7 +26,7 @@ class Room
 
   class << self
     def fetch_room_data(room_id, type)
-      room = Room.only(:id, :name, :messages_count, :users_count, :users).find(room_id)
+      room = Room.find(room_id)
       unless room
         return 404, "Room not found"
       end
@@ -47,47 +49,47 @@ class Room
       end
 
       is_all_leave_mode = (room_id == "all" && type == :LEAVE)
-      room_id = user.room.id if is_all_leave_mode
-
-      room = Room.only(:users, :users_count).find(room_id)
-      unless room
-        return [ 404, "Room not found" ]
-      end
-
-      is_user_exist_in_room = room.users.find(user.id) ? true : false
+      room_id = user.room_id.to_s if is_all_leave_mode
 
       return case type
         when :ENTER then
-          transaction_enter(is_user_exist_in_room, room_id, user)
-          [ 202, { users_count: room.reload.users_count }.to_json ]
+          stat_code = transaction_enter(room_id, user)
+          [ stat_code, {}.to_json ]
         when :LEAVE then
-          transaction_leave(is_user_exist_in_room, room_id, user)
+          stat_code = transaction_leave(room_id, user)
           User.user_deletion(user) if is_all_leave_mode
-          [ 202, { users_count: room.reload.users_count }.to_json ]
+          [ stat_code, {}.to_json ]
         else
-          [ 500, {}.to_json ]
+          [ 500, { status: "Internal error"}.to_json ]
         end
     end
 
     protected
 
-    def transaction_enter(is_in_room, room_id, user)
-      unless is_in_room
-        if user.room && Room.find(user.room.id).users.find(user.id)
-          Room.decrement_counter(:users_count, user.room.id)
+    def transaction_enter(new_room_id, user)
+      return 404 unless room = Room.find(new_room_id)
+      EmService.defer do
+        if user.room
+          current_room_id = user.room.id
+          Room.decrement_counter(:users_count, current_room_id)
         end
-        Room.increment_counter(:users_count, room_id)
-        user.update_attributes!(room_id: room_id)
-        MessageService.broadcast_enter_msg(user, room_id)
+        Room.increment_counter(:users_count, new_room_id)
+        MessageService.broadcast_enter_msg(user, room)
       end
+      user.update_attributes!(room_id: new_room_id)
+      202
     end
 
-    def transaction_leave(is_in_room, room_id, user)
-      if is_in_room
-        Room.decrement_counter(:users_count, room_id)
-        user.update_attributes!(room_id: nil)
-        MessageService.broadcast_leave_msg(user, room_id)
+    def transaction_leave(current_room_id, user)
+      is_user_exist_in_room =
+        current_room_id == user.room_id.to_s ? true : false
+      return 404 unless is_user_exist_in_room
+      EmService.defer do
+        Room.decrement_counter(:users_count, current_room_id)
+        MessageService.broadcast_leave_msg(user)
       end
+      user.update_attributes!(room_id: nil)
+      202
     end
   end
 end

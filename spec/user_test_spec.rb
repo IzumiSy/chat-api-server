@@ -3,6 +3,7 @@ require_relative "./spec_helper.rb"
 describe "POST /api/user/new" do
   let(:user) { { name: "test1" } }
   let(:error_user) { { name: "Jonathan" } }
+  let!(:Lobby) { create(:Lobby) }
   let!(:Jonathan) { create(:Jonathan) }
 
   it "should NOT create a new user without name" do
