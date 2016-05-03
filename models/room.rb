@@ -49,16 +49,16 @@ class Room
       end
 
       is_all_leave_mode = (room_id == "all" && type == :LEAVE)
-      room_id = user.room_id if is_all_leave_mode
+      room_id = user.room_id.to_s if is_all_leave_mode
 
       return case type
         when :ENTER then
-          transaction_enter(room_id, user)
-          [ 202, { status: "ok" }.to_json ]
+          stat_code = transaction_enter(room_id, user)
+          [ stat_code, {}.to_json ]
         when :LEAVE then
-          transaction_leave(room_id, user)
+          stat_code = transaction_leave(room_id, user)
           User.user_deletion(user) if is_all_leave_mode
-          [ 202, { status: "ok" }.to_json ]
+          [ stat_code, {}.to_json ]
         else
           [ 500, { status: "Internal error"}.to_json ]
         end
@@ -67,26 +67,29 @@ class Room
     protected
 
     def transaction_enter(new_room_id, user)
-      EM::defer do
+      return 404 unless room = Room.find(new_room_id)
+      EmService.defer do
         if user.room
           current_room_id = user.room.id
           Room.decrement_counter(:users_count, current_room_id)
         end
         Room.increment_counter(:users_count, new_room_id)
-        MessageService.broadcast_enter_msg(user, new_room_id)
+        MessageService.broadcast_enter_msg(user, room)
       end
       user.update_attributes!(room_id: new_room_id)
+      202
     end
 
     def transaction_leave(current_room_id, user)
       is_user_exist_in_room =
-        current_room_id == user.room_id ? true : false
-      return unless is_user_exist_in_room
-      EM::defer do
+        current_room_id == user.room_id.to_s ? true : false
+      return 404 unless is_user_exist_in_room
+      EmService.defer do
         Room.decrement_counter(:users_count, current_room_id)
-        MessageService.broadcast_leave_msg(user, current_room_id)
+        MessageService.broadcast_leave_msg(user)
       end
       user.update_attributes!(room_id: nil)
+      202
     end
   end
 end
