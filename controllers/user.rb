@@ -1,7 +1,9 @@
 require_relative '../services/auth_service'
+require_relative '../services/em_service'
 
 class UserRoutes < Sinatra::Base
   include AuthService
+  include EmService
 
   configure do
     helpers Sinatra::Param
@@ -42,7 +44,7 @@ class UserRoutes < Sinatra::Base
 
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
-      EM::defer do
+      EmService.defer do
         Room.increment_counter(:users_count, lobby_room.id)
       end
     else
@@ -61,8 +63,8 @@ class UserRoutes < Sinatra::Base
     # If room_id is specified, it means that user enters into
     # the room with room_id, so it makes a broadcasting.
     if (params[:room_id])
-      EM::defer do
-        MessageService.broadcast_enter_msg(user, room_id)
+      EmService.defer do
+        MessageService.broadcast_enter_msg(user, lobby_room)
       end
     end
 
