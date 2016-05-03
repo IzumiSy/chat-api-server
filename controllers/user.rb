@@ -49,7 +49,7 @@ class UserRoutes < Sinatra::Base
       return
     end
 
-    user = User.new(name: client_name, ip: client_ip)
+    user = User.new(create_user_param)
     unless user.save
       body "Duplicated user name"
       status 409
