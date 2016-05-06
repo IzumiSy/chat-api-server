@@ -1,18 +1,10 @@
-require_relative '../services/auth_service'
-require_relative '../services/em_service'
+require_relative "./base"
+require_relative "../services/auth_service"
+require_relative "../services/em_service"
 
-class UserRoutes < Sinatra::Base
+class UserRoutes < RouteBase
   include AuthService
   include EmService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
 
   # This user creation port does not need to use slice
   # to limite user data to return.

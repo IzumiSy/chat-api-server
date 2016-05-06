@@ -1,18 +1,10 @@
-require_relative '../services/auth_service'
-require_relative '../services/message_service'
+require_relative "./base"
+require_relative "../services/auth_service"
+require_relative "../services/message_service"
 
-class RoomRoutes < Sinatra::Base
+class RoomRoutes < RouteBase
   include AuthService
   include MessageService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
 
   get '/api/room' do
     # [NOTE] Performance tuning tips

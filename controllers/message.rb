@@ -1,18 +1,10 @@
+require_relative "./base"
 require_relative "../services/auth_service"
 require_relative "../services/message_service"
 
-class MessageRoutes < Sinatra::Base
+class MessageRoutes < RouteBase
   include AuthService
   include MessageService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
 
   post '/api/message/:room_id' do
     param :room_id, String, required: true
