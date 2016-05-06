@@ -1,16 +1,14 @@
 require_relative "./base"
-require_relative "../services/auth_service"
 require_relative "../services/message_service"
 
 class MessageRoutes < RouteBase
-  include AuthService
   include MessageService
 
   post '/api/message/:room_id' do
     param :room_id, String, required: true
     param :content, String, required: true
 
-    halt 401 unless token = AuthService.is_logged_in?(request)
+    token = is_logged_in?
 
     room_id = params[:room_id]
     content = params[:content]
