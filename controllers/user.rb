@@ -1,9 +1,7 @@
 require_relative "./base"
-require_relative "../services/auth_service"
 require_relative "../services/em_service"
 
 class UserRoutes < RouteBase
-  include AuthService
   include EmService
 
   # This user creation port does not need to use slice
@@ -76,7 +74,7 @@ class UserRoutes < RouteBase
   get '/api/user/:id' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     user_id = params[:id]
     stat_code, data = User.fetch_user_data(user_id, :USER)
@@ -88,7 +86,7 @@ class UserRoutes < RouteBase
   get '/api/user/:id/room' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     user_id = params[:id]
     stat_code, data = User.fetch_user_data(user_id, :ROOM)
@@ -104,7 +102,7 @@ class UserRoutes < RouteBase
     param :id,    String, required: true
     param :data,  Hash,   required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     user_id = params[:id]
     data = params[:data]
@@ -120,7 +118,6 @@ class UserRoutes < RouteBase
   delete '/api/user/:id' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
-
+    is_logged_in?
   end
 end
