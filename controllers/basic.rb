@@ -1,9 +1,6 @@
 require_relative "./base"
-require_relative "../services/auth_service"
 
 class BasicRoutes < RouteBase
-  include AuthService
-
   get '/api/ping' do
     body 'pong'
   end
