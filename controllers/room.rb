@@ -86,14 +86,14 @@ class RoomRoutes < Sinatra::Base
     target_path = params['splat'].first
     room_id = params[:id]
 
-    case target_path
-    when "messages" then
-      stat_code, data = Room.fetch_room_data(room_id, :MSG)
-    when 'users' then
-      stat_code, data = Room.fetch_room_data(room_id, :USER)
-    else
-      stat_code, data = [ 404, {}.to_json ]
-    end
+    stat_code, data = case target_path
+      when "messages" then
+        Room.fetch_room_data(room_id, :MSG)
+      when 'users' then
+        Room.fetch_room_data(room_id, :USER)
+      else
+        [ 404, {}.to_json ]
+      end
 
     body data
     status stat_code
@@ -110,14 +110,14 @@ class RoomRoutes < Sinatra::Base
     target_path = params['splat'].first
     room_id = params[:id]
 
-    case target_path
-    when 'enter' then
-      stat_code, data = Room.room_transaction(room_id, token, :ENTER)
-    when 'leave' then
-      stat_code, data = Room.room_transaction(room_id, token, :LEAVE)
-    else
-      stat_code, data = [ 404, {}.to_json ]
-    end
+    stat_code, data = case target_path
+      when 'enter' then
+        Room.room_transaction(room_id, token, :ENTER)
+      when 'leave' then
+        Room.room_transaction(room_id, token, :LEAVE)
+      else
+        [ 404, {}.to_json ]
+      end
 
     body data
     status stat_code
