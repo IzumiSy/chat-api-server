@@ -1,18 +1,8 @@
-require_relative '../services/auth_service'
-require_relative '../services/em_service'
+require_relative "./base"
+require_relative "../services/em_service"
 
-class UserRoutes < Sinatra::Base
-  include AuthService
+class UserRoutes < RouteBase
   include EmService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
 
   # This user creation port does not need to use slice
   # to limite user data to return.
@@ -84,7 +74,7 @@ class UserRoutes < Sinatra::Base
   get '/api/user/:id' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     user_id = params[:id]
     stat_code, data = User.fetch_user_data(user_id, :USER)
@@ -96,7 +86,7 @@ class UserRoutes < Sinatra::Base
   get '/api/user/:id/room' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     user_id = params[:id]
     stat_code, data = User.fetch_user_data(user_id, :ROOM)
@@ -112,7 +102,7 @@ class UserRoutes < Sinatra::Base
     param :id,    String, required: true
     param :data,  Hash,   required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     user_id = params[:id]
     data = params[:data]
@@ -128,7 +118,6 @@ class UserRoutes < Sinatra::Base
   delete '/api/user/:id' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
-
+    is_logged_in?
   end
 end

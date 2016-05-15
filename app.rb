@@ -32,9 +32,6 @@ class Application < Sinatra::Base
   register Sinatra::RocketIO
 
   configure do
-    set :raise_errors, true
-    set :show_exceptions, false
-
     set :cometio, timeout: 360, post_interval: 1
     set :rocketio, websocket: false, comet: true
   end

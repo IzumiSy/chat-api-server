@@ -1,17 +1,6 @@
-require_relative '../services/auth_service'
+require_relative "./base"
 
-class BasicRoutes < Sinatra::Base
-  include AuthService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
-
+class BasicRoutes < RouteBase
   get '/api/ping' do
     body 'pong'
   end
