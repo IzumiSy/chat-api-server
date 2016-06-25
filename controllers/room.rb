@@ -1,18 +1,8 @@
-require_relative '../services/auth_service'
-require_relative '../services/message_service'
+require_relative "./base"
+require_relative "../services/message_service"
 
-class RoomRoutes < Sinatra::Base
-  include AuthService
+class RoomRoutes < RouteBase
   include MessageService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
 
   get '/api/room' do
     # [NOTE] Performance tuning tips
@@ -20,7 +10,7 @@ class RoomRoutes < Sinatra::Base
     # - length property and count() calls a counting method internally
     #   that is relatively slow, so to avoid that overhead, here use JSON conversion.
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     room_all =
       Room.all.limit(Room::ROOM_MAX).to_json(only: Room::ROOM_DATA_LIMITS)
@@ -36,9 +26,8 @@ class RoomRoutes < Sinatra::Base
   post '/api/room/new' do
     param :name,  String, required: true
 
-    halt 401 unless
-      AuthService.is_logged_in?(request) &&
-      AuthService.is_admin?(request)
+    is_logged_in?
+    is_admin?
 
     room_name = params[:name]
     if Room.find_by(name: room_name)
@@ -56,9 +45,8 @@ class RoomRoutes < Sinatra::Base
   delete '/api/room/:id' do
     param :id, String, required: true
 
-    halt 401 unless
-      AuthSertice.is_logged_in?(request) &&
-      AuthService.is_admin?(request)
+    is_logged_in?
+    is_admin?
 
     status 204
   end
@@ -66,7 +54,7 @@ class RoomRoutes < Sinatra::Base
   get '/api/room/:id' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     room_id = params[:id]
     stat_code, data = Room.fetch_room_data(room_id, :ROOM)
@@ -81,7 +69,7 @@ class RoomRoutes < Sinatra::Base
   get '/api/room/:id/*' do
     param :id, String, required: true
 
-    halt 401 unless _token = AuthService.is_logged_in?(request)
+    is_logged_in?
 
     target_path = params['splat'].first
     room_id = params[:id]
@@ -105,7 +93,7 @@ class RoomRoutes < Sinatra::Base
   post '/api/room/:id/*' do
     param :id, String, required: true
 
-    halt 401 unless token = AuthService.is_logged_in?(request)
+    token = is_logged_in?
 
     target_path = params['splat'].first
     room_id = params[:id]

@@ -1,24 +1,14 @@
-require_relative "../services/auth_service"
+require_relative "./base"
 require_relative "../services/message_service"
 
-class MessageRoutes < Sinatra::Base
-  include AuthService
+class MessageRoutes < RouteBase
   include MessageService
-
-  configure do
-    helpers Sinatra::Param
-
-    register Sinatra::CrossOrigin
-
-    enable :cross_origin
-    enable :logging
-  end
 
   post '/api/message/:room_id' do
     param :room_id, String, required: true
     param :content, String, required: true
 
-    halt 401 unless token = AuthService.is_logged_in?(request)
+    token = is_logged_in?
 
     room_id = params[:room_id]
     content = params[:content]
