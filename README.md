@@ -2,9 +2,6 @@
 [![build status](https://circleci.com/gh/IzumiSy/chat-api-server.svg?style=shield&circle-token=a8ab869724415d9d09f918fa716bf41a8ea45188)](https://circleci.com/gh/IzumiSy/chat-api-server)  
 Simple & Easy-modifiable chat backend server.  
 What you need are only three things: **Sinatra**, **MongoDB**, and **Redis**
-  
-**[NOTE]**  
-chat-api-server currently does NOT work well on Heroku probably because of RocketIO.
 
 ### Features
 - Multiple room
@@ -57,3 +54,6 @@ $ bundle exec thin start -p 3000
 $ bundle exec rspec
 ```
 All records on DB will be cleaned up if you run test, so you need to exec `rake db:seed_rooms` again before you start it up.
+
+## Known issues
+- chat-api-server currently does NOT work well on Heroku probably because of RocketIO.
