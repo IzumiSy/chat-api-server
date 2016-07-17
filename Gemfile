@@ -29,7 +29,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'rspec'
   gem 'rack-test'
-  gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
+  gem 'database_cleaner', github: 'DatabaseCleaner/database_cleaner'
   gem 'factory_girl'
   gem 'faker'
 end

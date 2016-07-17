@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/DatabaseCleaner/database_cleaner.git
+  remote: git://github.com/DatabaseCleaner/database_cleaner.git
   revision: f052d64d3be9351a98a99e932a59be528ccc561c
   specs:
     database_cleaner (1.5.3)
