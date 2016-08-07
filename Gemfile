@@ -22,7 +22,7 @@ gem 'hiredis'
 gem 'pry'
 gem 'pry-debugger'
 
-gem 'newrelic_rpm'
+gem 'scout_apm', '~>2.0.x'
 
 group :development, :test do
   gem 'awesome_print'
