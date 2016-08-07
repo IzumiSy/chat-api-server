@@ -5,8 +5,6 @@ require 'sinatra/cross_origin'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 
-require 'newrelic_rpm'
-
 require 'digest/md5'
 
 require 'mongoid'
