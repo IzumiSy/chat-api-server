@@ -13,7 +13,6 @@ gem 'thin'
 
 gem 'mongoid', '~> 5.0.0'
 
-gem 'config'
 gem 'bcrypt'
 gem 'dotenv'
 
