@@ -21,7 +21,7 @@ gem 'redis'
 gem 'hiredis'
 
 gem 'pry'
-gem 'pry-byebug'
+gem 'pry-debugger'
 
 gem 'newrelic_rpm'
 
