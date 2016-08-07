@@ -14,7 +14,6 @@ require 'redis'
 require 'securerandom'
 
 require 'dotenv'
-require 'config'
 
 require 'pry'
 
