@@ -88,9 +88,6 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    rusage (0.2.0)
-    scout_apm (2.0.0.pre8)
-      rusage (~> 0.2.0)
     shotgun (0.9.1)
       rack (>= 1.0)
     sinatra (1.4.7)
@@ -163,7 +160,6 @@ DEPENDENCIES
   rack-test
   redis
   rspec
-  scout_apm (~> 2.0.x)
   shotgun
   sinatra
   sinatra-contrib
