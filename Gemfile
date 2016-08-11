@@ -32,6 +32,6 @@ group :development, :test do
 end
 
 group :production do
-  gem 'rack-ssl'
+  gem 'rack-ssl-enforcer'
 end
 
