@@ -15,6 +15,8 @@ require 'dotenv'
 
 require 'pry'
 
+require 'rack/ssl'
+
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
 require_relative 'controllers/message'
@@ -43,6 +45,8 @@ class Application < Sinatra::Base
   use UserRoutes
   use RoomRoutes
   use MessageRoutes
+
+  use Rack::SSL if ENV['RACK_ENV'] == 'production'
 
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =
