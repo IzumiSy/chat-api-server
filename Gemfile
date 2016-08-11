@@ -22,8 +22,6 @@ gem 'hiredis'
 gem 'pry'
 gem 'pry-debugger'
 
-gem 'scout_apm', '~>2.0.x', require: 'scout_apm'
-
 group :development, :test do
   gem 'awesome_print'
   gem 'rspec'
