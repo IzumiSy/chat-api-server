@@ -46,7 +46,7 @@ class Application < Sinatra::Base
   use RoomRoutes
   use MessageRoutes
 
-  use Rack::SslEnforcer
+  use Rack::SslEnforcer, except_environments: ['development', 'test']
 
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =
