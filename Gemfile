@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "2.2.5"
+ruby "1.9.3"
 
 gem 'sinatra'
 gem 'sinatra-contrib'
@@ -13,7 +13,6 @@ gem 'thin'
 
 gem 'mongoid', '~> 5.0.0'
 
-gem 'config'
 gem 'bcrypt'
 gem 'dotenv'
 
@@ -21,9 +20,7 @@ gem 'redis'
 gem 'hiredis'
 
 gem 'pry'
-gem 'pry-byebug'
-
-gem 'newrelic_rpm'
+gem 'pry-debugger'
 
 group :development, :test do
   gem 'awesome_print'
