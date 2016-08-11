@@ -46,7 +46,7 @@ class Application < Sinatra::Base
 
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =
-      "Authorization, HTTPS"
+      "Authorization"
     200
   end
 end
