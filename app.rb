@@ -46,9 +46,7 @@ class Application < Sinatra::Base
   use RoomRoutes
   use MessageRoutes
 
-  if ENV['RACK_ENV'] == 'production'
-    use Rack::SslEnforcer, only: '/cometio/io'
-  end
+  use Rack::SslEnforcer
 
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =
