@@ -4,6 +4,8 @@ Chat backend server.
 
 Sample front-end app: https://github.com/IzumiSy/chat-frontend
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Setup
 Install tools and dependencies
 ```bash
