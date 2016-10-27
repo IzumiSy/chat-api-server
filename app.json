@@ -16,7 +16,7 @@
       "generator": "secret"
     },
     "RACK_ENV": {
-      "description": "This must be production",
+      "description": "This must be \"production\"",
       "value": "production"
     }
   }
