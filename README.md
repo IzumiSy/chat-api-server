@@ -2,7 +2,7 @@
 [![build status](https://circleci.com/gh/IzumiSy/chat-api-server.svg?style=shield&circle-token=a8ab869724415d9d09f918fa716bf41a8ea45188)](https://circleci.com/gh/IzumiSy/chat-api-server)  
 Chat backend server.
 
-Sample front-end app: https://github.com/IzumiSy/chat-frontend
+Sample front-end app: [IzumiSy/chat-frontend](https://github.com/IzumiSy/chat-frontend)
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
