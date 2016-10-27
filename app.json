@@ -7,6 +7,9 @@
     "mongolab:sandbox",
     "heroku-redis:hobby-dev"
   ],
+  "scripts": {
+    "postdeploy": "bundle exec rake db:seed_rooms"
+  },
   "env": {
     "ADMIN_PASS": {
       "description": "The password to use restricted API endpoints",
