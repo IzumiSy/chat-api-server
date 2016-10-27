@@ -11,6 +11,10 @@
     "ADMIN_PASS": {
       "description": "The password to use restricted API endpoints",
       "generator": "secret"
+    },
+    "RACK_ENV": {
+      "description": "This must be production",
+      "value": "production"
     }
   }
 }
