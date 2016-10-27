@@ -1,0 +1,6 @@
+{
+  "name": "chat-api-server",
+  "description": "Chat API server",
+  "keywords": ["chat", "server"],
+  "repository": "https://github.com/IzumiSy/chat-api-server"
+}
