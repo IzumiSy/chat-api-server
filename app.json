@@ -6,5 +6,11 @@
   "addons": [
     "mongolab:sandbox",
     "heroku-redis:hobby-dev"
-  ]
+  ],
+  "env": {
+    "ADMIN_PASS": {
+      "description": "The password to use restricted API endpoints",
+      "generator": "secret"
+    }
+  }
 }
