@@ -9,7 +9,6 @@ Sample front-end app: https://github.com/IzumiSy/chat-frontend
 ## Setup
 Install tools and dependencies
 ```bash
-$ brew update
 $ brew install mongodb
 $ brew install redis
 $ bundle install
@@ -22,18 +21,7 @@ $ vi .env
 ...
 ```
 
-## Preparation
-**Redis**
-```bash
-$ redis-server
-...
-```
-**MongoDB**
-```bash
-$ mongod --config /usr/local/etc/mongod.conf
-...
-```
-**Seed**
+Give seeds
 ```bash
 $ rake db:seed_rooms
 ```
