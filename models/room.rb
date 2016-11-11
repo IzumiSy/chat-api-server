@@ -40,13 +40,13 @@ class Room
         end
     end
 
-    # If "all" is specfied to room_id parameter, this function proceeds
-    # the transaction that the specified user leaves from the current room.
     def room_transaction(room_id, token, transaction_type)
       unless user = User.find_by(token: token)
         raise HTTPError::Unauthorized
       end
 
+      # If "all" is specfied to `room_id` parameter, this function proceeds
+      # the transaction that the specified user leaves from the current room.
       is_all_leave_mode = (room_id == "all" && transaction_type == :LEAVE)
       room_id = user.room_id.to_s if is_all_leave_mode
 
