@@ -22,7 +22,7 @@ class MessageRoutes < RouteBase
       MessageService.broadcast_message(room_id, data)
       status 202
     else
-      body "Room to post not found"
+      body "RoomNotFound"
       status 404
     end
   end

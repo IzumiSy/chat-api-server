@@ -23,7 +23,7 @@ class BasicRoutes < RouteBase
       body result
       status status_code
     else
-      body "Invalid authorization"
+      body "InvalidAuthorization"
       status 401
     end
   end
@@ -32,7 +32,7 @@ class BasicRoutes < RouteBase
 
   def user_admin_promotion(user_id)
     unless user = User.find(user_id)
-      return 500, "User not found"
+      return 500, "UserNotFound"
     end
 
     user.update_attribute(:is_admin, true)

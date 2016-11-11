@@ -35,14 +35,14 @@ class UserRoutes < RouteBase
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
     else
-      body "No lobby room"
+      body "NoLobbyRoom"
       status 500
       return
     end
 
     user = User.new(create_user_param)
     unless user.save
-      body "Duplicated user name"
+      body "UserNameDuplicated"
       status 409
       return
     end
