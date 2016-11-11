@@ -65,7 +65,7 @@ class Room
 
     def transaction_enter(new_room_id, user)
       unless room = Room.find(new_room_id)
-        return HTTPError::NotFound
+        raise HTTPError::NotFound
       end
 
       EmService.defer do
