@@ -31,7 +31,7 @@ class RoomRoutes < RouteBase
 
     room_name = params[:name]
     if Room.find_by(name: room_name)
-      body "RoomNameDuplicated"
+      body "Room Name Duplicated"
       status 409
       return
     end
