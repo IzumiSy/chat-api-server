@@ -13,7 +13,7 @@ describe "POST /api/user/new" do
 
   it "should create a new user" do
     post "/api/user/new", user
-    expect(last_response.status).to eq(202)
+    expect(last_response.status).to eq(200)
   end
 
   it "should NOT create a new user" do

@@ -56,7 +56,6 @@ class UserRoutes < RouteBase
     end
 
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
-    status 202
   end
 
   get '/api/user/duplicate/:name' do
@@ -67,7 +66,6 @@ class UserRoutes < RouteBase
     }
 
     body status.to_json
-    status 200
   end
 
   get '/api/user/:id' do
@@ -110,7 +108,6 @@ class UserRoutes < RouteBase
     user.save
 
     body user.to_json(only: User::USER_DATA_LIMITS)
-    status 202
   end
 
   # TODO: Implementation

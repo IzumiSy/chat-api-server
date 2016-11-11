@@ -77,7 +77,7 @@ class Room
         MessageService.broadcast_enter_msg(user, room)
       end
       user.update_attributes!(room_id: new_room_id)
-      202
+      200
     end
 
     def transaction_leave(current_room_id, user)
@@ -89,7 +89,7 @@ class Room
         MessageService.broadcast_leave_msg(user)
       end
       user.update_attributes!(room_id: nil)
-      202
+      200
     end
   end
 end

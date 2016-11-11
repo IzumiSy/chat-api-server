@@ -23,7 +23,7 @@ describe "POST /api/admin/auth" do
     post 'api/admin/auth', success_param
     status = last_response.status
     is_admin = JSON.parse(last_response.body)["is_admin"]
-    expect(status).to eq(202)
+    expect(status).to eq(200)
     expect(is_admin).to eq(true)
   end
 

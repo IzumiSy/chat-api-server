@@ -20,7 +20,6 @@ class RoomRoutes < RouteBase
     end
 
     body room_all
-    status 200
   end
 
   post '/api/room/new' do
@@ -38,7 +37,6 @@ class RoomRoutes < RouteBase
 
     room = Room.create(name: room_name)
     body room.to_json(only: Room::ROOM_DATA_LIMITS)
-    status 202
   end
 
   # TODO Implementation
@@ -47,8 +45,6 @@ class RoomRoutes < RouteBase
 
     is_logged_in?
     is_admin?
-
-    status 204
   end
 
   get '/api/room/:id' do
