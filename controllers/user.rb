@@ -14,8 +14,7 @@ class UserRoutes < RouteBase
     client_name = params[:name]
 
     if client_ip.empty? || client_name.empty?
-      status 400
-      return
+      raise HTTPError::BadRequest
     end
 
     # If there is an user who has the same IP when the new user attempts to enter a channel,

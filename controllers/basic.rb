@@ -12,7 +12,9 @@ class BasicRoutes < RouteBase
     param :user_id, String, required: true
 
     admin_pass = ENV['ADMIN_PASS']
-    halt 500 if admin_pass.empty?
+    if admin_pass.empty?
+      raise HTTPError::InternalServerError
+    end
 
     login_hash = params[:auth_hash]
     user_id = params[:user_id]
@@ -23,8 +25,7 @@ class BasicRoutes < RouteBase
       body result
       status status_code
     else
-      body "Invalid Authorization"
-      status 401
+      raise HTTPError::Unauthorized
     end
   end
 
