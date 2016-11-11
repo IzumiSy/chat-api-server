@@ -4,7 +4,7 @@ class RouteBase < Sinatra::Base
   include AuthService
 
   configure do
-    set :raise_errors, true
+    set :raise_errors, false
     set :show_exceptions, false
 
     helpers Sinatra::Param
@@ -15,7 +15,7 @@ class RouteBase < Sinatra::Base
     enable :logging
   end
 
-  error do |exception|
+  error do |e|
     body e.message
     status e.code
   end
