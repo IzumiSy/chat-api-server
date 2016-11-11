@@ -25,7 +25,7 @@ class RouteBase < Sinatra::Base
       if _token = AuthService.is_logged_in?(request)
         _token
       else
-        halt 401
+        raise HTTPError::Unauthorized
       end
     end
 
@@ -33,7 +33,7 @@ class RouteBase < Sinatra::Base
       if _user = AuthService.is_admin?(request)
         _user
       else
-        halt 401
+        raise HTTPError::Unauthorized
       end
     end
   end
