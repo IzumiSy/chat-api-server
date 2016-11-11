@@ -27,16 +27,16 @@ class Room
   class << self
     def fetch_room_data(room_id, type)
       unless room = Room.find(room_id)
-        return 404, "Room not found"
+        raise HTTPError::NotFound
       end
 
       return case type
         when :ROOM then
-          [ 200, room.to_json(only: ROOM_DATA_LIMITS) ]
+          room.to_json(only: ROOM_DATA_LIMITS)
         when :USER then
-          [ 200, room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS) ]
+          room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
         else
-          [ 500, {}.to_json ]
+          raise HTTPError::InternalServerError
         end
     end
 

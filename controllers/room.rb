@@ -52,10 +52,7 @@ class RoomRoutes < RouteBase
     is_logged_in?
 
     room_id = params[:id]
-    stat_code, data = Room.fetch_room_data(room_id, :ROOM)
-
-    body data
-    status stat_code
+    body Room.fetch_room_data(room_id, :ROOM)
   end
 
   # Wild card implementation for two following ports
@@ -69,17 +66,14 @@ class RoomRoutes < RouteBase
     target_path = params['splat'].first
     room_id = params[:id]
 
-    stat_code, data = case target_path
+    body case target_path
       when "messages" then
         Room.fetch_room_data(room_id, :MSG)
       when 'users' then
         Room.fetch_room_data(room_id, :USER)
       else
-        [ 404, {}.to_json ]
+        raise HTTPError::NotFound
       end
-
-    body data
-    status stat_code
   end
 
   # This port covers two following ports
