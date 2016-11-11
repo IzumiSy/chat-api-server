@@ -25,12 +25,12 @@ class Room
   public
 
   class << self
-    def fetch_room_data(room_id, type)
+    def fetch_room_data(room_id, fetch_type)
       unless room = Room.find(room_id)
         raise HTTPError::NotFound
       end
 
-      return case type
+      return case fetch_type
         when :ROOM then
           room.to_json(only: ROOM_DATA_LIMITS)
         when :USER then
@@ -42,15 +42,15 @@ class Room
 
     # If "all" is specfied to room_id parameter, this function proceeds
     # the transaction that the specified user leaves from the current room.
-    def room_transaction(room_id, token, type)
+    def room_transaction(room_id, token, transaction_type)
       unless user = User.find_by(token: token)
         raise HTTPError::Unauthorized
       end
 
-      is_all_leave_mode = (room_id == "all" && type == :LEAVE)
+      is_all_leave_mode = (room_id == "all" && transaction_type == :LEAVE)
       room_id = user.room_id.to_s if is_all_leave_mode
 
-      case type
+      case transaction_type
       when :ENTER then
         transaction_enter(room_id, user)
       when :LEAVE then
