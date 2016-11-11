@@ -21,9 +21,7 @@ class BasicRoutes < RouteBase
 
     password_hash = Digest::MD5.hexdigest(admin_pass)
     if password_hash == login_hash
-      status_code, result = user_admin_promotion(user_id)
-      body result
-      status status_code
+      body user_admin_promotion(user_id)
     else
       raise HTTPError::Unauthorized
     end
@@ -37,7 +35,7 @@ class BasicRoutes < RouteBase
     end
 
     user.update_attribute(:is_admin, true)
-    return 202, user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
+    return user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
   end
 end
 
