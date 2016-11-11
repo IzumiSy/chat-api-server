@@ -44,7 +44,7 @@ class Room
     # the transaction that the specified user leaves from the current room.
     def room_transaction(room_id, token, type)
       unless user = User.find_by(token: token)
-        return [ 500, "Invalid token" ]
+        raise HTTPError::Unauthorized
       end
 
       is_all_leave_mode = (room_id == "all" && type == :LEAVE)
