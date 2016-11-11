@@ -26,8 +26,7 @@ class Room
 
   class << self
     def fetch_room_data(room_id, type)
-      room = Room.find(room_id)
-      unless room
+      unless room = Room.find(room_id)
         return 404, "Room not found"
       end
 
