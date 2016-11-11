@@ -75,6 +75,11 @@ describe "POST /api/room/enter" do
     expect(room.users.count).to eq(1)
     expect(room.users.first.id).to eq(user.id)
   end
+
+  it "should get 500 error with invalid type" do
+    post "/api/room/#{room.id}/nothing", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
+    expect(last_response.status).to eq(404)
+  end
 end
 
 describe "POST /api/room/:id/leave" do
