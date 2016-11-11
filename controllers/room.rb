@@ -93,17 +93,14 @@ class RoomRoutes < RouteBase
     target_path = params['splat'].first
     room_id = params[:id]
 
-    stat_code, data = case target_path
-      when 'enter' then
-        Room.room_transaction(room_id, token, :ENTER)
-      when 'leave' then
-        Room.room_transaction(room_id, token, :LEAVE)
-      else
-        [ 404, {}.to_json ]
-      end
-
-    body data
-    status stat_code
+    case target_path
+    when 'enter' then
+      Room.room_transaction(room_id, token, :ENTER)
+    when 'leave' then
+      Room.room_transaction(room_id, token, :LEAVE)
+    else
+      raise HTTPError::NotFound
+    end
   end
 end
 
