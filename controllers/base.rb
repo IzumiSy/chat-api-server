@@ -16,8 +16,8 @@ class RouteBase < Sinatra::Base
   end
 
   error do |exception|
-    # TODO need exception handling
-    status 500
+    body e.message
+    status e.code
   end
 
   helpers do
