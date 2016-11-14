@@ -34,9 +34,7 @@ class UserRoutes < RouteBase
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
     else
-      body "No Lobby Room"
-      status 500
-      return
+      raise HTTPError::InternalServerError, "No Lobby Room"
     end
 
     user = User.new(create_user_param)
