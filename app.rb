@@ -37,8 +37,7 @@ class Application < Sinatra::Base
   end
 
   not_found do
-    status 404
-    body "Port not found"
+    raise HTTPError::NotFound
   end
 
   use BasicRoutes
