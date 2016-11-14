@@ -31,7 +31,7 @@ class BasicRoutes < RouteBase
 
   def user_admin_promotion(user_id)
     unless user = User.find(user_id)
-      return 500, "User Not Found"
+      raise HTTPError::InternalServerError, "User Not Found"
     end
 
     user.update_attribute(:is_admin, true)
