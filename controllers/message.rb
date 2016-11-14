@@ -17,13 +17,12 @@ class MessageRoutes < RouteBase
     return if room_id.empty? or content.empty?
     return unless user
 
-    if Room.find(room_id)
-      data = { user_id: user.id, content: content, created_at: Time.now, user: user }
-      MessageService.broadcast_message(room_id, data)
-    else
-      body "Room Not Found"
-      status 404
+    unless Room.find(room_id)
+      raise HTTPError::NotFound, "Room Not Found"
     end
+
+    data = { user_id: user.id, content: content, created_at: Time.now, user: user }
+    MessageService.broadcast_message(room_id, data)
   end
 end
 
