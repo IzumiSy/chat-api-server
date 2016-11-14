@@ -30,6 +30,7 @@ describe "POST /api/admin/auth" do
   it "should NOT update an user with undefined user_id" do
     post 'api/admin/auth', undefined_user_param
     expect(last_response.status).to eq(500)
+    expect(last_response.body).to eq("User Not Found")
   end
 
   it "should NOT get auth_token with incorrect password" do
