@@ -39,9 +39,7 @@ class UserRoutes < RouteBase
 
     user = User.new(create_user_param)
     unless user.save
-      body "User Name Duplicated"
-      status 409
-      return
+      raise HTTPError::Conflict, "User Name Duplicated"
     end
 
     # If room_id is specified, it means that user enters into
