@@ -25,49 +25,49 @@ class Room
   public
 
   class << self
-    def fetch_room_data(room_id, type)
-      room = Room.find(room_id)
-      unless room
-        return 404, "Room not found"
+    def fetch_room_data(room_id, fetch_type)
+      unless room = Room.find(room_id)
+        raise HTTPError::NotFound
       end
 
-      return case type
+      return case fetch_type
         when :ROOM then
-          [ 200, room.to_json(only: ROOM_DATA_LIMITS) ]
+          room.to_json(only: ROOM_DATA_LIMITS)
         when :USER then
-          [ 200, room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS) ]
+          room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
         else
-          [ 500, {}.to_json ]
+          raise HTTPError::InternalServerError
         end
     end
 
-    # If "all" is specfied to room_id parameter, this function proceeds
-    # the transaction that the specified user leaves from the current room.
-    def room_transaction(room_id, token, type)
+    def room_transaction(room_id, token, transaction_type)
       unless user = User.find_by(token: token)
-        return [ 500, "Invalid token" ]
+        raise HTTPError::Unauthorized
       end
 
-      is_all_leave_mode = (room_id == "all" && type == :LEAVE)
+      # If "all" is specfied to `room_id` parameter, this function proceeds
+      # the transaction that the specified user leaves from the current room.
+      is_all_leave_mode = (room_id == "all" && transaction_type == :LEAVE)
       room_id = user.room_id.to_s if is_all_leave_mode
 
-      return case type
-        when :ENTER then
-          stat_code = transaction_enter(room_id, user)
-          [ stat_code, {}.to_json ]
-        when :LEAVE then
-          stat_code = transaction_leave(room_id, user)
-          User.user_deletion(user) if is_all_leave_mode
-          [ stat_code, {}.to_json ]
-        else
-          [ 500, { status: "Internal error"}.to_json ]
-        end
+      case transaction_type
+      when :ENTER then
+        transaction_enter(room_id, user)
+      when :LEAVE then
+        transaction_leave(room_id, user)
+        User.user_deletion(user) if is_all_leave_mode
+      else
+        raise HTTPError::InternalServerError
+      end
     end
 
     protected
 
     def transaction_enter(new_room_id, user)
-      return 404 unless room = Room.find(new_room_id)
+      unless room = Room.find(new_room_id)
+        raise HTTPError::NotFound
+      end
+
       EmService.defer do
         if user.room
           current_room_id = user.room.id
@@ -76,20 +76,24 @@ class Room
         Room.increment_counter(:users_count, new_room_id)
         MessageService.broadcast_enter_msg(user, room)
       end
+
       user.update_attributes!(room_id: new_room_id)
-      202
     end
 
     def transaction_leave(current_room_id, user)
       is_user_exist_in_room =
         current_room_id == user.room_id.to_s ? true : false
-      return 404 unless is_user_exist_in_room
+
+      unless is_user_exist_in_room
+        raise HTTPError::NotFound
+      end
+
       EmService.defer do
         Room.decrement_counter(:users_count, current_room_id)
         MessageService.broadcast_leave_msg(user)
       end
+
       user.update_attributes!(room_id: nil)
-      202
     end
   end
 end

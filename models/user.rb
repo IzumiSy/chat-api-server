@@ -43,13 +43,13 @@ class User
   public
 
   class << self
-    def fetch_user_data(user_id, type)
+    def fetch_user_data(user_id, fetch_type)
       user = User.only(:id, :name, :face, :room).find(user_id)
       unless user
         return 404, "User not found"
       end
 
-      return case type
+      return case fetch_type
         when :USER then
           [ 200, user.to_json(only: USER_DATA_LIMITS) ]
         when :ROOM then

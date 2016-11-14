@@ -13,7 +13,7 @@ describe "POST /api/user/new" do
 
   it "should create a new user" do
     post "/api/user/new", user
-    expect(last_response.status).to eq(202)
+    expect(last_response.status).to eq(200)
   end
 
   it "should NOT create a new user" do
@@ -51,5 +51,11 @@ describe "GET /api/user/:id/room" do
     get "/api/user/#{user.id}/room",
       { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(200)
+  end
+
+  it "should get 500 error with an invalid type" do
+    get "/api/user/#{user.id}/nothing",
+      { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
+    expect(last_response.status).to eq(404)
   end
 end

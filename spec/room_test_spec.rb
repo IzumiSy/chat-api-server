@@ -29,7 +29,7 @@ describe "POST /api/room/new" do
   it "should craete a room successfully" do
     post "/api/room/new", success_room,
       { "HTTP_AUTHORIZATION" => "Basic #{admin.token}" }
-    expect(last_response.status).to eq(202)
+    expect(last_response.status).to eq(200)
   end
 end
 
@@ -71,9 +71,14 @@ describe "POST /api/room/enter" do
   # TODO Implement room check if the user successfully entered
   it "should have an user enter the room" do
     post "/api/room/#{room.id}/enter", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
-    expect(last_response.status).to eq(202)
+    expect(last_response.status).to eq(200)
     expect(room.users.count).to eq(1)
     expect(room.users.first.id).to eq(user.id)
+  end
+
+  it "should get 500 error with invalid type" do
+    post "/api/room/#{room.id}/nothing", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
+    expect(last_response.status).to eq(404)
   end
 end
 
@@ -92,7 +97,7 @@ describe "POST /api/room/:id/leave" do
     enter_room(room.id, user.token)
     enter_room(room.id, admin.token)
     post "/api/room/#{room.id}/leave", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
-    expect(last_response.status).to eq(202)
+    expect(last_response.status).to eq(200)
     expect(room.users.first).to eq(admin)
     expect(room.users.count).to eq(1)
   end
@@ -102,7 +107,7 @@ describe "POST /api/room/:id/leave" do
     enter_room(room.id, user.token)
     enter_room(room.id, admin.token)
     post "/api/room/all/leave", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
-    expect(last_response.status).to eq(202)
+    expect(last_response.status).to eq(200)
     expect(room.users.first).to eq(admin)
     expect(room.users.count).to eq(1)
   end

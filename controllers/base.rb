@@ -4,7 +4,7 @@ class RouteBase < Sinatra::Base
   include AuthService
 
   configure do
-    set :raise_errors, true
+    set :raise_errors, false
     set :show_exceptions, false
 
     helpers Sinatra::Param
@@ -15,9 +15,9 @@ class RouteBase < Sinatra::Base
     enable :logging
   end
 
-  error do |exception|
-    # TODO need exception handling
-    status 500
+  error do |e|
+    body e.message
+    status e.code
   end
 
   helpers do
@@ -25,7 +25,7 @@ class RouteBase < Sinatra::Base
       if _token = AuthService.is_logged_in?(request)
         _token
       else
-        halt 401
+        raise HTTPError::Unauthorized
       end
     end
 
@@ -33,7 +33,7 @@ class RouteBase < Sinatra::Base
       if _user = AuthService.is_admin?(request)
         _user
       else
-        halt 401
+        raise HTTPError::Unauthorized
       end
     end
   end

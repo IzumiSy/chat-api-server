@@ -23,13 +23,14 @@ describe "POST /api/admin/auth" do
     post 'api/admin/auth', success_param
     status = last_response.status
     is_admin = JSON.parse(last_response.body)["is_admin"]
-    expect(status).to eq(202)
+    expect(status).to eq(200)
     expect(is_admin).to eq(true)
   end
 
   it "should NOT update an user with undefined user_id" do
     post 'api/admin/auth', undefined_user_param
     expect(last_response.status).to eq(500)
+    expect(last_response.body).to eq("User Not Found")
   end
 
   it "should NOT get auth_token with incorrect password" do

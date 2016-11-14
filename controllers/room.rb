@@ -20,7 +20,6 @@ class RoomRoutes < RouteBase
     end
 
     body room_all
-    status 200
   end
 
   post '/api/room/new' do
@@ -32,13 +31,11 @@ class RoomRoutes < RouteBase
     room_name = params[:name]
     if Room.find_by(name: room_name)
       body "Room Name Duplicated"
-      status 409
-      return
+      halt 409
     end
 
     room = Room.create(name: room_name)
     body room.to_json(only: Room::ROOM_DATA_LIMITS)
-    status 202
   end
 
   # TODO Implementation
@@ -47,8 +44,6 @@ class RoomRoutes < RouteBase
 
     is_logged_in?
     is_admin?
-
-    status 204
   end
 
   get '/api/room/:id' do
@@ -57,10 +52,7 @@ class RoomRoutes < RouteBase
     is_logged_in?
 
     room_id = params[:id]
-    stat_code, data = Room.fetch_room_data(room_id, :ROOM)
-
-    body data
-    status stat_code
+    body Room.fetch_room_data(room_id, :ROOM)
   end
 
   # Wild card implementation for two following ports
@@ -74,17 +66,14 @@ class RoomRoutes < RouteBase
     target_path = params['splat'].first
     room_id = params[:id]
 
-    stat_code, data = case target_path
+    body case target_path
       when "messages" then
         Room.fetch_room_data(room_id, :MSG)
       when 'users' then
         Room.fetch_room_data(room_id, :USER)
       else
-        [ 404, {}.to_json ]
+        raise HTTPError::NotFound
       end
-
-    body data
-    status stat_code
   end
 
   # This port covers two following ports
@@ -98,17 +87,14 @@ class RoomRoutes < RouteBase
     target_path = params['splat'].first
     room_id = params[:id]
 
-    stat_code, data = case target_path
-      when 'enter' then
-        Room.room_transaction(room_id, token, :ENTER)
-      when 'leave' then
-        Room.room_transaction(room_id, token, :LEAVE)
-      else
-        [ 404, {}.to_json ]
-      end
-
-    body data
-    status stat_code
+    case target_path
+    when 'enter' then
+      Room.room_transaction(room_id, token, :ENTER)
+    when 'leave' then
+      Room.room_transaction(room_id, token, :LEAVE)
+    else
+      raise HTTPError::NotFound
+    end
   end
 end
 

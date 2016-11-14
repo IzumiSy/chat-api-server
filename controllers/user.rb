@@ -14,8 +14,7 @@ class UserRoutes < RouteBase
     client_name = params[:name]
 
     if client_ip.empty? || client_name.empty?
-      status 400
-      return
+      raise HTTPError::BadRequest
     end
 
     # If there is an user who has the same IP when the new user attempts to enter a channel,
@@ -35,16 +34,12 @@ class UserRoutes < RouteBase
     if lobby_room = Room.find_by(name: "Lobby")
       create_user_param[:room_id] = lobby_room.id
     else
-      body "No Lobby Room"
-      status 500
-      return
+      raise HTTPError::InternalServerError, "No Lobby Room"
     end
 
     user = User.new(create_user_param)
     unless user.save
-      body "User Name Duplicated"
-      status 409
-      return
+      raise HTTPError::Conflict, "User Name Duplicated"
     end
 
     # If room_id is specified, it means that user enters into
@@ -57,7 +52,6 @@ class UserRoutes < RouteBase
     end
 
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
-    status 202
   end
 
   get '/api/user/duplicate/:name' do
@@ -68,7 +62,6 @@ class UserRoutes < RouteBase
     }
 
     body status.to_json
-    status 200
   end
 
   get '/api/user/:id' do
@@ -111,7 +104,6 @@ class UserRoutes < RouteBase
     user.save
 
     body user.to_json(only: User::USER_DATA_LIMITS)
-    status 202
   end
 
   # TODO: Implementation

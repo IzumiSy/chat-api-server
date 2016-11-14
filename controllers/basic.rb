@@ -12,19 +12,18 @@ class BasicRoutes < RouteBase
     param :user_id, String, required: true
 
     admin_pass = ENV['ADMIN_PASS']
-    halt 500 if admin_pass.empty?
+    if admin_pass.empty?
+      raise HTTPError::InternalServerError
+    end
 
     login_hash = params[:auth_hash]
     user_id = params[:user_id]
 
     password_hash = Digest::MD5.hexdigest(admin_pass)
     if password_hash == login_hash
-      status_code, result = user_admin_promotion(user_id)
-      body result
-      status status_code
+      body user_admin_promotion(user_id)
     else
-      body "Invalid Authorization"
-      status 401
+      raise HTTPError::Unauthorized
     end
   end
 
@@ -32,11 +31,11 @@ class BasicRoutes < RouteBase
 
   def user_admin_promotion(user_id)
     unless user = User.find(user_id)
-      return 500, "User Not Found"
+      raise HTTPError::InternalServerError, "User Not Found"
     end
 
     user.update_attribute(:is_admin, true)
-    return 202, user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
+    return user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
   end
 end
 
