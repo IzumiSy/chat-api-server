@@ -31,12 +31,11 @@ class UserRoutes < RouteBase
       create_user_param[:face] = params[:user]
     end
 
-    if lobby_room = Room.find_by(name: "Lobby")
-      create_user_param[:room_id] = lobby_room.id
-    else
+    unless lobby_room = Room.find_by(name: "Lobby")
       raise HTTPError::InternalServerError, "No Lobby Room"
     end
 
+    create_user_param[:room_id] = lobby_room.id
     user = User.new(create_user_param)
     unless user.save
       raise HTTPError::Conflict, "User Name Duplicated"
