@@ -44,9 +44,8 @@ class User
 
   class << self
     def fetch_user_data(user_id, fetch_type)
-      user = User.only(:id, :name, :face, :room).find(user_id)
-      unless user
-        return 404, "User not found"
+      unless user = User.only(:id, :name, :face, :room).find(user_id)
+        raise HTTPError::NotFound, "User Not Found"
       end
 
       return case fetch_type
