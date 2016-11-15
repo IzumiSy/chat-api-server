@@ -22,19 +22,17 @@ class RouteBase < Sinatra::Base
 
   helpers do
     def is_logged_in?
-      if _token = AuthService.is_logged_in?(request)
-        _token
-      else
+      unless _token = AuthService.is_logged_in?(request)
         raise HTTPError::Unauthorized
       end
+      _token
     end
 
     def is_admin?
-      if _user = AuthService.is_admin?(request)
-        _user
-      else
+      unless _user = AuthService.is_admin?(request)
         raise HTTPError::Unauthorized
       end
+      _user
     end
   end
 end
