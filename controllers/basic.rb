@@ -13,7 +13,7 @@ class BasicRoutes < RouteBase
 
     admin_pass = ENV['ADMIN_PASS']
     if admin_pass.empty?
-      raise HTTPError::InternalServerError
+      raise HTTPError::InternalServerError, "ADMIN_PASS is not set"
     end
 
     login_hash = params[:auth_hash]
