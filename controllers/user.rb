@@ -69,10 +69,7 @@ class UserRoutes < RouteBase
     is_logged_in?
 
     user_id = params[:id]
-    stat_code, data = User.fetch_user_data(user_id, :USER)
-
-    body data
-    status stat_code
+    body User.fetch_user_data(user_id, :USER)
   end
 
   get '/api/user/:id/room' do
@@ -81,10 +78,7 @@ class UserRoutes < RouteBase
     is_logged_in?
 
     user_id = params[:id]
-    stat_code, data = User.fetch_user_data(user_id, :ROOM)
-
-    body data
-    status stat_code
+    body User.fetch_user_data(user_id, :ROOM)
   end
 
   # TODO Need to write test here

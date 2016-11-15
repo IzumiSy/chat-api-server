@@ -50,11 +50,11 @@ class User
 
       return case fetch_type
         when :USER then
-          [ 200, user.to_json(only: USER_DATA_LIMITS) ]
+          user.to_json(only: USER_DATA_LIMITS)
         when :ROOM then
-          [ 200, user.room.to_json(only: Room::ROOM_DATA_LIMITS) ]
+          user.room.to_json(only: Room::ROOM_DATA_LIMITS)
         else
-          [ 500, {}.to_json ]
+          raise HTTPError::InternalServerError
         end
     end
 
