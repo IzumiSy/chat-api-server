@@ -26,8 +26,12 @@ group :development, :test do
   gem 'pry-debugger'
 
   gem 'awesome_print'
+end
+
+group :test do
   gem 'rspec'
   gem 'rack-test'
+
   gem 'database_cleaner', github: 'DatabaseCleaner/database_cleaner'
   gem 'factory_girl'
   gem 'faker'
