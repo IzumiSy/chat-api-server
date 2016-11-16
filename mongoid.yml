@@ -7,28 +7,28 @@ client_options: &client_options
 
 default: &default
   default:
-    uri: <%= ENV['MONGODB_URI'] %>
     <<: *client_options
+    uri: <%= ENV['MONGODB_URI'] %>
 
 test:
   options:
     <<: *options
   clients:
     default:
+      <<: *client_options
       database: test
       hosts:
         - localhost:27017
-      <<: *client_options
 
 development:
   options:
     <<: *options
   clients:
     default:
+      <<: *client_options
       database: development
       hosts:
         - localhost:27017
-      <<: *client_options
 
 production:
   options:
