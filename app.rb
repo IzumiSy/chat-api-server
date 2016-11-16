@@ -13,8 +13,6 @@ require 'securerandom'
 
 require 'dotenv'
 
-require 'pry'
-
 require 'rack-ssl-enforcer'
 
 require_relative 'controllers/basic'

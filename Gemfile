@@ -19,10 +19,10 @@ gem 'dotenv'
 gem 'redis'
 gem 'hiredis'
 
-gem 'pry'
-gem 'pry-debugger'
-
 group :development, :test do
+  gem 'pry', require: true
+  gem 'pry-debugger'
+
   gem 'awesome_print'
   gem 'rspec'
   gem 'rack-test'
