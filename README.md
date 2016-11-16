@@ -35,4 +35,3 @@ $ bundle exec thin start -p 3000
 ```bash
 $ bundle exec rspec
 ```
-All records on DB will be cleaned up if you run test, so you need to exec `rake db:seed_rooms` again before you start it up.
