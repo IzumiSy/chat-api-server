@@ -2,9 +2,13 @@
 options: &options
   raise_not_found_error: false
 
+client_options: &client_options
+  connect: :direct
+
 default: &default
   default:
     uri: <%= ENV['MONGODB_URI'] %>
+    <<: *client_options
 
 test:
   options:
@@ -14,6 +18,7 @@ test:
       database: test
       hosts:
         - localhost:27017
+      <<: *client_options
 
 development:
   options:
@@ -23,6 +28,7 @@ development:
       database: development
       hosts:
         - localhost:27017
+      <<: *client_options
 
 production:
   options:
