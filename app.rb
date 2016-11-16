@@ -24,7 +24,7 @@ require_relative 'models/room'
 require_relative 'models/user'
 
 Dotenv.load
-Mongoid.load!('mongoid.yml')
+Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
   register Sinatra::RocketIO
