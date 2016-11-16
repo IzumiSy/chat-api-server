@@ -1,3 +1,5 @@
+ENV['RACK_ENV'] = 'test'
+
 require 'rspec'
 require 'json'
 require 'pry'
@@ -10,8 +12,6 @@ require_relative '../app.rb'
 
 require_relative './factories/user.rb'
 require_relative './factories/room.rb'
-
-ENV['RACK_ENV'] = 'test'
 
 module Helpers
   def redis_connect
