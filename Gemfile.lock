@@ -73,6 +73,7 @@ GEM
     rack-ssl-enforcer (0.2.9)
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (11.3.0)
     redis (3.3.1)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -158,6 +159,7 @@ DEPENDENCIES
   pry-debugger
   rack-ssl-enforcer
   rack-test
+  rake
   redis
   rspec
   shotgun

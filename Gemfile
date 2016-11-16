@@ -19,6 +19,8 @@ gem 'dotenv'
 gem 'redis'
 gem 'hiredis'
 
+gem 'rake'
+
 group :development, :test do
   gem 'pry', require: true
   gem 'pry-debugger'
