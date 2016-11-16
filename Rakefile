@@ -23,4 +23,9 @@ namespace :db do
     end
     exec 'redis-cli flushdb'
   end
+
+  task :drop_all do
+    Mongoid.purge!
+    exec 'redis-cli flushdb'
+  end
 end
