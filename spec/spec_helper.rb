@@ -50,5 +50,5 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.profile_examples = 10
+  config.profile_examples = 5
 end
