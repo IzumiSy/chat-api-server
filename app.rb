@@ -17,6 +17,8 @@ require 'dotenv'
 
 require 'rack-ssl-enforcer'
 
+require 'pry' if development?
+
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
 require_relative 'controllers/message'
