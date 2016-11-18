@@ -7,25 +7,25 @@ FactoryGirl.define do
   factory :user, class: User do
     name  { generate :name }
     ip    { generate :ip }
-    face  { "face1" }
+    face  { "1867" }
   end
 
   factory :user2, class: User do
     name  { generate :name }
     ip    { generate :ip }
-    face  { "face1" }
+    face  { "1870" }
   end
 
   factory :Jonathan, class: User do
     name  { "Jonathan" }
     ip    { generate :ip }
-    face  { "face3" }
+    face  { "1874" }
   end
 
   factory :admin, class: User do
     name     { generate :name }
     ip       { generate :ip }
-    face     { "face2" }
+    face     { "1898" }
     is_admin { true }
   end
 end
