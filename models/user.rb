@@ -37,7 +37,6 @@ class User
 
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
-  field :is_deleted, type: Boolean, default: false
 
   validates :name, presence: true, uniqueness: true
 
