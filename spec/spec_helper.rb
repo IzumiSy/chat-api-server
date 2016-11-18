@@ -33,6 +33,7 @@ RSpec.configure do |config|
   include FactoryGirl::Syntax::Methods
   include Helpers
 
+  config.include RSpec::Matchers
   config.include Mongoid::Matchers, type: :model
 
   def app()
