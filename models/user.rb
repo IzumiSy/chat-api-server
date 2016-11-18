@@ -14,7 +14,7 @@ class User
 
   FACE_ID_BASE = 144995
   FACE_IDS = [
-    "1867", "1870", "1874", "1898", "1900", "1968", "1973"
+    1867, 1870, 1874, 1898, 1900, 1968, 1973
   ].freeze
 
   field :name,   type: String
@@ -104,6 +104,6 @@ class User
 
   # Set random face id
   def faceid_gen(base)
-    (base + FACE_IDS[rand(FACE_IDS.length)].to_s)
+    (base.to_s + FACE_IDS[rand(FACE_IDS.length)].to_s)
   end
 end
