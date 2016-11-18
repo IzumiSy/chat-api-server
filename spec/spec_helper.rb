@@ -30,6 +30,7 @@ end
 RSpec.configure do |config|
   include Rack::Test::Methods
   include FactoryGirl::Syntax::Methods
+  include Mongoid::Matchers, type: :model
   include Helpers
 
   def app()
