@@ -1,6 +1,9 @@
 require_relative "./spec_helper.rb"
 
 describe User do
+  it { is_expected.to be_timestamped_document }
+  it { is_expected.to be_paranoid_document }
+
   it { is_expected.to belong_to(:room) }
 
   it { is_expected.to validate_presence_of(:name) }
