@@ -2,7 +2,6 @@ ENV['RACK_ENV'] = 'test'
 
 require 'rspec'
 require 'json'
-require 'pry'
 require 'faker'
 require 'rack/test'
 require 'mongoid-rspec'
