@@ -38,7 +38,10 @@ class User
   field :is_admin, type: Boolean, default: false
 
   validates :name, presence: true, uniqueness: true,
-    absence: false, length: { maximum: self::USER_NAME_LENGTH_MAX }
+    absence: false, length: {
+      minimum: 0,
+      maximum: self::USER_NAME_LENGTH_MAX
+    }
   validates :face, absence: false
   validates_inclusion_of :face, in: ->(_) do
     FACE_IDS.map { |f| "#{FACE_ID_BASE}#{f}" }

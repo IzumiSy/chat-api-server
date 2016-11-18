@@ -8,6 +8,7 @@ describe User do
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:name) }
+  it { is_expected.to validate_length_of(:name).within(0..User::USER_NAME_LENGTH_MAX) }
 
   it { is_expected.to have_fields(:name, :face).of_type(String) }
   it { is_expected.to have_fields(:ip, :token, :session).of_type(String) }

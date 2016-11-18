@@ -19,7 +19,10 @@ class Room
   field :status, type: Integer, default: 0
 
   validates :name, presence: true, uniqueness: true,
-    absence: false, length: { maximum: self::ROOM_TITLE_LENGTH_MAX }
+    absence: false, length: {
+      minimum: 0,
+      maximum: self::ROOM_TITLE_LENGTH_MAX
+    }
 
   public
 
