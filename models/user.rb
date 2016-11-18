@@ -6,6 +6,7 @@ class User
   include Mongoid::Paranoia
   include RedisService
 
+  USER_NAME_LENGTH_MAX = 64
   USER_DATA_LIMITS = [:_id, :name, :face]
 
   before_create :generate_user_token
@@ -36,7 +37,8 @@ class User
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true,
+    absence: false, length: { maximum: self::USER_NAME_LENGTH_MAX }
   validates :face, absence: false
   validates_inclusion_of :face, in: ->(_) do
     FACE_IDS.map { |f| "#{FACE_ID_BASE}#{f}" }

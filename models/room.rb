@@ -10,15 +10,16 @@ class Room
 
   has_many :users
 
-  ROOM_MAX = 200
+  ROOM_TITLE_LENGTH_MAX = 64
+  ROOM_MAX = 100
   ROOM_DATA_LIMITS = [:_id, :name, :users_count]
 
   field :name, type: String
   field :users_count, type: Integer, default: 0
   field :status, type: Integer, default: 0
 
-  validates :name, presence: true,
-    uniqueness: true, absence: false
+  validates :name, presence: true, uniqueness: true,
+    absence: false, length: { maximum: self::ROOM_TITLE_LENGTH_MAX }
 
   public
 
