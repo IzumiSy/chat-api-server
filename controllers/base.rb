@@ -21,7 +21,13 @@ class RouteBase < Sinatra::Base
   end
 
   error Mongoid::Errors::MongoidError do |e|
-    halt HTTPError::BadRequest::CODE, e.summary
+    status case e
+      when Mongoid::Errors::Validations
+        HTTPError::BadRequest::CODE
+      else
+        HTTPError::InternalServerError::CODE
+      end
+    body e.summary
   end
 
   helpers do
