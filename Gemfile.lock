@@ -57,10 +57,16 @@ GEM
       mongo (~> 2.1)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
+    mongoid-compatibility (0.4.0)
+      activesupport
+      mongoid (>= 2.0)
     mongoid-rspec (3.0.0)
       mongoid (~> 5.0)
       rake
       rspec (~> 3.3)
+    mongoid_paranoia (0.2.1)
+      mongoid (>= 4)
+      mongoid-compatibility
     multi_json (1.12.1)
     multi_xml (0.5.5)
     origin (2.2.2)
@@ -160,6 +166,7 @@ DEPENDENCIES
   hiredis
   mongoid (~> 5.0.0)
   mongoid-rspec
+  mongoid_paranoia
   pry
   pry-debugger
   rack-ssl-enforcer
