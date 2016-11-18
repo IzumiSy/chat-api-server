@@ -37,6 +37,7 @@ class UserRoutes < RouteBase
 
     create_user_param[:room_id] = lobby_room.id
     user = User.new(create_user_param)
+
     unless user.save
       raise HTTPError::Conflict, "User Name Duplicated"
     end

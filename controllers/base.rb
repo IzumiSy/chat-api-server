@@ -17,7 +17,7 @@ class RouteBase < Sinatra::Base
   end
 
   error do |e|
-    handle_errorcodes(e)
+    handle_errorcode(e)
   end
 
   helpers do
