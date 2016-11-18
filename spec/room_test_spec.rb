@@ -22,8 +22,7 @@ describe "POST /api/room/new" do
   it "should NOT create a room because of name duplication" do
     post "/api/room/new", duplicated_room,
       { "HTTP_AUTHORIZATION" => "Basic #{admin.token}" }
-    expect(last_response.status).to eq(409)
-    expect(last_response.body).to eq("Room Name Duplicated")
+    expect(last_response.status).to eq(400)
   end
 
   it "should craete a room successfully" do

@@ -29,11 +29,9 @@ class RoomRoutes < RouteBase
     is_admin?
 
     room_name = params[:name]
-    if Room.find_by(name: room_name)
-      raise HTTPError::Conflict, "Room Name Duplicated"
-    end
+    room = Room.new(name: room_name)
+    room.save!
 
-    room = Room.create(name: room_name)
     body room.to_json(only: Room::ROOM_DATA_LIMITS)
   end
 
