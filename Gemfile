@@ -12,7 +12,7 @@ gem 'shotgun'
 gem 'thin'
 
 gem 'mongoid', '~> 5.0.0'
-gem 'mongoid-paranoia'
+gem 'mongoid_paranoia'
 
 gem 'bcrypt'
 gem 'dotenv'
