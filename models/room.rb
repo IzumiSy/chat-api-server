@@ -4,6 +4,7 @@ require_relative "../services/em_service"
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paranoia
   include MessageService
   include EmService
 
