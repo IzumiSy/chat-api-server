@@ -18,7 +18,7 @@ class User
   ].freeze
 
   field :name,   type: String
-  field :face,   type: String, default: ->{ self.faceid_gen(self::FACE_ID_BASE) }
+  field :face,   type: String, default: ->{ faceid_gen() }
 
   field :ip,      type: String
   field :token,   type: String
@@ -38,8 +38,9 @@ class User
 
   validates :name, presence: true, uniqueness: true
   validates :face, absence: false
-  validates_inclusion_of :face,
-    in: ->(user){ self::FACE_IDS.includes?("#{self::FACE_ID_BASE}#{user.face}") }
+  validates_inclusion_of :face, in: ->(_) do
+    FACE_IDS.map { |f| "#{FACE_ID_BASE}#{f}" }
+  end
 
   public
 
@@ -103,7 +104,8 @@ class User
   end
 
   # Set random face id
-  def faceid_gen(base)
-    (base.to_s + FACE_IDS[rand(FACE_IDS.length)].to_s)
+  def faceid_gen
+    faceid = FACE_IDS[rand(FACE_IDS.length)]
+    "#{FACE_ID_BASE}#{faceid}"
   end
 end
