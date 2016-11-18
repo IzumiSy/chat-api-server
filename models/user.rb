@@ -37,6 +37,7 @@ class User
   field :is_admin, type: Boolean, default: false
 
   validates :name, presence: true, uniqueness: true
+  validates :face, absence: false
 
   public
 

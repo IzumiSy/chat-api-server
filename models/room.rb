@@ -17,7 +17,8 @@ class Room
   field :users_count, type: Integer, default: 0
   field :status, type: Integer, default: 0
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true,
+    uniqueness: true, absence: false
 
   public
 
