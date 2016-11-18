@@ -11,13 +11,10 @@ class Room
   has_many :users
 
   ROOM_MAX = 200
-  ROOM_DATA_LIMITS = [:_id, :name, :messages_count, :users_count]
+  ROOM_DATA_LIMITS = [:_id, :name, :users_count]
 
   field :name, type: String
-
-  field :messages_count, type: Integer, default: 0
   field :users_count, type: Integer, default: 0
-
   field :status, type: Integer, default: 0
 
   validates :name, presence: true, uniqueness: true

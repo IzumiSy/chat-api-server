@@ -24,8 +24,6 @@ class User
   field :token,   type: String
   field :session, type: String
 
-  field :messages_count, type: Integer, default: 0
-
   index({ name: 1 }, { unique: true, name: 'name_index', background: true })
   index({ ip:   1 }, { unique: true, name: 'ip_index',   background: true })
 
