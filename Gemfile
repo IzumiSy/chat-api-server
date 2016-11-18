@@ -30,6 +30,7 @@ end
 
 group :test do
   gem 'rspec'
+  gem 'mongoid-rspec'
   gem 'rack-test'
 
   gem 'database_cleaner', github: 'DatabaseCleaner/database_cleaner'

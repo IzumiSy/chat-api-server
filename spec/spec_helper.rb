@@ -5,6 +5,7 @@ require 'json'
 require 'pry'
 require 'faker'
 require 'rack/test'
+require 'mongoid-rspec'
 require 'database_cleaner'
 require 'factory_girl'
 
@@ -31,6 +32,9 @@ RSpec.configure do |config|
   include Rack::Test::Methods
   include FactoryGirl::Syntax::Methods
   include Helpers
+
+  config.include RSpec::Matchers
+  config.include Mongoid::Matchers
 
   def app()
     Application.new
