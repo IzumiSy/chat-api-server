@@ -4,21 +4,18 @@ require_relative "../services/em_service"
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paranoia
   include MessageService
   include EmService
 
   has_many :users
 
   ROOM_MAX = 200
-  ROOM_DATA_LIMITS = [:_id, :name, :messages_count, :users_count]
+  ROOM_DATA_LIMITS = [:_id, :name, :users_count]
 
   field :name, type: String
-
-  field :messages_count, type: Integer, default: 0
   field :users_count, type: Integer, default: 0
-
   field :status, type: Integer, default: 0
-  field :is_deleted, type: Boolean, default: false
 
   validates :name, presence: true, uniqueness: true
 

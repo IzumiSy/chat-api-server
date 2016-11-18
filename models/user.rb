@@ -3,6 +3,7 @@ require_relative "../services/redis_service"
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paranoia
   include RedisService
 
   USER_DATA_LIMITS = [:_id, :name, :face]
@@ -23,8 +24,6 @@ class User
   field :token,   type: String
   field :session, type: String
 
-  field :messages_count, type: Integer, default: 0
-
   index({ name: 1 }, { unique: true, name: 'name_index', background: true })
   index({ ip:   1 }, { unique: true, name: 'ip_index',   background: true })
 
@@ -36,7 +35,6 @@ class User
 
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
-  field :is_deleted, type: Boolean, default: false
 
   validates :name, presence: true, uniqueness: true
 
