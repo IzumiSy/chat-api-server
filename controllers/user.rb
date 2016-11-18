@@ -28,7 +28,7 @@ class UserRoutes < RouteBase
     }
 
     if (params[:face])
-      create_user_param[:face] = params[:user]
+      create_user_param[:face] = params[:face]
     end
 
     unless lobby_room = Room.find_by(name: "Lobby")
@@ -38,6 +38,9 @@ class UserRoutes < RouteBase
     create_user_param[:room_id] = lobby_room.id
     user = User.new(create_user_param)
 
+    # TODO
+    # need to fix here to raise a correct exception, because currently user.save()
+    # fails in validation error, so better to see an error detail of record creation.
     unless user.save
       raise HTTPError::Conflict, "User Name Duplicated"
     end
