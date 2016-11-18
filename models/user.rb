@@ -14,11 +14,11 @@ class User
 
   FACE_ID_BASE = 144995
   FACE_IDS = [
-    1867, 1870, 1874, 1898, 1900, 1968, 1973
+    "1867", "1870", "1874", "1898", "1900", "1968", "1973"
   ].freeze
 
   field :name,   type: String
-  field :face,   type: String
+  field :face,   type: String, default: self::FACE_IDS.first
 
   field :ip,      type: String
   field :token,   type: String
@@ -38,6 +38,7 @@ class User
 
   validates :name, presence: true, uniqueness: true
   validates :face, absence: false
+  validates_inclusion_of :face, in: self::FACE_IDS
 
   public
 
