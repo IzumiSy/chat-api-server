@@ -8,7 +8,7 @@ class User
 
   USER_DATA_LIMITS = [:_id, :name, :face]
 
-  before_create :generate_user_token, :set_face_id
+  before_create :generate_user_token
 
   belongs_to :room, foreign_key: 'room_id'
 
@@ -18,7 +18,7 @@ class User
   ].freeze
 
   field :name,   type: String
-  field :face,   type: String, default: self::FACE_IDS.first
+  field :face,   type: String, default: ->{ self.faceid_gen(self::FACE_ID_BASE) }
 
   field :ip,      type: String
   field :token,   type: String
@@ -38,7 +38,8 @@ class User
 
   validates :name, presence: true, uniqueness: true
   validates :face, absence: false
-  validates_inclusion_of :face, in: self::FACE_IDS
+  validates_inclusion_of :face,
+    in: ->(user){ self::FACE_IDS.includes?("#{self::FACE_ID_BASE}#{user.face}") }
 
   public
 
@@ -102,7 +103,7 @@ class User
   end
 
   # Set random face id
-  def set_face_id
-    self.face = (FACE_ID_BASE.to_s + FACE_IDS[rand(FACE_IDS.length)].to_s)
+  def faceid_gen(base)
+    (base + FACE_IDS[rand(FACE_IDS.length)].to_s)
   end
 end
