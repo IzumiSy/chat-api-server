@@ -8,6 +8,8 @@ require 'sinatra/errorcodes'
 require 'digest/md5'
 
 require 'mongoid'
+require 'mongoid/paranoia'
+
 require 'redis'
 require 'securerandom'
 
