@@ -20,6 +20,10 @@ class RouteBase < Sinatra::Base
     handle_errorcode(e)
   end
 
+  error Mongoid::Errors::MongoidError do |e|
+    halt HTTPError::BadRequest::CODE, e.summary
+  end
+
   helpers do
     def is_logged_in?
       unless _token = AuthService.is_logged_in?(request)
