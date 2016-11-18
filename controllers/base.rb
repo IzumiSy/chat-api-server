@@ -8,6 +8,7 @@ class RouteBase < Sinatra::Base
     set :show_exceptions, false
 
     helpers Sinatra::Param
+    helpers Sinatra::Errorcodes
 
     register Sinatra::CrossOrigin
 
@@ -16,8 +17,7 @@ class RouteBase < Sinatra::Base
   end
 
   error do |e|
-    body e.message
-    status e.code
+    handle_errorcodes(e)
   end
 
   helpers do
