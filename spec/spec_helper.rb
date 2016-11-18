@@ -34,7 +34,7 @@ RSpec.configure do |config|
   include Helpers
 
   config.include RSpec::Matchers
-  config.include Mongoid::Matchers, type: :model
+  config.include Mongoid::Matchers
 
   def app()
     Application.new
