@@ -40,20 +40,16 @@ module MessageService
     end
 
     def broadcast_enter_msg(user, room)
-      EmService.defer do
-        broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name, room.id)
-        broadcast_members_update(room)
-        broadcast_room_update()
-      end
+      broadcast_system_log(SYSTEM_LOG_TYPE::USER_ENTER, user.name, room.id)
+      Thread.new { broadcast_members_update(room) }
+      Thread.new { broadcast_room_update() }
     end
 
     def broadcast_leave_msg(user)
       return unless user.room
-      EmService.defer do
-        broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, user.room.id)
-        broadcast_members_update(user.room)
-        broadcast_room_update()
-      end
+      broadcast_system_log(SYSTEM_LOG_TYPE::USER_LEAVE, user.name, user.room.id)
+      Thread.new { broadcast_members_update(user.room) }
+      Thread.new { broadcast_room_update() }
     end
 
     private
