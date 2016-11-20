@@ -68,9 +68,9 @@ class Room
         current_room_id = user.room.id
         Room.decrement_counter(:users_count, current_room_id)
       end
-      Room.increment_counter(:users_count, new_room_id)
 
       _room = promise {
+        Room.increment_counter(:users_count, new_room_id)
         Room.find_by!(id: new_room_id)
       }
       _user = promise {
