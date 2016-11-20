@@ -90,7 +90,7 @@ class UserRoutes < RouteBase
 
     user_id = params[:id]
     data = params[:data]
-    user = User.find(user_id);
+    user = User.find_by!(id: user_id);
     user.update_attributes!(data);
     user.save
 
@@ -104,7 +104,7 @@ class UserRoutes < RouteBase
     is_logged_in?
 
     user_id = params[:id]
-    user = User.find(user_id);
+    user = User.find_by!(user_id);
     user.delete
   end
 end
