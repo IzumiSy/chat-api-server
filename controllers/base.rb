@@ -29,7 +29,7 @@ class RouteBase < Sinatra::Base
       else
         raise HTTPError::InternalServerError
       end
-    body e.summary || nil
+    body e.message || nil
   end
 
   helpers do
