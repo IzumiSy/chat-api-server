@@ -105,6 +105,7 @@ class UserRoutes < RouteBase
 
     user_id = params[:id]
     user = User.find_by!(user_id);
-    user.delete
+
+    User.user_deletion(user)
   end
 end
