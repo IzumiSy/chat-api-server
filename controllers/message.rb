@@ -14,12 +14,8 @@ class MessageRoutes < RouteBase
     content = params[:content]
     user    = User.find_by(token: token)
 
-    return if room_id.empty? or content.empty?
-    return unless user
-
-    unless Room.find(room_id)
-      raise HTTPError::NotFound, "Room Not Found"
-    end
+    raise HTTPError::BadRequest if room_id.empty? or content.empty?
+    raise HTTPError::BadRequest unless user
 
     data = { user_id: user.id, content: content, created_at: Time.now, user: user }
     MessageService.broadcast_message(room_id, data)
