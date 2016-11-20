@@ -54,11 +54,11 @@ class UserRoutes < RouteBase
   get '/api/user/duplicate/:name' do
     param :name, String, required: true
 
-    status = {
-      status: !User.find_by(name: params[:name]) ? true : false
-    }
+    _status = {
+      status: !!User.where(name: params[:name]).exists?
+    }.to_json
 
-    body status.to_json
+    body _status
   end
 
   get '/api/user/:id' do
