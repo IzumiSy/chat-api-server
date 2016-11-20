@@ -97,10 +97,14 @@ class UserRoutes < RouteBase
     body user.to_json(only: User::USER_DATA_LIMITS)
   end
 
-  # TODO: Implementation
+  # TODO: need test
   delete '/api/user/:id' do
     param :id, String, required: true
 
     is_logged_in?
+
+    user_id = params[:id]
+    user = User.find(user_id);
+    user.delete
   end
 end
