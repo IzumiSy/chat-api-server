@@ -25,9 +25,6 @@ class User
   field :token,   type: String
   field :session, type: String
 
-  index({ name: 1 }, { unique: true, name: 'name_index', background: true })
-  index({ ip:   1 }, { unique: true, name: 'ip_index',   background: true })
-
   STATUS = [
     STATUS_NEUTRAL = 0
   ].freeze
