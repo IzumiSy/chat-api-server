@@ -64,34 +64,35 @@ class Room
     protected
 
     def transaction_enter(new_room_id, user)
-      room = Room.find_by!(id: new_room_id)
-
-      # EmService.defer do
       if user.room
         current_room_id = user.room.id
         Room.decrement_counter(:users_count, current_room_id)
       end
       Room.increment_counter(:users_count, new_room_id)
-      MessageService.broadcast_enter_msg(user, room)
-      # end
 
-      user.update_attributes!(room_id: new_room_id)
+      _room = promise {
+        Room.find_by!(id: new_room_id)
+      }
+      _user = promise {
+        user.update_attributes!(room_id: new_room_id)
+        user
+      }
+
+      MessageService.broadcast_enter_msg(_user, _room)
     end
 
     def transaction_leave(current_room_id, user)
       is_user_exist_in_room =
         current_room_id == user.room_id.to_s ? true : false
 
-      unless is_user_exist_in_room
-        raise HTTPError::NotFound
-      end
+      return unless is_user_exist_in_room
 
-      # EmService.defer do
+      Thread.new {
+        user.update_attributes!(room_id: nil)
+      }
+
       Room.decrement_counter(:users_count, current_room_id)
       MessageService.broadcast_leave_msg(user)
-      # end
-
-      user.update_attributes!(room_id: nil)
     end
   end
 end
