@@ -13,6 +13,8 @@ require 'mongoid/paranoia'
 require 'redis'
 require 'securerandom'
 
+require 'parallel'
+
 require 'dotenv'
 
 require 'rack-ssl-enforcer'
