@@ -86,11 +86,6 @@ describe "POST /api/room/:id/leave" do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 
-  it "should get an 404 error with invalid room id" do
-    post "/api/room/12345/leave", {}, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
-    expect(last_response.status).to eq(404)
-  end
-
   # TODO Implement room check if the user successfully leaved
   it "should have an user leave the room" do
     enter_room(room.id, user.token)
