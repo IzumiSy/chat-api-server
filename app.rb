@@ -13,6 +13,7 @@ require 'mongoid/paranoia'
 require 'redis'
 require 'securerandom'
 
+require 'paralle'
 require 'promise'
 
 require 'dotenv'
