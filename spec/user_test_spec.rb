@@ -1,5 +1,24 @@
 require_relative "./spec_helper.rb"
 
+describe "GET /api/user/duplicate/:name" do
+  let(:unique_user) { { name: "Justine" } }
+  let!(:jonathan) { create(:Jonathan) }
+
+  it "should get available with an unique name" do
+    get "/api/user/duplicate/#{unique_user[:name]}"
+    body = JSON.parse(last_response.body)
+    expect(body["status"]).to eq(false);
+    expect(last_response.status).to eq(200)
+  end
+
+  it "should NOT get available with a duplicated name" do
+    get "/api/user/duplicate/#{jonathan[:name]}"
+    body = JSON.parse(last_response.body)
+    expect(body["status"]).to eq(true);
+    expect(last_response.status).to eq(200)
+  end
+end
+
 describe "POST /api/user/new" do
   let(:user) { { name: "test1" } }
   let(:error_user) { { name: "Jonathan" } }

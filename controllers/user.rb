@@ -55,7 +55,7 @@ class UserRoutes < RouteBase
     param :name, String, required: true
 
     _status = {
-      status: !!User.where(name: params[:name]).exists?
+      status: User.get_name_availability(params[:name])
     }.to_json
 
     body _status
