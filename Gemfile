@@ -24,6 +24,8 @@ gem 'hiredis'
 
 gem 'rake'
 
+gem 'promise'
+
 group :development, :test do
   gem 'pry', require: true
   gem 'pry-debugger'
