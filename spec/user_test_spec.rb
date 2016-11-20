@@ -52,7 +52,7 @@ describe "GET /api/user/:id/room" do
     expect(last_response.status).to eq(200)
   end
 
-  it "should get 500 error with an invalid type" do
+  it "should get 404 error with an invalid type" do
     get "/api/user/#{user.id}/nothing",
       { format: "json" }, { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
     expect(last_response.status).to eq(404)

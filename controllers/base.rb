@@ -22,6 +22,8 @@ class RouteBase < Sinatra::Base
     status case e
       when Mongoid::Errors::Validations
         HTTPError::BadRequest::CODE
+      when Mongoid::Errors::DocumentNotFound
+        HTTPError::NotFound::CODE
       when Mongoid::Errors::MongoidError
         HTTPError::InternalServerError::CODE
       else

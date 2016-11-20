@@ -54,11 +54,11 @@ class UserRoutes < RouteBase
   get '/api/user/duplicate/:name' do
     param :name, String, required: true
 
-    status = {
-      status: !User.find_by(name: params[:name]) ? true : false
-    }
+    _status = {
+      status: !!User.where(name: params[:name]).exists?
+    }.to_json
 
-    body status.to_json
+    body _status
   end
 
   get '/api/user/:id' do
@@ -90,17 +90,22 @@ class UserRoutes < RouteBase
 
     user_id = params[:id]
     data = params[:data]
-    user = User.find(user_id);
+    user = User.find_by!(id: user_id);
     user.update_attributes!(data);
     user.save
 
     body user.to_json(only: User::USER_DATA_LIMITS)
   end
 
-  # TODO: Implementation
+  # TODO: need test
   delete '/api/user/:id' do
     param :id, String, required: true
 
     is_logged_in?
+
+    user_id = params[:id]
+    user = User.find_by!(id: user_id);
+
+    User.user_deletion(user)
   end
 end

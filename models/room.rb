@@ -28,9 +28,7 @@ class Room
 
   class << self
     def fetch_room_data(room_id, fetch_type)
-      unless room = Room.find(room_id)
-        raise HTTPError::NotFound
-      end
+      room = Room.find_by!(id: room_id)
 
       return case fetch_type
         when :ROOM then
@@ -66,9 +64,7 @@ class Room
     protected
 
     def transaction_enter(new_room_id, user)
-      unless room = Room.find(new_room_id)
-        raise HTTPError::NotFound
-      end
+      room = Room.find_by!(id: new_room_id)
 
       EmService.defer do
         if user.room
