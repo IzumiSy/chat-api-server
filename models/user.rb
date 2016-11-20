@@ -51,9 +51,7 @@ class User
 
   class << self
     def fetch_user_data(user_id, fetch_type)
-      unless user = User.only(:id, :name, :face, :room).find(user_id)
-        raise HTTPError::NotFound, "User Not Found"
-      end
+      user = User.only(:id, :name, :face, :room).find_by!(id: user_id)
 
       return case fetch_type
         when :USER then
