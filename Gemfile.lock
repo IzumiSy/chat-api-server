@@ -71,6 +71,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.5.5)
     origin (2.2.2)
+    parallel (1.9.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -170,6 +171,7 @@ DEPENDENCIES
   mongoid (~> 5.0.0)
   mongoid-rspec
   mongoid_paranoia
+  parallel
   pry
   pry-debugger
   rack-ssl-enforcer
