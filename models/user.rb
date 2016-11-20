@@ -51,7 +51,7 @@ class User
 
   class << self
     def get_name_availability(name)
-      !User.where(name: name).exists?
+      !!User.where(name: name).exists?
     end
 
     def fetch_user_data(user_id, fetch_type)
