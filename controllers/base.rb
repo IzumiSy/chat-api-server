@@ -17,15 +17,17 @@ class RouteBase < Sinatra::Base
   end
 
   error do |e|
+    handle_errorcode(e)
+
     status case e
       when Mongoid::Errors::Validations
         HTTPError::BadRequest::CODE
       when Mongoid::Errors::MongoidError
         HTTPError::InternalServerError::CODE
       else
-        handle_errorcode(e)
+        raise HTTPError::InternalServerError
       end
-    body e.summary
+    body e.summary || nil
   end
 
   helpers do
