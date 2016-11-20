@@ -24,7 +24,7 @@ gem 'hiredis'
 
 gem 'rake'
 
-gem 'parallel'
+gem 'promise'
 
 group :development, :test do
   gem 'pry', require: true
