@@ -30,7 +30,7 @@ class BasicRoutes < RouteBase
   protected
 
   def user_admin_promotion(user_id)
-    user = User.find(user_id)
+    user = User.find_by!(id: user_id)
     user.update_attribute(:is_admin, true)
     return user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
   end
