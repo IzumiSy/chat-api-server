@@ -66,14 +66,14 @@ class Room
     def transaction_enter(new_room_id, user)
       room = Room.find_by!(id: new_room_id)
 
-      EmService.defer do
-        if user.room
-          current_room_id = user.room.id
-          Room.decrement_counter(:users_count, current_room_id)
-        end
-        Room.increment_counter(:users_count, new_room_id)
-        MessageService.broadcast_enter_msg(user, room)
+      # EmService.defer do
+      if user.room
+        current_room_id = user.room.id
+        Room.decrement_counter(:users_count, current_room_id)
       end
+      Room.increment_counter(:users_count, new_room_id)
+      MessageService.broadcast_enter_msg(user, room)
+      # end
 
       user.update_attributes!(room_id: new_room_id)
     end
@@ -86,10 +86,10 @@ class Room
         raise HTTPError::NotFound
       end
 
-      EmService.defer do
-        Room.decrement_counter(:users_count, current_room_id)
-        MessageService.broadcast_leave_msg(user)
-      end
+      # EmService.defer do
+      Room.decrement_counter(:users_count, current_room_id)
+      MessageService.broadcast_leave_msg(user)
+      # end
 
       user.update_attributes!(room_id: nil)
     end
