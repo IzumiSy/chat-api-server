@@ -17,12 +17,6 @@ class UserRoutes < RouteBase
       raise HTTPError::BadRequest
     end
 
-    # If there is an user who has the same IP when the new user attempts to enter a channel,
-    # just oust him/her out of the channel and let the new user enter to there.
-    if user = User.find_by(ip: client_ip)
-      User.resolve_disconnected_users(user.id, user.session)
-    end
-
     create_user_param = {
       name: client_name, ip: client_ip
     }
@@ -31,21 +25,31 @@ class UserRoutes < RouteBase
       create_user_param[:face] = params[:face]
     end
 
+    # If there is an user who has the same IP when the new user attempts to enter a channel,
+    # just oust him/her out of the channel and let the new user enter to there.
+    if user = User.find_by(ip: client_ip)
+      User.resolve_disconnected_users(user.id, user.session)
+    end
+
     unless lobby_room = Room.find_by(name: "Lobby")
       raise HTTPError::InternalServerError, "No Lobby Room"
     end
 
-    create_user_param[:room_id] = lobby_room.id
-    user = User.new(create_user_param)
-    user.save!
+    _create_new_user = promise {
+      create_user_param[:room_id] = lobby_room.id
+      user = User.new(create_user_param)
+      user.save!
+      user
+    }
+    _increment_lobby = promise {
+      Room.increment_counter(:users_count, lobby_room.id)
+      lobby_room
+    }
 
     # If room_id is specified, it means that user enters into
     # the room with room_id, so it makes a broadcasting.
     if lobby_room
-      EmService.defer do
-        Room.increment_counter(:users_count, lobby_room.id)
-        MessageService.broadcast_enter_msg(user, lobby_room)
-      end
+      MessageService.broadcast_enter_msg(_create_new_user, _increment_lobby)
     end
 
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
