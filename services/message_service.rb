@@ -11,8 +11,7 @@ module MessageService
 
   @io.on :connect do |client|
     puts "[INFO] New client: #{client.session}, #{client.address}"
-    user = User.find_user_by_ip(client.address)
-    if user
+    if user = User.find_user_by_ip(client.address)
       user.update_attributes!(session: client.session)
     end
   end
