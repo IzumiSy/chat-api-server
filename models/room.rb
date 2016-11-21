@@ -71,7 +71,7 @@ class Room
 
       _room = promise {
         Room.increment_counter(:users_count, new_room_id)
-        Room.find_by!(id: new_room_id)
+        Mongoid::QueryCache.cache { Room.find_by!(id: new_room_id) }
       }
       _user = promise {
         user.update_attributes!(room_id: new_room_id)

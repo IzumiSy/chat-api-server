@@ -31,7 +31,7 @@ class UserRoutes < RouteBase
       User.resolve_disconnected_users(user.id, user.session)
     end
 
-    unless lobby_room = Room.find_by(name: "Lobby")
+    unless lobby_room = Mongoid::QueryCache.cache { Room.find_by(name: "Lobby") }
       raise HTTPError::InternalServerError, "No Lobby Room"
     end
 
