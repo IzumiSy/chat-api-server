@@ -10,7 +10,7 @@ module AuthService
       return nil unless auth.basic?
 
       token = auth.params
-      user = User.find_by(token: token)
+      user = User.find_user_by_token(token)
       user.read_attribute(:is_admin)
     end
 
@@ -24,7 +24,7 @@ module AuthService
 
       RedisService.connect(takeover: true)
       has_session = RedisService.get(token)
-      # is_user_found = User.find_by(token: token)
+      # is_user_found = User.find_user_by_token(token)
 
       if has_session then token else nil end
     end

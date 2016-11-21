@@ -51,6 +51,10 @@ class User
       !!User.where(name: name).exists?
     end
 
+    def find_user_by_token(token)
+      User.find_by(token: token).cache
+    end
+
     def fetch_user_data(user_id, fetch_type)
       user = User.only(:id, :name, :face, :room).find_by!(id: user_id)
 

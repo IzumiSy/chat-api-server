@@ -41,7 +41,7 @@ class Room
     end
 
     def room_transaction(room_id, token, transaction_type)
-      unless user = User.find_by(token: token)
+      unless user = User.find_user_by_token(token)
         raise HTTPError::Unauthorized
       end
 
