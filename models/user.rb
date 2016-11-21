@@ -64,13 +64,11 @@ class User
     end
 
     def fetch_user_data(user_id, fetch_type)
-      user = User.only(:id, :name, :face, :room).find_by!(id: user_id)
-
       return case fetch_type
         when :USER then
-          user.to_json(only: USER_DATA_LIMITS)
+          User.only(:id, :name, :face).find_by!(id: user_id).to_json(only: USER_DATA_LIMITS)
         when :ROOM then
-          user.room.to_json(only: Room::ROOM_DATA_LIMITS)
+          User.only(:room).find_by!(id: user_id).room.to_json(only: Room::ROOM_DATA_LIMITS)
         else
           raise HTTPError::InternalServerError
         end
