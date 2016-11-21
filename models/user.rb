@@ -52,15 +52,15 @@ class User
     end
 
     def find_user_by_token(token)
-      User.find_by(token: token)
+      Mongoid::QueryCache.cache { User.find_by(token: token) }
     end
 
     def find_user_by_session(session)
-      User.find_by(session: session)
+      Mongoid::QueryCache.cache { User.find_by(session: session) }
     end
 
     def find_user_by_ip(ip)
-      User.find_by(ip: ip)
+      Mongoid::QueryCache.cache { User.find_by(ip: ip) }
     end
 
     def fetch_user_data(user_id, fetch_type)
