@@ -52,7 +52,15 @@ class User
     end
 
     def find_user_by_token(token)
-      User.find_by(token: token).cache
+      User.find_by(token: token)
+    end
+
+    def find_user_by_session(session)
+      User.find_by(session: session)
+    end
+
+    def find_user_by_ip(ip)
+      User.find_by(ip: ip)
     end
 
     def fetch_user_data(user_id, fetch_type)
@@ -91,7 +99,7 @@ class User
 
     def trigger_disconnection_resolver(client)
       EM.defer do
-        if user = User.find_by(session: client.session)
+        if user = User.find_user_by_session(client.session)
           EM.add_timer(self::DISCONNECTION_RESOLVE_INTERVAL) do
             User.resolve_disconnected_users(user.id, client.session)
           end
