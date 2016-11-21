@@ -51,6 +51,7 @@ class Application < Sinatra::Base
   use MessageRoutes
 
   use Rack::SslEnforcer, except_environments: ['development', 'test']
+  use Mongoid::QueryCache::Middleware
 
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =
