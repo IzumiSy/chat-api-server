@@ -12,8 +12,9 @@ class RoomRoutes < RouteBase
 
     is_logged_in?
 
-    room_all =
+    room_all = Mongoid::QueryCache.cache {
       Room.all.limit(Room::ROOM_MAX).to_json(only: Room::ROOM_DATA_LIMITS)
+    }
 
     if JSON.parse(room_all).length <= 0
       puts "[INFO] Server seems to have no room. Needed to execute \"rake db:seed_rooms\"."
