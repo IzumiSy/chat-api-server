@@ -28,13 +28,11 @@ class Room
 
   class << self
     def fetch_room_data(room_id, fetch_type)
-      room = Room.find_by!(id: room_id)
-
       return case fetch_type
         when :ROOM then
-          room.to_json(only: ROOM_DATA_LIMITS)
+          Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
         when :USER then
-          room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
+          Room.only(:users).find_by!(id: room_id).users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
         else
           raise HTTPError::InternalServerError
         end
