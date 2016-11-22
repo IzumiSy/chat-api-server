@@ -14,7 +14,7 @@ class MessageRoutes < RouteBase
 
     room_id = params[:room_id]
     content = params[:content]
-    user    = User.find_by(token: token)
+    user    = User.find_user_by_token(token)
 
     raise HTTPError::BadRequest if room_id.empty? or content.empty?
     raise HTTPError::BadRequest unless user

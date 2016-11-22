@@ -22,7 +22,7 @@ module Helpers
   end
 
   def enter_room(room_id, token)
-    user = User.find_by(token: token)
+    user = User.find_user_by_token(token)
     user.update_attributes!(room_id: room_id)
   end
 end
@@ -41,7 +41,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.clean_with(:truncation)
     DatabaseCleaner.orm = "mongoid"
 
     begin

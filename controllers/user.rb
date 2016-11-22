@@ -27,11 +27,11 @@ class UserRoutes < RouteBase
 
     # If there is an user who has the same IP when the new user attempts to enter a channel,
     # just oust him/her out of the channel and let the new user enter to there.
-    if user = User.find_by(ip: client_ip)
+    if user = User.find_user_by_ip(client_ip)
       User.resolve_disconnected_users(user.id, user.session)
     end
 
-    unless lobby_room = Room.find_by(name: "Lobby")
+    unless lobby_room = Mongoid::QueryCache.cache { Room.find_by(name: "Lobby") }
       raise HTTPError::InternalServerError, "No Lobby Room"
     end
 

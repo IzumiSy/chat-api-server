@@ -28,20 +28,18 @@ class Room
 
   class << self
     def fetch_room_data(room_id, fetch_type)
-      room = Room.find_by!(id: room_id)
-
       return case fetch_type
         when :ROOM then
-          room.to_json(only: ROOM_DATA_LIMITS)
+          Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
         when :USER then
-          room.users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
+          Room.only(:users).find_by!(id: room_id).users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
         else
           raise HTTPError::InternalServerError
         end
     end
 
     def room_transaction(room_id, token, transaction_type)
-      unless user = User.find_by(token: token)
+      unless user = User.find_user_by_token(token)
         raise HTTPError::Unauthorized
       end
 
@@ -71,7 +69,7 @@ class Room
 
       _room = promise {
         Room.increment_counter(:users_count, new_room_id)
-        Room.find_by!(id: new_room_id)
+        Mongoid::QueryCache.cache { Room.find_by!(id: new_room_id) }
       }
       _user = promise {
         user.update_attributes!(room_id: new_room_id)

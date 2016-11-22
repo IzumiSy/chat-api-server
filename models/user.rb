@@ -51,14 +51,24 @@ class User
       !!User.where(name: name).exists?
     end
 
-    def fetch_user_data(user_id, fetch_type)
-      user = User.only(:id, :name, :face, :room).find_by!(id: user_id)
+    def find_user_by_token(token)
+      Mongoid::QueryCache.cache { User.find_by(token: token) }
+    end
 
+    def find_user_by_session(session)
+      Mongoid::QueryCache.cache { User.find_by(session: session) }
+    end
+
+    def find_user_by_ip(ip)
+      Mongoid::QueryCache.cache { User.find_by(ip: ip) }
+    end
+
+    def fetch_user_data(user_id, fetch_type)
       return case fetch_type
         when :USER then
-          user.to_json(only: USER_DATA_LIMITS)
+          User.only(:id, :name, :face).find_by!(id: user_id).to_json(only: USER_DATA_LIMITS)
         when :ROOM then
-          user.room.to_json(only: Room::ROOM_DATA_LIMITS)
+          User.only(:room).find_by!(id: user_id).room.to_json(only: Room::ROOM_DATA_LIMITS)
         else
           raise HTTPError::InternalServerError
         end
@@ -66,8 +76,7 @@ class User
 
     def resolve_disconnected_users(user_id, new_session)
       EM.defer do
-        user = User.find(user_id)
-        return unless user
+        return unless user = User.find(user_id)
         if user.session == new_session
           User.user_deletion(user)
         end
@@ -87,7 +96,7 @@ class User
 
     def trigger_disconnection_resolver(client)
       EM.defer do
-        if user = User.find_by(session: client.session)
+        if user = User.find_user_by_session(client.session)
           EM.add_timer(self::DISCONNECTION_RESOLVE_INTERVAL) do
             User.resolve_disconnected_users(user.id, client.session)
           end

@@ -20,11 +20,11 @@ class BasicRoutes < RouteBase
     user_id = params[:user_id]
 
     password_hash = Digest::MD5.hexdigest(admin_pass)
-    if password_hash == login_hash
-      body user_admin_promotion(user_id)
-    else
+    unless password_hash == login_hash
       raise HTTPError::Unauthorized
     end
+
+    body user_admin_promotion(user_id)
   end
 
   protected
