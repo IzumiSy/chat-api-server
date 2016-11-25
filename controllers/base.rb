@@ -16,6 +16,10 @@ class RouteBase < Sinatra::Base
     enable :logging
   end
 
+  before do
+    content_type :json
+  end
+
   error do |e|
     handle_errorcode(e)
 
