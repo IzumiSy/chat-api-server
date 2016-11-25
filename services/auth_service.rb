@@ -16,12 +16,10 @@ module AuthService
 
     def is_logged_in?(request)
       auth = Rack::Auth::Basic::Request.new(request.env)
-      if auth.provided? and auth.basic?
-        token = auth.params
-      else
-        return false
-      end
+      return nil unless auth.provided?
+      return nil unless auth.basic?
 
+      token = auth.params
       RedisService.connect(takeover: true)
       has_session = RedisService.get(token)
       # is_user_found = User.find_user_by_token(token)
