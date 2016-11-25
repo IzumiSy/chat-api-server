@@ -37,7 +37,6 @@ class Application < Sinatra::Base
   register Sinatra::Async
 
   configure do
-    set :cometio, timeout: 360, post_interval: 1
     set :rocketio, websocket: false, comet: true
   end
 
