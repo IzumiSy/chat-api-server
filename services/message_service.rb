@@ -1,8 +1,5 @@
-require_relative "./em_service"
 
 module MessageService
-  include EmService
-
   @io = Sinatra::RocketIO
 
   @io.once :start do
@@ -23,8 +20,7 @@ module MessageService
 
   @io.on :error do |client|
     puts "[INFO] Client error: #{client.session}, #{client.address}"
-    user = User.find_user_by_session(client.session)
-    User.user_deletion(user)
+    User.trigger_disconnection_resolver(client)
   end
 
   # Pseudo enum

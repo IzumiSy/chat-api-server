@@ -1,9 +1,6 @@
 require_relative "./base"
-require_relative "../services/em_service"
 
 class UserRoutes < RouteBase
-  include EmService
-
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do
@@ -25,13 +22,7 @@ class UserRoutes < RouteBase
       create_user_param[:face] = params[:face]
     end
 
-    # If there is an user who has the same IP when the new user attempts to enter a channel,
-    # just oust him/her out of the channel and let the new user enter to there.
-    if user = User.find_user_by_ip(client_ip)
-      User.resolve_disconnected_users(user.id, user.session)
-    end
-
-    unless lobby_room = Mongoid::QueryCache.cache { Room.find_by(name: "Lobby") }
+    unless lobby_room = Room.find_lobby()
       raise HTTPError::InternalServerError, "No Lobby Room"
     end
 
@@ -52,6 +43,7 @@ class UserRoutes < RouteBase
       MessageService.broadcast_enter_msg(_create_new_user, _increment_lobby)
     end
 
+    user = _create_new_user
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
   end
 

@@ -29,8 +29,6 @@ class User
     STATUS_NEUTRAL = 0
   ].freeze
 
-  DISCONNECTION_RESOLVE_INTERVAL = 3
-
   field :status, type: Integer, default: self::STATUS_NEUTRAL
   field :is_admin, type: Boolean, default: false
 
@@ -63,6 +61,17 @@ class User
       Mongoid::QueryCache.cache { User.find_by(ip: ip) }
     end
 
+    def is_admin_from_token(token)
+      user = find_user_by_token(token)
+      user.is_admin
+    end
+
+    def is_logged_in_from_token(token)
+      has_session = RedisService.get(token)
+      is_user_found = User.find_user_by_token(token)
+      if has_session && is_user_found then token else nil end
+    end
+
     def fetch_user_data(user_id, fetch_type)
       return case fetch_type
         when :USER then
@@ -74,38 +83,25 @@ class User
         end
     end
 
-    def resolve_disconnected_users(user_id, new_session)
-      EM.defer do
-        return unless user = User.find(user_id)
-        if user.session == new_session
+    def trigger_disconnection_resolver(client)
+      Thread.new {
+        if user = User.find_user_by_session(client.session)
           User.user_deletion(user)
         end
-      end
+      }
     end
 
     def user_deletion(user)
-      if user
-        if user.room
-          Room.room_transaction(user.room.id, user.token, :LEAVE)
-        end
-        RedisService.connect(takeover: true)
-        RedisService.delete(user.token)
-        user.delete
+      return unless user
+      if user.room
+        Room.room_transaction(user.room.id, user.token, :LEAVE)
       end
-    end
-
-    def trigger_disconnection_resolver(client)
-      EM.defer do
-        if user = User.find_user_by_session(client.session)
-          EM.add_timer(self::DISCONNECTION_RESOLVE_INTERVAL) do
-            User.resolve_disconnected_users(user.id, client.session)
-          end
-        end
-      end
+      Thread.new { RedisService.delete(user.token) }
+      user.delete
     end
   end
 
-  protected
+  private
 
   # Generate user token randomly
   def generate_user_token

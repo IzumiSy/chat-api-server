@@ -1,14 +1,14 @@
 require_relative "../services/message_service"
-require_relative "../services/em_service"
 
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
   include MessageService
-  include EmService
 
   has_many :users
+
+  LOBBY_ROOM_NAME = "Lobby"
 
   ROOM_TITLE_LENGTH_MAX = 64
   ROOM_MAX = 100
@@ -27,6 +27,10 @@ class Room
   public
 
   class << self
+    def find_lobby
+      Mongoid::QueryCache.cache { Room.find_by(name: LOBBY_ROOM_NAME) }
+    end
+
     def fetch_room_data(room_id, fetch_type)
       return case fetch_type
         when :ROOM then

@@ -2,31 +2,26 @@ module RedisService
   class << self
     def connect(options)
       is_takeover = options[:takeover]
-      @redis = is_takeover ?
-        @redis ? @redis : redis_new() :
-        redis_new()
+      @redis = is_takeover ? _connection() : redis_new()
     end
 
     def set(key, data)
-      # redis_ping(@redis)
-      @redis.set(key, data)
+      _connection().set(key, data)
     end
 
     def get(key)
-      # redis_ping(@redis)
-      @redis.get(key)
+      _connection().get(key)
     end
 
     def delete(key)
-      # redis_ping(@redis)
-      @redis.del(key)
-    end
-
-    def instance
-      @redis
+      _connection().del(key)
     end
 
     protected
+
+    def _connection
+      @redis ? @redis : redis_new()
+    end
 
     def redis_new
       opts = { host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"] }

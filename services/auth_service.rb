@@ -5,28 +5,22 @@ module AuthService
 
   class << self
     def is_admin?(request)
-      auth = Rack::Auth::Basic::Request.new(request.env)
-      return nil unless auth.provided?
-      return nil unless auth.basic?
-
-      token = auth.params
-      user = User.find_user_by_token(token)
-      user.read_attribute(:is_admin)
+      token = parse_token(request)
+      User.is_admin_from_token(token)
     end
 
     def is_logged_in?(request)
+      token = parse_token(request)
+      User.is_logged_in_from_token(token)
+    end
+
+    private
+
+    def parse_token(request)
       auth = Rack::Auth::Basic::Request.new(request.env)
-      if auth.provided? and auth.basic?
-        token = auth.params
-      else
-        return false
-      end
-
-      RedisService.connect(takeover: true)
-      has_session = RedisService.get(token)
-      # is_user_found = User.find_user_by_token(token)
-
-      if has_session then token else nil end
+      return nil unless auth.provided?
+      return nil unless auth.basic?
+      auth.params
     end
   end
 end
