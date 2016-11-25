@@ -1,6 +1,6 @@
 require 'warden'
 
-Warden::Strategies.add(:TokenAuthrization) do
+Warden::Strategies.add(:TokenAuthorization) do
   def valid?
     auth = Rack::Auth::Basic::Request.new(request.env)
     if auth.provided? and auth.basic?
