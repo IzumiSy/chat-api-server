@@ -55,6 +55,13 @@ class Application < Sinatra::Base
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
 
+  use Warden::Manager do |config|
+    config.scope_defaults :default,
+      strategies: [:TokenAuthorization],
+      action: '/unauthorized'
+    config.failure_app = self
+  end
+
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =
       "Authorization"
