@@ -83,14 +83,6 @@ class User
         end
     end
 
-    def setup_connection_checker(session)
-      Thread.new {
-        EM.add_periodic_timer(10) do
-          user = User.find_user_by_session(session)
-        end
-      }
-    end
-
     def trigger_disconnection_resolver(client)
       Thread.new {
         if user = User.find_user_by_session(client.session)
