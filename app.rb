@@ -4,6 +4,7 @@ require 'sinatra/param'
 require 'sinatra/cross_origin'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
+require 'sinatra/async'
 
 require 'digest/md5'
 require 'securerandom'
@@ -33,9 +34,9 @@ Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
   register Sinatra::RocketIO
+  register Sinatra::Async
 
   configure do
-    set :cometio, timeout: 360, post_interval: 1
     set :rocketio, websocket: false, comet: true
   end
 

@@ -7,6 +7,7 @@ gem 'sinatra-param', require: 'sinatra/param'
 gem 'sinatra-cross_origin'
 gem 'sinatra-errorcodes'
 gem 'sinatra-rocketio'
+gem 'async_sinatra'
 
 gem 'shotgun'
 gem 'thin'
