@@ -20,9 +20,7 @@ module MessageService
 
   @io.on :error do |client|
     puts "[INFO] Client error: #{client.session}, #{client.address}"
-    if user = User.find_user_by_session(client.session)
-      User.user_deletion(user)
-    end
+    User.trigger_disconnection_resolver(client)
   end
 
   # Pseudo enum
