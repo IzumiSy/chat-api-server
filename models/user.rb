@@ -97,10 +97,7 @@ class User
         if user.room
           Room.room_transaction(user.room.id, user.token, :LEAVE)
         end
-        Thread.new {
-          RedisService.connect(takeover: true)
-          RedisService.delete(user.token)
-        }
+        Thread.new { RedisService.delete(user.token) }
         user.delete
       end
     end
