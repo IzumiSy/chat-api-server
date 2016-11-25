@@ -56,10 +56,10 @@ class Application < Sinatra::Base
   use Mongoid::QueryCache::Middleware
 
   use Warden::Manager do |config|
-    config.scope_defaults :default,
-      strategies: [:TokenAuthorization],
-      action: '/unauthorized'
     config.failure_app = self
+    config.default_scope = :user
+    config.scope_defaults :user, strategies: [:UserTokenAuth]
+    config.scope_defaults :admin, strategies: [:AdminTokenAuth]
   end
 
   options "*" do
