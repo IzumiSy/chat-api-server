@@ -114,7 +114,7 @@ class User
     end
   end
 
-  protected
+  private
 
   # Generate user token randomly
   def generate_user_token
