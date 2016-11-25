@@ -43,6 +43,7 @@ class UserRoutes < RouteBase
       MessageService.broadcast_enter_msg(_create_new_user, _increment_lobby)
     end
 
+    user = _create_new_user
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
   end
 
