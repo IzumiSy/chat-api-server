@@ -83,29 +83,21 @@ class User
         end
     end
 
-    def resolve_disconnected_users(user_id, new_session)
-      return unless user = User.find(user_id)
-      if user.session == new_session
-        User.user_deletion(user)
-      end
-    end
-
-    def user_deletion(user)
-      if user
-        if user.room
-          Room.room_transaction(user.room.id, user.token, :LEAVE)
-        end
-        Thread.new { RedisService.delete(user.token) }
-        user.delete
-      end
-    end
-
     def trigger_disconnection_resolver(client)
       Thread.new {
         if user = User.find_user_by_session(client.session)
-          User.resolve_disconnected_users(user.id, client.session)
+          User.user_deletion(user)
         end
       }
+    end
+
+    def user_deletion(user)
+      return unless user
+      if user.room
+        Room.room_transaction(user.room.id, user.token, :LEAVE)
+      end
+      Thread.new { RedisService.delete(user.token) }
+      user.delete
     end
   end
 
