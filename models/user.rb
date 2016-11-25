@@ -70,8 +70,8 @@ class User
 
     def is_logged_in_from_token(token)
       has_session = RedisService.get(token)
-      # is_user_found = User.find_user_by_token(token)
-      if has_session then token else nil end
+      is_user_found = User.find_user_by_token(token)
+      if has_session && is_user_found then token else nil end
     end
 
     def fetch_user_data(user_id, fetch_type)
