@@ -6,20 +6,21 @@ require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 
 require 'digest/md5'
+require 'securerandom'
 
 require 'mongoid'
 require 'mongoid/paranoia'
 
-require 'redis'
-require 'securerandom'
+require 'redis-sinatra'
 
 require 'parallel'
 require 'promise'
 
-require 'dotenv'
-
 require 'rack-ssl-enforcer'
 
+require 'warden'
+
+require 'dotenv'
 require 'pry' if development? or test?
 
 require_relative 'controllers/basic'
@@ -34,6 +35,7 @@ Dotenv.load
 Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
+  register Sinatra::Cache
   register Sinatra::RocketIO
 
   configure do
@@ -52,6 +54,13 @@ class Application < Sinatra::Base
 
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
+
+  use Warden::Manager do |config|
+    config.failure_app = self
+    config.default_scope = :user
+    config.scope_defaults :user, strategies: [:user]
+    config.scope_defaults :admin, strategies: [:admin]
+  end
 
   options "*" do
     response.headers["Access-Control-Allow-Headers"] =

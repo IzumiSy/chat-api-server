@@ -38,17 +38,21 @@ class RouteBase < Sinatra::Base
 
   helpers do
     def is_logged_in?
-      unless _token = AuthService.is_logged_in?(request)
-        raise HTTPError::Unauthorized
-      end
-      _token
+      env['warden'].authenticate!(:user)
+
+      # unless _token = AuthService.is_logged_in?(request)
+      #   raise HTTPError::Unauthorized
+      # end
+      # _token
     end
 
     def is_admin?
-      unless _user = AuthService.is_admin?(request)
-        raise HTTPError::Unauthorized
-      end
-      _user
+      env['warden'].authenticate!(:user, :admin)
+
+      # unless _user = AuthService.is_admin?(request)
+      #   raise HTTPError::Unauthorized
+      # end
+      # _user
     end
   end
 end

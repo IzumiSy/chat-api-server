@@ -71,7 +71,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.5.5)
     origin (2.2.2)
-    parallel (1.9.0)
+    parallel (1.10.0)
     promise (0.3.1)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -88,6 +88,11 @@ GEM
       rack (>= 1.0)
     rake (11.3.0)
     redis (3.3.2)
+    redis-sinatra (1.4.0)
+      redis-store (~> 1.1.0)
+      sinatra (~> 1.4.0)
+    redis-store (1.1.7)
+      redis (>= 2.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -151,6 +156,8 @@ GEM
     tilt (2.0.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    warden (1.2.6)
+      rack (>= 1.0)
     websocket (1.2.3)
     websocket-client-simple (0.3.0)
       event_emitter
@@ -181,6 +188,7 @@ DEPENDENCIES
   rack-test
   rake
   redis
+  redis-sinatra
   rspec
   shotgun
   sinatra
@@ -190,6 +198,7 @@ DEPENDENCIES
   sinatra-param
   sinatra-rocketio
   thin
+  warden
 
 RUBY VERSION
    ruby 1.9.3p551
