@@ -1,5 +1,4 @@
 require_relative "./base"
-require_relative "../services/em_service"
 
 class UserRoutes < RouteBase
   # This user creation port does not need to use slice
