@@ -10,7 +10,8 @@ require 'digest/md5'
 require 'mongoid'
 require 'mongoid/paranoia'
 
-require 'redis'
+require 'redis-sinatra'
+
 require 'securerandom'
 
 require 'parallel'
@@ -34,6 +35,7 @@ Dotenv.load
 Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
+  register Sinatra::Cache
   register Sinatra::RocketIO
 
   configure do
