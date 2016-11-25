@@ -10,6 +10,8 @@ class Room
 
   has_many :users
 
+  LOBBY_ROOM_NAME = "Lobby"
+
   ROOM_TITLE_LENGTH_MAX = 64
   ROOM_MAX = 100
   ROOM_DATA_LIMITS = [:_id, :name, :users_count]
@@ -27,6 +29,10 @@ class Room
   public
 
   class << self
+    def find_lobby
+      Mongoid::QueryCache.cache { Room.find_by(name: LOBBY_ROOM_NAME) }
+    end
+
     def fetch_room_data(room_id, fetch_type)
       return case fetch_type
         when :ROOM then
