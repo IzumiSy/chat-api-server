@@ -1,6 +1,6 @@
 require 'warden'
 
-Warden::Strategies.add(:UserTokenAuth) do
+Warden::Strategies.add(:user) do
   def valid?
     auth = Rack::Auth::Basic::Request.new(request.env)
     if auth.provided? and auth.basic?
@@ -17,7 +17,7 @@ Warden::Strategies.add(:UserTokenAuth) do
   end
 end
 
-Warden::Strategies.add(:AdminTokenAuth) do
+Warden::Strategies.add(:admin) do
   def valid?
     auth = Rack::Auth::Basic::Request.new(request.env)
     if auth.provided? and auth.basic?

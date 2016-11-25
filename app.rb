@@ -58,8 +58,8 @@ class Application < Sinatra::Base
   use Warden::Manager do |config|
     config.failure_app = self
     config.default_scope = :user
-    config.scope_defaults :user, strategies: [:UserTokenAuth]
-    config.scope_defaults :admin, strategies: [:AdminTokenAuth]
+    config.scope_defaults :user, strategies: [:user]
+    config.scope_defaults :admin, strategies: [:admin]
   end
 
   options "*" do
