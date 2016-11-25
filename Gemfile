@@ -28,6 +28,8 @@ gem 'rake'
 gem 'parallel'
 gem 'promise'
 
+gem 'warden'
+
 group :development, :test do
   gem 'pry', require: true
   gem 'pry-debugger'

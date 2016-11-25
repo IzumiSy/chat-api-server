@@ -151,6 +151,8 @@ GEM
     tilt (2.0.5)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    warden (1.2.6)
+      rack (>= 1.0)
     websocket (1.2.3)
     websocket-client-simple (0.3.0)
       event_emitter
@@ -190,6 +192,7 @@ DEPENDENCIES
   sinatra-param
   sinatra-rocketio
   thin
+  warden
 
 RUBY VERSION
    ruby 1.9.3p551
