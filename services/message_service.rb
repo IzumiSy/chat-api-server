@@ -10,6 +10,7 @@ module MessageService
     puts "[INFO] New client: #{client.session}, #{client.address}"
     if user = User.find_user_by_ip(client.address)
       user.update_attributes!(session: client.session)
+      User.setup_connection_checker(client.session)
     end
   end
 
