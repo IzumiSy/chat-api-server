@@ -6,21 +6,21 @@ require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 
 require 'digest/md5'
+require 'securerandom'
 
 require 'mongoid'
 require 'mongoid/paranoia'
 
 require 'redis-sinatra'
 
-require 'securerandom'
-
 require 'parallel'
 require 'promise'
 
-require 'dotenv'
-
 require 'rack-ssl-enforcer'
 
+require 'warden'
+
+require 'dotenv'
 require 'pry' if development? or test?
 
 require_relative 'controllers/basic'
