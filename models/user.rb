@@ -95,13 +95,11 @@ class User
     end
 
     def trigger_disconnection_resolver(client)
-      EM.defer do
+      Thread.new {
         if user = User.find_user_by_session(client.session)
-          EM.add_timer(self::DISCONNECTION_RESOLVE_INTERVAL) do
-            User.resolve_disconnected_users(user.id, client.session)
-          end
+          User.resolve_disconnected_users(user.id, client.session)
         end
-      end
+      }
     end
   end
 
