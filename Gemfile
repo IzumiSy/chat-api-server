@@ -22,6 +22,7 @@ gem 'dotenv'
 
 gem 'redis'
 gem 'hiredis'
+gem 'redis-sinatra'
 
 gem 'rake'
 

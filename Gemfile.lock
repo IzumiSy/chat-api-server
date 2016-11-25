@@ -88,6 +88,11 @@ GEM
       rack (>= 1.0)
     rake (11.3.0)
     redis (3.3.2)
+    redis-sinatra (1.4.0)
+      redis-store (~> 1.1.0)
+      sinatra (~> 1.4.0)
+    redis-store (1.1.7)
+      redis (>= 2.2)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -183,6 +188,7 @@ DEPENDENCIES
   rack-test
   rake
   redis
+  redis-sinatra
   rspec
   shotgun
   sinatra
