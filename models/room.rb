@@ -1,12 +1,10 @@
 require_relative "../services/message_service"
-require_relative "../services/em_service"
 
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
   include MessageService
-  include EmService
 
   has_many :users
 

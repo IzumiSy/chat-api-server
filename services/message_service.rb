@@ -1,8 +1,5 @@
-require_relative "./em_service"
 
 module MessageService
-  include EmService
-
   @io = Sinatra::RocketIO
 
   @io.once :start do

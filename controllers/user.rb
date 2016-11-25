@@ -2,8 +2,6 @@ require_relative "./base"
 require_relative "../services/em_service"
 
 class UserRoutes < RouteBase
-  include EmService
-
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do
