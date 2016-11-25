@@ -63,6 +63,17 @@ class User
       Mongoid::QueryCache.cache { User.find_by(ip: ip) }
     end
 
+    def is_admin_from_token(token)
+      user = find_user_by_token(token)
+      user.is_admin
+    end
+
+    def is_logged_in_from_token(token)
+      has_session = RedisService.get(token)
+      # is_user_found = User.find_user_by_token(token)
+      if has_session then token else nil end
+    end
+
     def fetch_user_data(user_id, fetch_type)
       return case fetch_type
         when :USER then
