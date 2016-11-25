@@ -75,11 +75,9 @@ class User
     end
 
     def resolve_disconnected_users(user_id, new_session)
-      EM.defer do
-        return unless user = User.find(user_id)
-        if user.session == new_session
-          User.user_deletion(user)
-        end
+      return unless user = User.find(user_id)
+      if user.session == new_session
+        User.user_deletion(user)
       end
     end
 
