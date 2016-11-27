@@ -21,11 +21,11 @@ namespace :db do
     Room.all.each do |room|
       room.update_attribute(:users_count, 0);
     end
-    exec 'redis-cli flushdb'
+    RedisService.flush
   end
 
   task :drop_all do
     Mongoid.purge!
-    exec 'redis-cli flushdb'
+    RedisService.flush
   end
 end
