@@ -1,8 +1,6 @@
 require_relative "../services/auth_service"
 
 class RouteBase < Sinatra::Base
-  include AuthService
-
   configure do
     set :raise_errors, false
     set :show_exceptions, false

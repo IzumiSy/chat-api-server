@@ -1,8 +1,6 @@
 require_relative "./redis_service"
 
 module AuthService
-  include RedisService
-
   class << self
     def is_admin?(request)
       token = parse_token(request)

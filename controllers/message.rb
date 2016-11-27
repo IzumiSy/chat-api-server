@@ -2,8 +2,6 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class MessageRoutes < RouteBase
-  include MessageService
-
   # Message post API does not check if the room_id valid
   # or not, because it doesnt need to care its existence.
   post '/api/message/:room_id' do

@@ -2,8 +2,6 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class RoomRoutes < RouteBase
-  include MessageService
-
   get '/api/room' do
     # [NOTE] Performance tuning tips
     # - to_json calls find() internally, so it is called here only once.

@@ -4,7 +4,6 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
-  include RedisService
 
   USER_NAME_LENGTH_MAX = 64
   USER_DATA_LIMITS = [:_id, :name, :face]

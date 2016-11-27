@@ -4,7 +4,6 @@ class Room
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Paranoia
-  include MessageService
 
   has_many :users
 
