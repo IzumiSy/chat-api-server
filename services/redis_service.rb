@@ -17,6 +17,10 @@ module RedisService
       _connection().del(key)
     end
 
+    def flush
+      _connection.script(:flush)
+    end
+
     protected
 
     def _connection
