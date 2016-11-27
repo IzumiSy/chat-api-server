@@ -14,7 +14,7 @@ module MessageService
   end
 
   @io.on :disconnect do |client|
-    puts "[INFO] Client diconnected: #{client.session}, #{client.address}"
+    puts "[INFO] Client disconnected: #{client.session}, #{client.address}"
     User.trigger_disconnection_resolver(client)
   end
 
