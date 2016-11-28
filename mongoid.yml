@@ -13,6 +13,7 @@ default: &default
 test:
   options:
     <<: *options
+    log_level: :warn
   clients:
     default:
       <<: *client_options
