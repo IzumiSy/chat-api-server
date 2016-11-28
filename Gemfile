@@ -30,6 +30,7 @@ gem 'parallel'
 gem 'promise'
 
 group :development, :test do
+  gem 'rb-readline'
   gem 'pry', require: true
   gem 'pry-byebug'
 
