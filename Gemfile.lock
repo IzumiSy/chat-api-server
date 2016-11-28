@@ -34,7 +34,7 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
     event_emitter (0.2.5)
-    eventmachine (1.2.0.1)
+    eventmachine (1.2.1)
     factory_girl (4.7.0)
       activesupport (>= 3.0.0)
     faker (1.6.6)
@@ -164,7 +164,7 @@ DEPENDENCIES
   bson_ext
   database_cleaner!
   dotenv
-  eventmachine (= 1.2.0.1)
+  eventmachine
   factory_girl
   faker
   hashie (= 3.4.4)

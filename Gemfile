@@ -11,7 +11,7 @@ gem 'async_sinatra'
 
 gem 'shotgun'
 gem 'thin'
-gem 'eventmachine', '1.2.0.1'
+gem 'eventmachine'
 gem 'hashie', '3.4.4'
 
 gem 'mongoid', '~> 5.0.0'
