@@ -31,7 +31,7 @@ gem 'promise'
 
 group :development, :test do
   gem 'pry', require: true
-  gem 'pry-debugger'
+  gem 'pry-byebug'
 
   gem 'awesome_print'
 end

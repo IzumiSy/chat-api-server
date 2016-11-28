@@ -25,15 +25,9 @@ GEM
     bson (4.1.1)
     bson_ext (1.5.1)
     builder (3.2.2)
+    byebug (9.0.6)
     coderay (1.1.1)
-    columnize (0.9.0)
     daemons (1.2.4)
-    debugger (1.6.8)
-      columnize (>= 0.3.1)
-      debugger-linecache (~> 1.2.0)
-      debugger-ruby_core_source (~> 1.3.5)
-    debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.3.8)
     diff-lcs (1.2.5)
     dotenv (2.1.1)
     em-websocket (0.5.1)
@@ -80,9 +74,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-debugger (0.2.3)
-      debugger (~> 1.3)
-      pry (>= 0.9.10, < 0.11.0)
+    pry-byebug (3.4.1)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
@@ -180,7 +174,7 @@ DEPENDENCIES
   parallel
   promise
   pry
-  pry-debugger
+  pry-byebug
   rack-ssl-enforcer
   rack-test
   rake
@@ -196,7 +190,7 @@ DEPENDENCIES
   thin
 
 RUBY VERSION
-   ruby 1.9.3p551
+   ruby 2.0.0p647
 
 BUNDLED WITH
    1.13.6
