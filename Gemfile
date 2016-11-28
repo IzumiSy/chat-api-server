@@ -42,7 +42,7 @@ group :test do
   gem 'mongoid-rspec'
   gem 'rack-test'
 
-  gem 'database_cleaner', github: 'DatabaseCleaner/database_cleaner'
+  gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
   gem 'factory_girl'
   gem 'faker'
 end
