@@ -15,20 +15,20 @@ Sample front-end app: [IzumiSy/chat-frontend](https://github.com/IzumiSy/chat-fr
 - [License](#License)
 
 ## Setup
-###Install gems
+### Install gems
 ```bash
 $ bundle install
 ```
 You also need to install MongoDB and Redis in addition if not yet.
 
-###Edit .env
+### Edit .env
 ```bash
 $ cp .env.sample .env
 $ vi .env
 ...
 ```
 
-###Give seeds
+### Give seeds
 ```bash
 $ rake db:seed_rooms
 ```
