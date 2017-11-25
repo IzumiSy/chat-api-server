@@ -18,9 +18,9 @@ class RouteBase < Sinatra::Base
     content_type :json
   end
 
-  error do |e|
-    handle_errorcode(e)
+  handle_errorstatus
 
+  error do |e|
     status case e
       when Mongoid::Errors::Validations
         HTTPError::BadRequest::CODE
