@@ -14,7 +14,7 @@ gem 'thin'
 gem 'eventmachine'
 gem 'hashie', '3.4.4'
 
-gem 'mongoid', '~> 5.1.0'
+gem 'mongoid'
 gem 'mongoid_paranoia'
 gem 'bson_ext'
 
