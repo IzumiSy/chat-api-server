@@ -10,7 +10,7 @@ class User
 
   before_create :generate_user_token
 
-  belongs_to :room, foreign_key: 'room_id'
+  belongs_to :room, foreign_key: 'room_id', optional: true
 
   FACE_ID_BASE = 144995
   FACE_IDS = [
