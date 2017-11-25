@@ -45,7 +45,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
-    json (1.8.3)
+    json (1.8.6)
     method_source (0.8.2)
     minitest (5.9.1)
     mongo (2.3.1)
@@ -192,7 +192,7 @@ DEPENDENCIES
   thin
 
 RUBY VERSION
-   ruby 2.0.0p647
+   ruby 2.4.1p111
 
 BUNDLED WITH
-   1.13.6
+   1.16.0
