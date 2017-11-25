@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "2.0.0"
+ruby "2.4.1"
 
 gem 'sinatra'
 gem 'sinatra-contrib'
@@ -14,7 +14,7 @@ gem 'thin'
 gem 'eventmachine'
 gem 'hashie', '3.4.4'
 
-gem 'mongoid', '~> 5.1.0'
+gem 'mongoid'
 gem 'mongoid_paranoia'
 gem 'bson_ext'
 
