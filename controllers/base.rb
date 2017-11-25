@@ -6,9 +6,11 @@ class RouteBase < Sinatra::Base
     set :show_exceptions, false
 
     helpers Sinatra::Param
-    helpers Sinatra::Errorcodes
 
     register Sinatra::CrossOrigin
+    register Sinatra::Errorcodes
+
+    handle_errorstatus
 
     enable :cross_origin
     enable :logging
@@ -17,8 +19,6 @@ class RouteBase < Sinatra::Base
   before do
     content_type :json
   end
-
-  handle_errorstatus
 
   error do |e|
     status case e
