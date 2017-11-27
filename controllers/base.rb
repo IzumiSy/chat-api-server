@@ -2,13 +2,14 @@ require_relative "../services/auth_service"
 
 class RouteBase < Sinatra::Base
   configure do
-    set :raise_errors, false
-    set :show_exceptions, false
-
     helpers Sinatra::Param
 
     register Sinatra::CrossOrigin
     register Sinatra::Errorcodes
+
+    set :raise_errors, false
+    set :show_exceptions, false
+    set :halt_with_errors, true
 
     enable :cross_origin
     enable :logging
@@ -27,11 +28,7 @@ class RouteBase < Sinatra::Base
       when Mongoid::Errors::MongoidError
         HTTPError::InternalServerError::CODE
       else
-        if e.is_a? ErrorBase
-          e.code
-        else
-          HTTPError::InternalServerError::CODE
-        end
+        raise HTTPError::InternalServerError
       end
     body e.message || nil
   end
