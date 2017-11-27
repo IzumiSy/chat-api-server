@@ -29,7 +29,7 @@ class RouteBase < Sinatra::Base
       when Mongoid::Errors::MongoidError
         HTTPError::InternalServerError::CODE
       else
-        raise HTTPError::InternalServerError
+        HTTPError::InternalServerError
       end
     body e.message || nil
   end
