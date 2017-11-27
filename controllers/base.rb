@@ -10,8 +10,6 @@ class RouteBase < Sinatra::Base
     register Sinatra::CrossOrigin
     register Sinatra::Errorcodes
 
-    handle_errorstatus
-
     enable :cross_origin
     enable :logging
   end
@@ -29,7 +27,7 @@ class RouteBase < Sinatra::Base
       when Mongoid::Errors::MongoidError
         HTTPError::InternalServerError::CODE
       else
-        HTTPError::InternalServerError
+        HTTPError::InternalServerError::CODE
       end
     body e.message || nil
   end
