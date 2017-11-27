@@ -6,9 +6,11 @@ class RouteBase < Sinatra::Base
     set :show_exceptions, false
 
     helpers Sinatra::Param
-    helpers Sinatra::Errorcodes
 
     register Sinatra::CrossOrigin
+    register Sinatra::Errorcodes
+
+    handle_errorstatus
 
     enable :cross_origin
     enable :logging
@@ -19,8 +21,6 @@ class RouteBase < Sinatra::Base
   end
 
   error do |e|
-    handle_errorcode(e)
-
     status case e
       when Mongoid::Errors::Validations
         HTTPError::BadRequest::CODE
