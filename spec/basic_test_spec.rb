@@ -12,7 +12,7 @@ describe "POST /api/admin/auth" do
   }
   let(:undefined_user_param) {
     { auth_hash: Digest::MD5.hexdigest('testpass'),
-      user_id: "12345" }
+      user_id: BSON::ObjectId.new }
   }
   let(:error_param) {
     { auth_hash: Digest::MD5.hexdigest('testpassee'),
