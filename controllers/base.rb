@@ -20,17 +20,14 @@ class RouteBase < Sinatra::Base
   end
 
   error do |e|
-    status case e
-      when Mongoid::Errors::Validations
-        HTTPError::BadRequest::CODE
-      when Mongoid::Errors::DocumentNotFound
-        HTTPError::NotFound::CODE
-      when Mongoid::Errors::MongoidError
-        HTTPError::InternalServerError::CODE
-      else
-        raise HTTPError::InternalServerError
-      end
-    body e.message || nil
+    case e
+    when Mongoid::Errors::Validations
+      raise HTTPError::BadRequest
+    when Mongoid::Errors::DocumentNotFound
+      raise HTTPError::NotFound
+    when Mongoid::Errors::MongoidError
+      raise HTTPError::InternalServerError
+    end
   end
 
   helpers do
