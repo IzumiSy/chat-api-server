@@ -12,6 +12,8 @@ class RouteBase < Sinatra::Base
 
     enable :cross_origin
     enable :logging
+
+    handle_errorstatus
   end
 
   before do
