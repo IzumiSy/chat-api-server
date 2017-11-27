@@ -24,10 +24,7 @@ class BasicRoutes < RouteBase
       raise HTTPError::Unauthorized
     end
 
-    unless user = User.find_by(id: user_id)
-      raise HTTPError::NotFound
-    end
-
+    user = User.find_by!(id: user_id)
     user.update_attribute(:is_admin, true)
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :is_admin)
   end
