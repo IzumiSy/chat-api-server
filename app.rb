@@ -40,10 +40,6 @@ class Application < Sinatra::Base
     set :rocketio, websocket: false, comet: true
   end
 
-  not_found do
-    raise HTTPError::NotFound
-  end
-
   use BasicRoutes
   use UserRoutes
   use RoomRoutes
