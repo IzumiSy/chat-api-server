@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/base'
-require 'sinatra/param'
 require 'sinatra/cross_origin'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'

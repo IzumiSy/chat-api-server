@@ -3,7 +3,6 @@ ruby "2.4.1"
 
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'sinatra-param', require: 'sinatra/param'
 gem 'sinatra-cross_origin'
 gem 'sinatra-errorcodes'
 gem 'sinatra-rocketio'
