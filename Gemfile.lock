@@ -186,7 +186,6 @@ DEPENDENCIES
   eventmachine
   factory_girl
   faker
-  hashie
   hiredis
   mongoid
   mongoid-rspec
