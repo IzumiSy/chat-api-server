@@ -8,13 +8,10 @@ class BasicRoutes < RouteBase
   # Update is_admin flag of the given user to true
   # in order to allow call of admin restricted API
   post '/api/admin/auth' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("auth_hash").filled(:str?)
       required("user_id").filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     admin_pass = ENV['ADMIN_PASS']
     if admin_pass.empty?

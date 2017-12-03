@@ -5,13 +5,10 @@ class MessageRoutes < RouteBase
   # Message post API does not check if the room_id valid
   # or not, because it doesnt need to care its existence.
   post '/api/message/:room_id' do
-    schema = Dry::Validation.Schema do
+    validates do
       required(:room_id).filled(:str?)
       required(:content).filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     token = is_logged_in?
 
