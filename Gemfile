@@ -15,7 +15,6 @@ gem 'eventmachine'
 
 gem 'mongoid'
 gem 'mongoid_paranoia'
-gem 'bson_ext'
 
 gem 'bcrypt'
 gem 'dotenv'
