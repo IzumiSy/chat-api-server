@@ -11,7 +11,6 @@ gem 'dry-validation'
 
 gem 'shotgun'
 gem 'thin'
-gem 'eventmachine'
 
 gem 'mongoid'
 gem 'mongoid_paranoia'
