@@ -10,8 +10,8 @@ class MessageRoutes < RouteBase
       required(:content).filled(:str?)
     end
 
-    result = schema.call(params)
-    raise HTTPError::BadRequest if result.failure?
+    validation = schema.call(params)
+    raise HTTPError::BadRequest if validation.failure?
 
     token = is_logged_in?
 
