@@ -1,11 +1,11 @@
 require 'sinatra'
 require 'sinatra/base'
-require 'sinatra/param'
 require 'sinatra/cross_origin'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 require 'sinatra/async'
 
+require 'dry-validation'
 require 'digest/md5'
 require 'securerandom'
 

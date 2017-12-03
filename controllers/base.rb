@@ -2,8 +2,6 @@ require_relative "../services/auth_service"
 
 class RouteBase < Sinatra::Base
   configure do
-    helpers Sinatra::Param
-
     register Sinatra::CrossOrigin
     register Sinatra::Errorcodes
 
