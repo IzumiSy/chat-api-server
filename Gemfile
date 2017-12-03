@@ -12,7 +12,7 @@ gem 'dry-validation'
 gem 'shotgun'
 gem 'thin'
 gem 'eventmachine'
-gem 'hashie', '3.4.4'
+gem 'hashie'
 
 gem 'mongoid'
 gem 'mongoid_paranoia'
