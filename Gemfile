@@ -1,8 +1,7 @@
 source "https://rubygems.org"
 ruby "2.4.1"
 
-gem 'sinatra'
-gem 'sinatra-contrib'
+gem 'sinatra', '~> 2.0.0'
 gem 'sinatra-cross_origin'
 gem 'sinatra-errorcodes'
 gem 'sinatra-rocketio'
