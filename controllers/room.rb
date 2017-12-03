@@ -22,12 +22,9 @@ class RoomRoutes < RouteBase
   end
 
   post '/api/room/new' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("name").filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
     is_admin?
@@ -41,24 +38,18 @@ class RoomRoutes < RouteBase
 
   # TODO Implementation
   delete '/api/room/:id' do
-    schema = Dry::Validation.Schema do
+    validates do
       required(:id).filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
     is_admin?
   end
 
   get '/api/room/:id' do
-    schema = Dry::Validation.Schema do
+    validates do
       required(:id).filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
 
@@ -70,12 +61,9 @@ class RoomRoutes < RouteBase
   # - /api/room/:id/messages
   # - /api/room/:id/users
   get '/api/room/:id/*' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("id").filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
 
@@ -96,12 +84,9 @@ class RoomRoutes < RouteBase
   # - /api/room/:id/enter
   # - /api/room/:id/leave
   post '/api/room/:id/*' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("id").filled(:str?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     token = is_logged_in?
 

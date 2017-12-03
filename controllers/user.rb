@@ -4,13 +4,10 @@ class UserRoutes < RouteBase
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("name").filled(:str?)
       optional("face")
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     client_ip = request.ip
     client_name = params[:name]
@@ -53,12 +50,9 @@ class UserRoutes < RouteBase
   end
 
   get '/api/user/duplicate/:name' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("name").filled
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     _status = {
       status: User.get_name_availability(params[:name])
@@ -68,12 +62,9 @@ class UserRoutes < RouteBase
   end
 
   get '/api/user/:id' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("id").filled
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
 
@@ -82,12 +73,9 @@ class UserRoutes < RouteBase
   end
 
   get '/api/user/:id/room' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("id").filled
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
 
@@ -99,13 +87,10 @@ class UserRoutes < RouteBase
   # Notes: somehow PUT is not working well in this port
   # so I decided to use POST instead for updating user's data
   post '/api/user/:id' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("id").filled(:str?)
       required("data").filled(:hash?)
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
 
@@ -120,12 +105,9 @@ class UserRoutes < RouteBase
 
   # TODO: need test
   delete '/api/user/:id' do
-    schema = Dry::Validation.Schema do
+    validates do
       required("id").filled
     end
-
-    validation = schema.call(params)
-    raise HTTPError::BadRequest if validation.failure?
 
     is_logged_in?
 
