@@ -9,6 +9,8 @@ gem 'sinatra-errorcodes'
 gem 'sinatra-rocketio'
 gem 'async_sinatra'
 
+gem 'dry-validation'
+
 gem 'shotgun'
 gem 'thin'
 gem 'eventmachine'
