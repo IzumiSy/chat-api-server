@@ -6,6 +6,7 @@ require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 require 'sinatra/async'
 
+require 'dry-validation'
 require 'digest/md5'
 require 'securerandom'
 
