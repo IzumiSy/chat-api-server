@@ -46,17 +46,11 @@ class Room
         raise HTTPError::Unauthorized
       end
 
-      # If "all" is specfied to `room_id` parameter, this function proceeds
-      # the transaction that the specified user leaves from the current room.
-      is_all_leave_mode = (room_id == "all" && transaction_type == :LEAVE)
-      room_id = user.room_id.to_s if is_all_leave_mode
-
       case transaction_type
       when :ENTER then
         transaction_enter(room_id, user)
       when :LEAVE then
         transaction_leave(room_id, user)
-        User.user_deletion(user) if is_all_leave_mode
       else
         raise HTTPError::InternalServerError
       end

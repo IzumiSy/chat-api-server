@@ -57,49 +57,51 @@ class RoomRoutes < RouteBase
     body Room.fetch_room_data(room_id, :ROOM)
   end
 
-  # Wild card implementation for two following ports
-  # - /api/room/:id/messages
-  # - /api/room/:id/users
-  get '/api/room/:id/*' do
+  get '/api/room/:id/messages' do
     validates do
       required("id").filled(:str?)
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
-    target_path = params['splat'].first
     room_id = params[:id]
-
-    body case target_path
-      when "messages" then
-        Room.fetch_room_data(room_id, :MSG)
-      when 'users' then
-        Room.fetch_room_data(room_id, :USER)
-      else
-        raise HTTPError::NotFound
-      end
+    Room.fetch_room_data(room_id, :MSG)
   end
 
-  # This port covers two following ports
-  # - /api/room/:id/enter
-  # - /api/room/:id/leave
-  post '/api/room/:id/*' do
+  get '/api/room/:id/users' do
     validates do
       required("id").filled(:str?)
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
-    target_path = params['splat'].first
     room_id = params[:id]
+    Room.fetch_room_data(room_id, :USER)
+  end
 
-    case target_path
-    when 'enter' then
-      Room.room_transaction(room_id, current_user, :ENTER)
-    when 'leave' then
-      Room.room_transaction(room_id, current_user, :LEAVE)
-    else
-      raise HTTPError::NotFound
+  post '/api/room/:id/enter' do
+    validates do
+      required("id").filled(:str?)
+    end
+
+    raise HTTPError::BadRequest unless is_logged_in?
+
+    room_id = params[:id]
+    Room.room_transaction(room_id, current_user, :ENTER)
+  end
+
+  post '/api/room/:id/leave' do
+    validates do
+      required("id").filled(:str?)
+    end
+
+    raise HTTPError::BadRequest unless is_logged_in?
+
+    room_id = params[:id]
+    Room.room_transaction(room_id, current_user, :LEAVE)
+
+    if room_id == 'all'
+      User.user_deletion(current_user)
     end
   end
 end
