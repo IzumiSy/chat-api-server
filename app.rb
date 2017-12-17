@@ -56,10 +56,9 @@ class Application < Sinatra::Base
     200
   end
 
-  if (memcached_servers = ENV['MEMCACHE_SERVERS'])
-      (memcached_port = ENV['MEMCACHE_PORT']) &&
-      (memcached_username = ENV['MEMCACHE_USERNAME']) &&
-      (memcached_password = ENV['MEMCACHE_PASSWORD'])
+  if (memcached_servers = ENV['MEMCACHEDCLOUD_SERVERS'])
+      (memcached_username = ENV['MEMCACHEDCLOUD_USERNAME']) &&
+      (memcached_password = ENV['MEMCACHEDCLOUD_PASSWORD'])
 
     use Rack::Cache,
       verbose: true,
@@ -68,7 +67,7 @@ class Application < Sinatra::Base
 
     use Rack::Session::Dalli,
       cache: Dalli::Client.new(
-        "#{memcached_servers}:#{memcached_port}",
+        "#{memcached_servers}",
         username: memcached_username,
         password: memcached_password
       )
