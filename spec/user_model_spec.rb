@@ -11,7 +11,7 @@ describe User do
   it { is_expected.to validate_length_of(:name).within(0..User::USER_NAME_LENGTH_MAX) }
 
   it { is_expected.to have_fields(:name, :face).of_type(String) }
-  it { is_expected.to have_fields(:ip, :token, :session).of_type(String) }
+  it { is_expected.to have_fields(:ip, :session).of_type(String) }
   it { is_expected.to have_field(:is_admin)
          .of_type(Mongoid::Boolean).with_default_value_of(false) }
   it { is_expected.to have_field(:status)
