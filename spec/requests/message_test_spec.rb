@@ -1,6 +1,6 @@
-require_relative "./spec_helper.rb"
+require_relative "../spec_helper.rb"
 
-describe "POST /api/message/:room_id" do
+describe "POST /api/message/:room_id", autodoc: true do
   let(:user) { create(:user) }
   let(:room) { create(:room) }
   let(:invalid_message) { { content: "Hello" } }

@@ -1,6 +1,6 @@
-require_relative "./spec_helper.rb"
+require_relative "../spec_helper.rb"
 
-describe "POST /api/room/new" do
+describe "POST /api/room/new", autodoc: true do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
   let(:success_room) { { name: "RoomSuccess" } }
@@ -39,7 +39,7 @@ describe "GET /api/room" do
   end
 end
 
-describe "GET /api/room/:id/users" do
+describe "GET /api/room/:id/users", autodoc: true do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
   let(:room) { create(:room) }
@@ -58,7 +58,7 @@ describe "GET /api/room/:id/users" do
   end
 end
 
-describe "POST /api/room/enter" do
+describe "POST /api/room/enter", autodoc: true do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
 
@@ -81,7 +81,7 @@ describe "POST /api/room/enter" do
   end
 end
 
-describe "POST /api/room/:id/leave" do
+describe "POST /api/room/:id/leave", autodoc: true do
   let(:room) { create(:room) }
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }

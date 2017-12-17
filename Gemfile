@@ -41,10 +41,10 @@ group :test do
   gem 'rspec'
   gem 'mongoid-rspec'
   gem 'rack-test'
-
   gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
   gem 'factory_girl'
   gem 'faker'
+  gem 'autodoc'
 end
 
 group :production do
