@@ -36,6 +36,8 @@ Dotenv.load
 Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
+  enable :sessions
+
   register Sinatra::RocketIO
   register Sinatra::Async
 
