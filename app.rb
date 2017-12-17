@@ -53,4 +53,22 @@ class Application < Sinatra::Base
       "Authorization"
     200
   end
+
+  if (memcached_servers = ENV['MEMCACHE_SERVERS'])
+      (memcached_port = ENV['MEMCACHE_PORT']) &&
+      (memcached_username = ENV['MEMCACHE_USERNAME']) &&
+      (memcached_password = ENV['MEMCACHE_PASSWORD'])
+
+    use Rack::Cache,
+      verbose: true,
+      metastore: "memcached://#{memcached_servers}",
+      entitystore: "memcached://#{memcached_servers}"
+
+    use Rack::Session::Dalli,
+      cache: Dalli::Client.new(
+        "#{memcached_servers}:#{memcached_port}",
+        username: memcached_username,
+        password: memcached_password
+      )
+  end
 end
