@@ -22,7 +22,7 @@ require 'pry' if development? or test?
 require 'rack-ssl-enforcer'
 require 'rack-health'
 require 'rack-cache'
-require 'dalli'
+require 'rack/session/dalli'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
