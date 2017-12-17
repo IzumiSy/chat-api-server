@@ -2,7 +2,7 @@ require_relative "../../services/auth_service"
 
 module Authorization
   def is_logged_in?
-    if session[:user_id]
+    if User.find(session[:user_id])
       true
     else
       raise HTTPError::Unauthorized
