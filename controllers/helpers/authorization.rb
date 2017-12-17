@@ -10,9 +10,11 @@ module Authorization
   end
 
   def is_admin?
-    unless _user = AuthService.is_admin?(request)
+    user = User.find(session[:user_id])
+    if user && user.is_admin?
+      true
+    else
       raise HTTPError::Unauthorized
     end
-    _user
   end
 end
