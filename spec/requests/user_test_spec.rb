@@ -1,6 +1,6 @@
-require_relative "./spec_helper.rb"
+require_relative "../spec_helper.rb"
 
-describe "GET /api/user/duplicate/:name" do
+describe "GET /api/user/duplicate/:name", autodoc: true do
   let(:unique_user) { { name: "Justine" } }
   let!(:jonathan) { create(:Jonathan) }
 
@@ -19,7 +19,7 @@ describe "GET /api/user/duplicate/:name" do
   end
 end
 
-describe "POST /api/user/new" do
+describe "POST /api/user/new", autodoc: true do
   let(:user) { { name: "test1" } }
   let(:error_user) { { name: "Jonathan" } }
   let!(:Lobby) { create(:Lobby) }
@@ -41,7 +41,7 @@ describe "POST /api/user/new" do
   end
 end
 
-describe "GET /api/user/:id" do
+describe "GET /api/user/:id", autodoc: true do
   let (:user) { create(:user) }
 
   it "should NOT get an error when invalid user id" do
@@ -59,7 +59,7 @@ describe "GET /api/user/:id" do
   end
 end
 
-describe "GET /api/user/:id/room" do
+describe "GET /api/user/:id/room", autodoc: true do
   let(:user) { create(:user) }
   let(:room) { create(:room) }
 
