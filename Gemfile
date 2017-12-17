@@ -22,6 +22,7 @@ gem 'hiredis'
 gem 'rack-cache'
 gem 'dalli'
 gem 'rack-health'
+gem 'rack-cors'
 
 gem 'rake'
 
