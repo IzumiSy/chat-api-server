@@ -56,7 +56,7 @@ class Room
         transaction_enter(room_id, user)
       when :LEAVE then
         transaction_leave(room_id, user)
-        User.user_deletion(user)
+        User.user_deletion(user) if is_all_leave_mode
       else
         raise HTTPError::InternalServerError
       end
@@ -88,11 +88,9 @@ class Room
 
       return unless is_user_exist_in_room
 
-      Thread.new {
-        user.update_attributes!(room_id: nil)
-      }
-
+      Thread.new { user.update_attributes!(room_id: nil) }
       Room.decrement_counter(:users_count, current_room_id)
+
       MessageService.broadcast_leave_msg(user)
     end
   end
