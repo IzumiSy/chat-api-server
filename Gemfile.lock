@@ -163,6 +163,7 @@ GEM
       sinatra (>= 1.3.0)
       sinatra-contrib (>= 1.3.2)
       websocket-client-simple
+    sysrandom (1.0.5)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -210,6 +211,7 @@ DEPENDENCIES
   sinatra (~> 2.0.0)
   sinatra-errorcodes
   sinatra-rocketio
+  sysrandom
   thin
 
 RUBY VERSION
