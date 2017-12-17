@@ -60,7 +60,7 @@ class Application < Sinatra::Base
     200
   end
 
-  memcached_servers = ENV['MEMCACHEDCLOUD_SERVERS']
+  memcached_servers = ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
   memcached_username = ENV['MEMCACHEDCLOUD_USERNAME']
   memcached_password = ENV['MEMCACHEDCLOUD_PASSWORD']
 
@@ -72,7 +72,7 @@ class Application < Sinatra::Base
   use Rack::Session::Dalli,
     key: '__chat_api_server',
     cache: Dalli::Client.new(
-      "#{memcached_servers}",
+      memcached_servers,
       username: memcached_username,
       password: memcached_password
     )
