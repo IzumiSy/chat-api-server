@@ -1,4 +1,4 @@
-require_relative "./spec_helper.rb"
+require_relative "../spec_helper.rb"
 
 describe "GET /api/user/duplicate/:name" do
   let(:unique_user) { { name: "Justine" } }

@@ -1,4 +1,4 @@
-require_relative "./spec_helper.rb"
+require_relative "../spec_helper.rb"
 
 describe "POST /api/room/new" do
   let(:user) { create(:user) }
