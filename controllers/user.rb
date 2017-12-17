@@ -46,7 +46,9 @@ class UserRoutes < RouteBase
     end
 
     user = _create_new_user
-    body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
+    session[:user_id] = user.id
+
+    body user.to_json(only: User::USER_DATA_LIMITS.dup << :room_id)
   end
 
   get '/api/user/duplicate/:name' do

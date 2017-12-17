@@ -8,8 +8,6 @@ class User
   USER_NAME_LENGTH_MAX = 64
   USER_DATA_LIMITS = [:_id, :name, :face]
 
-  before_create :generate_user_token
-
   belongs_to :room, foreign_key: 'room_id', optional: true
 
   FACE_ID_BASE = 144995
@@ -21,7 +19,6 @@ class User
   field :face,   type: String, default: ->{ faceid_gen() }
 
   field :ip,      type: String
-  field :token,   type: String
   field :session, type: String
 
   STATUS = [
@@ -46,10 +43,6 @@ class User
   class << self
     def get_name_availability(name)
       !!User.where(name: name).exists?
-    end
-
-    def find_user_by_token(token)
-      Mongoid::QueryCache.cache { User.find_by(token: token) }
     end
 
     def find_user_by_session(session)
@@ -101,15 +94,6 @@ class User
   end
 
   private
-
-  # Generate user token randomly
-  def generate_user_token
-    token = SecureRandom.uuid
-    RedisService.connect(takeover: true)
-    RedisService.set(token, self.ip)
-    self.token = token
-    puts "[INFO] Token set: #{token}"
-  end
 
   # Set random face id
   def faceid_gen

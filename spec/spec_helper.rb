@@ -14,15 +14,8 @@ require_relative './factories/user.rb'
 require_relative './factories/room.rb'
 
 module Helpers
-  def redis_connect
-    @redis = @redis ?
-      @redis :
-      Redis.new(host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"])
-    @redis
-  end
-
-  def enter_room(room_id, token)
-    user = User.find_user_by_token(token)
+  def enter_room(room_id, user)
+    user = User.find(user.id)
     user.update_attributes!(room_id: room_id)
   end
 end
