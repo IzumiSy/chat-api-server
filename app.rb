@@ -70,6 +70,7 @@ class Application < Sinatra::Base
     entitystore: "memcached://#{memcached_servers}"
 
   use Rack::Session::Dalli,
+    key: '__chat_api_server',
     cache: Dalli::Client.new(
       "#{memcached_servers}",
       username: memcached_username,
