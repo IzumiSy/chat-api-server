@@ -1,6 +1,7 @@
 require 'sysrandom/securerandom'
 
 require 'sinatra'
+require 'sinatra/namespace'
 require 'sinatra/base'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'

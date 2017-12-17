@@ -4,6 +4,7 @@ require_relative 'helpers/validation'
 class RouteBase < Sinatra::Base
   configure do
     register Sinatra::Errorcodes
+    register Sinatra::Namespace
 
     set :raise_errors, false
     set :show_exceptions, false
