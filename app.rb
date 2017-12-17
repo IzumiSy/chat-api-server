@@ -1,3 +1,5 @@
+require 'sysrandom/securerandom'
+
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/rocketio'
@@ -36,8 +38,6 @@ Dotenv.load
 Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
-  enable :sessions
-
   register Sinatra::RocketIO
   register Sinatra::Async
 
@@ -63,6 +63,8 @@ class Application < Sinatra::Base
         credentials: true
     end
   end
+
+  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
 
   memcached_servers =
     ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
