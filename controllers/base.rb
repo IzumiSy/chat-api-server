@@ -1,4 +1,5 @@
-require_relative "../services/auth_service"
+require_relative 'helpers/authorization'
+require_relative 'helpers/validation'
 
 class RouteBase < Sinatra::Base
   configure do
@@ -28,25 +29,5 @@ class RouteBase < Sinatra::Base
       end
   end
 
-  helpers do
-    def is_logged_in?
-      unless _token = AuthService.is_logged_in?(request)
-        raise HTTPError::Unauthorized
-      end
-      _token
-    end
-
-    def is_admin?
-      unless _user = AuthService.is_admin?(request)
-        raise HTTPError::Unauthorized
-      end
-      _user
-    end
-
-    def validates(&block)
-      schema = Dry::Validation.Schema(&block)
-      validation = schema.call(params)
-      raise HTTPError::BadRequest if validation.failure?
-    end
-  end
+  helpers Authorization, Validation
 end
