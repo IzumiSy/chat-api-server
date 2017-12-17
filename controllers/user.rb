@@ -46,7 +46,7 @@ class UserRoutes < RouteBase
     end
 
     user = _create_new_user
-    session[:user_id] = user.id
+    login(user)
 
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :room_id)
   end

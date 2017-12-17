@@ -88,16 +88,16 @@ class RoomRoutes < RouteBase
       required("id").filled(:str?)
     end
 
-    token = is_logged_in?
+    is_logged_in?
 
     target_path = params['splat'].first
     room_id = params[:id]
 
     case target_path
     when 'enter' then
-      Room.room_transaction(room_id, token, :ENTER)
+      Room.room_transaction(room_id, current_user, :ENTER)
     when 'leave' then
-      Room.room_transaction(room_id, token, :LEAVE)
+      Room.room_transaction(room_id, current_user, :LEAVE)
     else
       raise HTTPError::NotFound
     end

@@ -41,8 +41,8 @@ class Room
         end
     end
 
-    def room_transaction(room_id, token, transaction_type)
-      unless user = User.find_user_by_token(token)
+    def room_transaction(room_id, user, transaction_type)
+      unless user
         raise HTTPError::Unauthorized
       end
 
@@ -56,7 +56,7 @@ class Room
         transaction_enter(room_id, user)
       when :LEAVE then
         transaction_leave(room_id, user)
-        User.user_deletion(user) if is_all_leave_mode
+        User.user_deletion(user)
       else
         raise HTTPError::InternalServerError
       end

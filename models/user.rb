@@ -86,9 +86,8 @@ class User
     def user_deletion(user)
       return unless user
       if user.room
-        Room.room_transaction(user.room.id, user.token, :LEAVE)
+        Room.room_transaction(user.room.id, user, :LEAVE)
       end
-      Thread.new { RedisService.delete(user.token) }
       user.delete
     end
   end
