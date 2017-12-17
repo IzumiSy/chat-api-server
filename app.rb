@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/base'
-require 'sinatra/cross_origin'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 require 'sinatra/async'
@@ -53,12 +52,6 @@ class Application < Sinatra::Base
   use Rack::Health, path: '/healthcheck'
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
-
-  options "*" do
-    response.headers["Access-Control-Allow-Headers"] =
-      "Authorization"
-    200
-  end
 
   memcached_servers =
     ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
