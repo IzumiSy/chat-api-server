@@ -1,5 +1,3 @@
-require_relative "../../services/auth_service"
-
 module Authorization
   def login(user)
     session[:user_id] = user.id
