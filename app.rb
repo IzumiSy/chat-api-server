@@ -60,20 +60,19 @@ class Application < Sinatra::Base
     200
   end
 
-  if (memcached_servers = ENV['MEMCACHEDCLOUD_SERVERS'])
-      (memcached_username = ENV['MEMCACHEDCLOUD_USERNAME']) &&
-      (memcached_password = ENV['MEMCACHEDCLOUD_PASSWORD'])
+  memcached_servers = ENV['MEMCACHEDCLOUD_SERVERS']
+  memcached_username = ENV['MEMCACHEDCLOUD_USERNAME']
+  memcached_password = ENV['MEMCACHEDCLOUD_PASSWORD']
 
-    use Rack::Cache,
-      verbose: true,
-      metastore: "memcached://#{memcached_servers}",
-      entitystore: "memcached://#{memcached_servers}"
+  use Rack::Cache,
+    verbose: true,
+    metastore: "memcached://#{memcached_servers}",
+    entitystore: "memcached://#{memcached_servers}"
 
-    use Rack::Session::Dalli,
-      cache: Dalli::Client.new(
-        "#{memcached_servers}",
-        username: memcached_username,
-        password: memcached_password
-      )
-  end
+  use Rack::Session::Dalli,
+    cache: Dalli::Client.new(
+      "#{memcached_servers}",
+      username: memcached_username,
+      password: memcached_password
+    )
 end
