@@ -28,9 +28,7 @@ module RedisService
     end
 
     def redis_new
-      opts = { host: ENV["REDIS_IP"], port: ENV["REDIS_PORT"] }
-      opts.store(:password, ENV["REDIS_PASS"]) if ENV["REDIS_PASS"]
-      redis = Redis.new(opts)
+      redis = Redis.new
       redis_ping(redis)
       redis
     end
