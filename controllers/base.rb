@@ -3,7 +3,6 @@ require_relative 'helpers/validation'
 
 class RouteBase < Sinatra::Base
   configure do
-    register Sinatra::CrossOrigin
     register Sinatra::Errorcodes
 
     set :raise_errors, false
