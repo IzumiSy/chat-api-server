@@ -20,6 +20,8 @@ gem 'dotenv'
 
 gem 'redis'
 gem 'hiredis'
+gem 'rack-cache'
+gem 'dalli'
 
 gem 'rake'
 
