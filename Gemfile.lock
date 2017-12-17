@@ -100,6 +100,8 @@ GEM
     rack (2.0.3)
     rack-cache (1.7.1)
       rack (>= 0.4)
+    rack-health (0.1.2)
+      rack (>= 1.2.0)
     rack-protection (2.0.0)
       rack
     rack-ssl-enforcer (0.2.9)
@@ -196,6 +198,7 @@ DEPENDENCIES
   pry
   pry-byebug
   rack-cache
+  rack-health
   rack-ssl-enforcer
   rack-test
   rake

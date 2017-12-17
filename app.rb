@@ -20,6 +20,7 @@ require 'dotenv'
 require 'pry' if development? or test?
 
 require 'rack-ssl-enforcer'
+require 'rack-health'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
@@ -45,6 +46,7 @@ class Application < Sinatra::Base
   use RoomRoutes
   use MessageRoutes
 
+  use Rack::Health, path: '/healthcheck'
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
 

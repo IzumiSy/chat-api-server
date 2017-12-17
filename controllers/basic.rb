@@ -1,10 +1,6 @@
 require_relative "./base"
 
 class BasicRoutes < RouteBase
-  get '/api/ping' do
-    body 'pong'
-  end
-
   # Update is_admin flag of the given user to true
   # in order to allow call of admin restricted API
   post '/api/admin/auth' do
