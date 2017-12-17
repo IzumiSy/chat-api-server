@@ -20,11 +20,11 @@ require 'promise'
 require 'dotenv'
 require 'pry' if development? or test?
 
-require 'rack-cors'
 require 'rack-ssl-enforcer'
 require 'rack-health'
 require 'rack-cache'
 require 'rack/session/dalli'
+require 'rack/cors'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
@@ -64,21 +64,21 @@ class Application < Sinatra::Base
     end
   end
 
-  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
-
   memcached_servers =
     ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
 
-  use Rack::Cache,
-    verbose: true,
-    metastore: "memcached://#{memcached_servers}",
-    entitystore: "memcached://#{memcached_servers}"
-
-  use Rack::Session::Dalli,
+  enable :sessions
+  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
+  set :session_store, Rack::Session::Dalli,
     key: '__chat_api_server',
     cache: Dalli::Client.new(
       memcached_servers,
       username: ENV['MEMCACHEDCLOUD_USERNAME'],
       password: ENV['MEMCACHEDCLOUD_PASSWORD']
     )
+
+  use Rack::Cache,
+    verbose: true,
+    metastore: "memcached://#{memcached_servers}",
+    entitystore: "memcached://#{memcached_servers}"
 end
