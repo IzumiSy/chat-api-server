@@ -11,8 +11,7 @@ describe "POST /api/message/:room_id" do
   end
 
   # it "should get an error in posting a message to unexisted room" do
-  #   post "/api/message/12345", invalid_message,
-  #     { "HTTP_AUTHORIZATION" => "Basic #{user.token}" }
+  #   post "/api/message/12345", invalid_message, 'rack.session' => { user_id: user.id }
   #   expect(last_response.status).to eq(404)
   # end
 end

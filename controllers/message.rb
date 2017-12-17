@@ -10,16 +10,14 @@ class MessageRoutes < RouteBase
       required(:content).filled(:str?)
     end
 
-    token = is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     room_id = params[:room_id]
     content = params[:content]
-    user    = User.find_user_by_token(token)
 
     raise HTTPError::BadRequest if room_id.empty? or content.empty?
-    raise HTTPError::BadRequest unless user
 
-    data = { user_id: user.id, content: content, created_at: Time.now, user: user }
+    data = { user_id: user.id, content: content, created_at: Time.now, user: current_user }
     MessageService.broadcast_message(room_id, data)
   end
 end
