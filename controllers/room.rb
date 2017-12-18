@@ -2,14 +2,15 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class RoomRoutes < RouteBase
+  before do
+    raise HTTPError::BadRequest unless is_logged_in?
+  end
+
   get '/api/room' do
     # [NOTE] Performance tuning tips
     # - to_json calls find() internally, so it is called here only once.
     # - length property and count() calls a counting method internally
     #   that is relatively slow, so to avoid that overhead, here use JSON conversion.
-
-    is_logged_in?
-
     room_all = Mongoid::QueryCache.cache {
       Room.all.limit(Room::ROOM_MAX).to_json(only: Room::ROOM_DATA_LIMITS)
     }
@@ -26,8 +27,7 @@ class RoomRoutes < RouteBase
       required("name").filled(:str?)
     end
 
-    is_logged_in?
-    is_admin?
+    raise HTTPError::Unauthorized unless is_admin?
 
     room_name = params[:name]
     room = Room.new(name: room_name)
@@ -36,22 +36,10 @@ class RoomRoutes < RouteBase
     body room.to_json(only: Room::ROOM_DATA_LIMITS)
   end
 
-  # TODO Implementation
-  delete '/api/room/:id' do
-    validates do
-      required(:id).filled(:str?)
-    end
-
-    is_logged_in?
-    is_admin?
-  end
-
   get '/api/room/:id' do
     validates do
       required(:id).filled(:str?)
     end
-
-    is_logged_in?
 
     room_id = params[:id]
     body Room.fetch_room_data(room_id, :ROOM)
@@ -62,8 +50,6 @@ class RoomRoutes < RouteBase
       required("id").filled(:str?)
     end
 
-    raise HTTPError::BadRequest unless is_logged_in?
-
     room_id = params[:id]
     Room.fetch_room_data(room_id, :MSG)
   end
@@ -72,8 +58,6 @@ class RoomRoutes < RouteBase
     validates do
       required("id").filled(:str?)
     end
-
-    raise HTTPError::BadRequest unless is_logged_in?
 
     room_id = params[:id]
     Room.fetch_room_data(room_id, :USER)
@@ -94,8 +78,6 @@ class RoomRoutes < RouteBase
     validates do
       required("id").filled(:str?)
     end
-
-    raise HTTPError::BadRequest unless is_logged_in?
 
     room_id = params[:id]
     Room.room_transaction(room_id, current_user, :LEAVE)
