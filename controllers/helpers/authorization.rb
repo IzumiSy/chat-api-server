@@ -15,16 +15,15 @@ module Authorization
     if current_user
       true
     else
-      raise HTTPError::Unauthorized
+      false
     end
   end
 
   def is_admin?
-    user = User.find(session[:user_id])
-    if user && user.is_admin?
+    if current_user && current_user.is_admin?
       true
     else
-      raise HTTPError::Unauthorized
+      false
     end
   end
 end
