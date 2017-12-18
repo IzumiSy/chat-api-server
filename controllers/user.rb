@@ -68,7 +68,7 @@ class UserRoutes < RouteBase
       required("id").filled
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     body User.fetch_user_data(user_id, :USER)
@@ -79,7 +79,7 @@ class UserRoutes < RouteBase
       required("id").filled
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     body User.fetch_user_data(user_id, :ROOM)
@@ -94,7 +94,7 @@ class UserRoutes < RouteBase
       required("data").filled(:hash?)
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     data = params[:data]
@@ -111,7 +111,7 @@ class UserRoutes < RouteBase
       required("id").filled
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     user = User.find_by!(id: user_id);
