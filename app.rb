@@ -1,5 +1,3 @@
-require 'sysrandom/securerandom'
-
 require 'sinatra'
 require 'sinatra/namespace'
 require 'sinatra/base'
@@ -7,13 +5,12 @@ require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 require 'sinatra/async'
 
-require 'dry-validation'
+require 'sysrandom/securerandom'
 require 'digest/md5'
-require 'securerandom'
 
-require 'redis'
 require 'mongoid'
 require 'mongoid/paranoia'
+require 'dry-validation'
 
 require 'parallel'
 require 'promise'
