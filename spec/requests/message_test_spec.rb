@@ -6,7 +6,7 @@ describe "POST /api/message/:room_id" do
   let(:invalid_message) { { content: "Hello" } }
 
   it "should get an error when no params" do
-    post "/api/message/#{room.id}"
+    post "/api/message/#{room.id}", {}, 'rack.session' => { user_id: user.id }
     expect(last_response.status).to eq(400)
   end
 

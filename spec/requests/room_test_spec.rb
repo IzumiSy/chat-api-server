@@ -9,7 +9,7 @@ describe "POST /api/room/new" do
   let!(:SuperRoom) { create(:SuperRoom) }
 
   it "should NOT create a room without parameters" do
-    post "/api/room/new"
+    post "/api/room/new", {}, 'rack.session' => { user_id: user.id }
     expect(last_response.status).to eq(400)
   end
 
