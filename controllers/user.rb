@@ -49,18 +49,6 @@ class UserRoutes < RouteBase
     body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
   end
 
-  get '/api/user/duplicate/:name' do
-    validates do
-      required("name").filled
-    end
-
-    _status = {
-      status: User.get_name_availability(params[:name])
-    }.to_json
-
-    body _status
-  end
-
   get '/api/user/:id' do
     validates do
       required("id").filled
