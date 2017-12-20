@@ -64,7 +64,7 @@ GEM
       activesupport (>= 3.0.0)
     faker (1.8.5)
       i18n (~> 0.9.1)
-    hashie (3.5.6)
+    hashie (3.5.7)
     http_parser.rb (0.6.0)
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
