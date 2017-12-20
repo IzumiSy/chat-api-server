@@ -72,9 +72,7 @@ class User
 
     def user_deletion(user)
       return unless user
-      if user.room
-        Room.room_transaction(user.room.id, user, :LEAVE)
-      end
+      Room.transaction_leave(user.room.id, user) if user.room
       user.delete
     end
   end

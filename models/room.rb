@@ -41,23 +41,6 @@ class Room
         end
     end
 
-    def room_transaction(room_id, user, transaction_type)
-      unless user
-        raise HTTPError::Unauthorized
-      end
-
-      case transaction_type
-      when :ENTER then
-        transaction_enter(room_id, user)
-      when :LEAVE then
-        transaction_leave(room_id, user)
-      else
-        raise HTTPError::InternalServerError
-      end
-    end
-
-    protected
-
     def transaction_enter(new_room_id, user)
       if user.room
         current_room_id = user.room.id

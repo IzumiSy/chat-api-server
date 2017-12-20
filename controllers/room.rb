@@ -71,7 +71,7 @@ class RoomRoutes < RouteBase
     raise HTTPError::BadRequest unless is_logged_in?
 
     room_id = params[:id]
-    Room.room_transaction(room_id, current_user, :ENTER)
+    Room.transaction_enter(room_id, current_user)
   end
 
   post '/api/room/:id/leave' do
@@ -80,10 +80,12 @@ class RoomRoutes < RouteBase
     end
 
     room_id = params[:id]
-    Room.room_transaction(room_id, current_user, :LEAVE)
 
+    binding.pry
     if room_id == 'all'
       User.user_deletion(current_user)
+    else
+      Room.transaction_leave(room_id, current_user)
     end
   end
 end
