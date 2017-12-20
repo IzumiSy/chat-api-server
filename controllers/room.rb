@@ -33,7 +33,7 @@ class RoomRoutes < RouteBase
     room = Room.new(name: room_name)
     room.save!
 
-    body room.to_json(only: Room::ROOM_DATA_LIMITS)
+    room.to_json(only: Room::ROOM_DATA_LIMITS)
   end
 
   get '/api/room/:id' do
@@ -42,16 +42,8 @@ class RoomRoutes < RouteBase
     end
 
     room_id = params[:id]
-    body Room.fetch_room_data(room_id, :ROOM)
-  end
 
-  get '/api/room/:id/messages' do
-    validates do
-      required("id").filled(:str?)
-    end
-
-    room_id = params[:id]
-    Room.fetch_room_data(room_id, :MSG)
+    Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
   end
 
   get '/api/room/:id/users' do
@@ -60,7 +52,9 @@ class RoomRoutes < RouteBase
     end
 
     room_id = params[:id]
-    Room.fetch_room_data(room_id, :USER)
+
+    Room.only(:users).find_by!(id: room_id)
+      .users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
   end
 
   post '/api/room/:id/enter' do
@@ -81,7 +75,6 @@ class RoomRoutes < RouteBase
 
     room_id = params[:id]
 
-    binding.pry
     if room_id == 'all'
       User.user_deletion(current_user)
     else

@@ -30,17 +30,6 @@ class Room
       Mongoid::QueryCache.cache { Room.find_by(name: LOBBY_ROOM_NAME) }
     end
 
-    def fetch_room_data(room_id, fetch_type)
-      return case fetch_type
-        when :ROOM then
-          Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
-        when :USER then
-          Room.only(:users).find_by!(id: room_id).users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
-        else
-          raise HTTPError::InternalServerError
-        end
-    end
-
     def transaction_enter(new_room_id, user)
       if user.room
         current_room_id = user.room.id
