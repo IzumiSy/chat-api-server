@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.4.1-jessie
-      - image: mongo/3.4.10-jessie
+      - image: mongo/3.4-jessie
     steps:
       - checkout
       - run: bundle install
