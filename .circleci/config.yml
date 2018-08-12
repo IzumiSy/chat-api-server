@@ -1,0 +1,12 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.4.1-jessie
+      - image: library/mongo:3.4-jessie
+      - image: library/redis
+    steps:
+      - checkout
+      - run: bundle install
+      - run: bundle exec rspec spec --format progress
