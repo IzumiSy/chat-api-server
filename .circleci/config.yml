@@ -1,17 +1,11 @@
 version: 2
 
 jobs:
-  test:
+  build:
     docker:
       - image: circle/ruby:2.4.1-jessie
       - image: mongo/3.4.10-jessie
     steps:
       - checkout
       - run: bundle install
-      - run: bundle exec rspec
-
-workflows:
-  version: 2
-  test:
-    jobs:
-      -test
+      - run: bundle exec rspec spec --format progress
