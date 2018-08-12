@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circle/ruby:2.4.1-jessie
+      - image: circleci/ruby:2.4.1-jessie
       - image: mongo/3.4.10-jessie
     steps:
       - checkout
