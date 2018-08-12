@@ -2,14 +2,15 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class RoomRoutes < RouteBase
+  before do
+    raise HTTPError::BadRequest unless is_logged_in?
+  end
+
   get '/api/room' do
     # [NOTE] Performance tuning tips
     # - to_json calls find() internally, so it is called here only once.
     # - length property and count() calls a counting method internally
     #   that is relatively slow, so to avoid that overhead, here use JSON conversion.
-
-    is_logged_in?
-
     room_all = Mongoid::QueryCache.cache {
       Room.all.limit(Room::ROOM_MAX).to_json(only: Room::ROOM_DATA_LIMITS)
     }
@@ -26,24 +27,13 @@ class RoomRoutes < RouteBase
       required("name").filled(:str?)
     end
 
-    is_logged_in?
-    is_admin?
+    raise HTTPError::Unauthorized unless is_admin?
 
     room_name = params[:name]
     room = Room.new(name: room_name)
     room.save!
 
-    body room.to_json(only: Room::ROOM_DATA_LIMITS)
-  end
-
-  # TODO Implementation
-  delete '/api/room/:id' do
-    validates do
-      required(:id).filled(:str?)
-    end
-
-    is_logged_in?
-    is_admin?
+    room.to_json(only: Room::ROOM_DATA_LIMITS)
   end
 
   get '/api/room/:id' do
@@ -51,55 +41,44 @@ class RoomRoutes < RouteBase
       required(:id).filled(:str?)
     end
 
-    is_logged_in?
-
     room_id = params[:id]
-    body Room.fetch_room_data(room_id, :ROOM)
+
+    Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
   end
 
-  # Wild card implementation for two following ports
-  # - /api/room/:id/messages
-  # - /api/room/:id/users
-  get '/api/room/:id/*' do
+  get '/api/room/:id/users' do
     validates do
       required("id").filled(:str?)
     end
 
-    is_logged_in?
-
-    target_path = params['splat'].first
     room_id = params[:id]
 
-    body case target_path
-      when "messages" then
-        Room.fetch_room_data(room_id, :MSG)
-      when 'users' then
-        Room.fetch_room_data(room_id, :USER)
-      else
-        raise HTTPError::NotFound
-      end
+    Room.only(:users).find_by!(id: room_id)
+      .users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
   end
 
-  # This port covers two following ports
-  # - /api/room/:id/enter
-  # - /api/room/:id/leave
-  post '/api/room/:id/*' do
+  post '/api/room/:id/enter' do
     validates do
       required("id").filled(:str?)
     end
 
-    token = is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
-    target_path = params['splat'].first
+    room_id = params[:id]
+    Room.transaction_enter(room_id, current_user)
+  end
+
+  post '/api/room/:id/leave' do
+    validates do
+      required("id").filled(:str?)
+    end
+
     room_id = params[:id]
 
-    case target_path
-    when 'enter' then
-      Room.room_transaction(room_id, token, :ENTER)
-    when 'leave' then
-      Room.room_transaction(room_id, token, :LEAVE)
+    if room_id == 'all'
+      User.user_deletion(current_user)
     else
-      raise HTTPError::NotFound
+      Room.transaction_leave(room_id, current_user)
     end
   end
 end

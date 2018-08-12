@@ -30,40 +30,6 @@ class Room
       Mongoid::QueryCache.cache { Room.find_by(name: LOBBY_ROOM_NAME) }
     end
 
-    def fetch_room_data(room_id, fetch_type)
-      return case fetch_type
-        when :ROOM then
-          Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
-        when :USER then
-          Room.only(:users).find_by!(id: room_id).users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
-        else
-          raise HTTPError::InternalServerError
-        end
-    end
-
-    def room_transaction(room_id, token, transaction_type)
-      unless user = User.find_user_by_token(token)
-        raise HTTPError::Unauthorized
-      end
-
-      # If "all" is specfied to `room_id` parameter, this function proceeds
-      # the transaction that the specified user leaves from the current room.
-      is_all_leave_mode = (room_id == "all" && transaction_type == :LEAVE)
-      room_id = user.room_id.to_s if is_all_leave_mode
-
-      case transaction_type
-      when :ENTER then
-        transaction_enter(room_id, user)
-      when :LEAVE then
-        transaction_leave(room_id, user)
-        User.user_deletion(user) if is_all_leave_mode
-      else
-        raise HTTPError::InternalServerError
-      end
-    end
-
-    protected
-
     def transaction_enter(new_room_id, user)
       if user.room
         current_room_id = user.room.id
@@ -88,11 +54,9 @@ class Room
 
       return unless is_user_exist_in_room
 
-      Thread.new {
-        user.update_attributes!(room_id: nil)
-      }
-
+      Thread.new { user.update_attributes!(room_id: nil) }
       Room.decrement_counter(:users_count, current_room_id)
+
       MessageService.broadcast_leave_msg(user)
     end
   end

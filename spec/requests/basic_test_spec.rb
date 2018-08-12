@@ -1,9 +1,8 @@
-require_relative "./spec_helper.rb"
+require_relative "../spec_helper.rb"
 
 ENV['ADMIN_PASS'] = 'testpass'
 
 describe "POST /api/admin/auth" do
-  let(:redis) { Helpers.redis_connect() }
   let(:user) { create(:user) }
 
   let(:success_param) {

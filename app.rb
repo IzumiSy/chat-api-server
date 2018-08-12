@@ -1,17 +1,16 @@
 require 'sinatra'
+require 'sinatra/namespace'
 require 'sinatra/base'
-require 'sinatra/cross_origin'
 require 'sinatra/rocketio'
 require 'sinatra/errorcodes'
 require 'sinatra/async'
 
-require 'dry-validation'
+require 'sysrandom/securerandom'
 require 'digest/md5'
-require 'securerandom'
 
-require 'redis'
 require 'mongoid'
 require 'mongoid/paranoia'
+require 'dry-validation'
 
 require 'parallel'
 require 'promise'
@@ -23,6 +22,7 @@ require 'rack-ssl-enforcer'
 require 'rack-health'
 require 'rack-cache'
 require 'rack/session/dalli'
+require 'rack/cors'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
@@ -36,8 +36,6 @@ Dotenv.load
 Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
-  enable :sessions
-
   register Sinatra::RocketIO
   register Sinatra::Async
 
@@ -54,26 +52,31 @@ class Application < Sinatra::Base
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
 
-  options "*" do
-    response.headers["Access-Control-Allow-Headers"] =
-      "Authorization"
-    200
+  use Rack::Cors do
+    allow do
+      origins ENV.fetch('CORS_ALLOWED_ORIGINS', 'localhost:8000')
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head],
+        credentials: true
+    end
   end
 
-  if (memcached_servers = ENV['MEMCACHEDCLOUD_SERVERS'])
-      (memcached_username = ENV['MEMCACHEDCLOUD_USERNAME']) &&
-      (memcached_password = ENV['MEMCACHEDCLOUD_PASSWORD'])
+  memcached_servers =
+    ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
 
-    use Rack::Cache,
-      verbose: true,
-      metastore: "memcached://#{memcached_servers}",
-      entitystore: "memcached://#{memcached_servers}"
+  enable :sessions
+  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
+  set :session_store, Rack::Session::Dalli,
+    key: '__chat_api_server',
+    cache: Dalli::Client.new(
+      memcached_servers,
+      username: ENV['MEMCACHEDCLOUD_USERNAME'],
+      password: ENV['MEMCACHEDCLOUD_PASSWORD']
+    )
 
-    use Rack::Session::Dalli,
-      cache: Dalli::Client.new(
-        "#{memcached_servers}",
-        username: memcached_username,
-        password: memcached_password
-      )
-  end
+  use Rack::Cache,
+    verbose: true,
+    metastore: "memcached://#{memcached_servers}",
+    entitystore: "memcached://#{memcached_servers}"
 end

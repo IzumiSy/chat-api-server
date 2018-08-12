@@ -46,7 +46,9 @@ class UserRoutes < RouteBase
     end
 
     user = _create_new_user
-    body user.to_json(only: User::USER_DATA_LIMITS.dup << :token << :room_id)
+    login(user)
+
+    body user.to_json(only: User::USER_DATA_LIMITS.dup << :room_id)
   end
 
   get '/api/user/:id' do
@@ -54,7 +56,7 @@ class UserRoutes < RouteBase
       required("id").filled
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     body User.fetch_user_data(user_id, :USER)
@@ -65,7 +67,7 @@ class UserRoutes < RouteBase
       required("id").filled
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     body User.fetch_user_data(user_id, :ROOM)
@@ -80,7 +82,7 @@ class UserRoutes < RouteBase
       required("data").filled(:hash?)
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     data = params[:data]
@@ -97,7 +99,7 @@ class UserRoutes < RouteBase
       required("id").filled
     end
 
-    is_logged_in?
+    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     user = User.find_by!(id: user_id);

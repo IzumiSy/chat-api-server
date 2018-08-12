@@ -1,5 +1,3 @@
-require_relative "../services/redis_service"
-
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -7,8 +5,6 @@ class User
 
   USER_NAME_LENGTH_MAX = 64
   USER_DATA_LIMITS = [:_id, :name, :face]
-
-  before_create :generate_user_token
 
   belongs_to :room, foreign_key: 'room_id', optional: true
 
@@ -21,7 +17,6 @@ class User
   field :face,   type: String, default: ->{ faceid_gen() }
 
   field :ip,      type: String
-  field :token,   type: String
   field :session, type: String
 
   STATUS = [
@@ -48,27 +43,12 @@ class User
       !!User.where(name: name).exists?
     end
 
-    def find_user_by_token(token)
-      Mongoid::QueryCache.cache { User.find_by(token: token) }
-    end
-
     def find_user_by_session(session)
       Mongoid::QueryCache.cache { User.find_by(session: session) }
     end
 
     def find_user_by_ip(ip)
       Mongoid::QueryCache.cache { User.find_by(ip: ip) }
-    end
-
-    def is_admin_from_token(token)
-      user = find_user_by_token(token)
-      user.is_admin
-    end
-
-    def is_logged_in_from_token(token)
-      has_session = RedisService.get(token)
-      is_user_found = User.find_user_by_token(token)
-      if has_session && is_user_found then token else nil end
     end
 
     def fetch_user_data(user_id, fetch_type)
@@ -92,24 +72,12 @@ class User
 
     def user_deletion(user)
       return unless user
-      if user.room
-        Room.room_transaction(user.room.id, user.token, :LEAVE)
-      end
-      Thread.new { RedisService.delete(user.token) }
+      Room.transaction_leave(user.room.id, user) if user.room
       user.delete
     end
   end
 
   private
-
-  # Generate user token randomly
-  def generate_user_token
-    token = SecureRandom.uuid
-    RedisService.connect(takeover: true)
-    RedisService.set(token, self.ip)
-    self.token = token
-    puts "[INFO] Token set: #{token}"
-  end
 
   # Set random face id
   def faceid_gen

@@ -2,7 +2,6 @@ source "https://rubygems.org"
 ruby "2.4.1"
 
 gem 'sinatra', '~> 2.0.0'
-gem 'sinatra-cross_origin'
 gem 'sinatra-errorcodes'
 gem 'sinatra-rocketio'
 gem 'async_sinatra'
@@ -15,14 +14,14 @@ gem 'thin'
 gem 'mongoid'
 gem 'mongoid_paranoia'
 
+gem 'sysrandom'
 gem 'bcrypt'
 gem 'dotenv'
 
-gem 'redis'
-gem 'hiredis'
-gem 'rack-cache'
 gem 'dalli'
+gem 'rack-cache'
 gem 'rack-health'
+gem 'rack-cors'
 
 gem 'rake'
 

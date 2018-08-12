@@ -1,17 +1,29 @@
-require_relative "../../services/auth_service"
-
 module Authorization
+  def login(user)
+    session[:user_id] = user.id
+  end
+
+  def logout
+    session[:user_id] = nil
+  end
+
+  def current_user
+    session[:user_id] && User.find(session[:user_id])
+  end
+
   def is_logged_in?
-    unless _token = AuthService.is_logged_in?(request)
-      raise HTTPError::Unauthorized
+    if current_user
+      true
+    else
+      false
     end
-    _token
   end
 
   def is_admin?
-    unless _user = AuthService.is_admin?(request)
-      raise HTTPError::Unauthorized
+    if current_user && current_user.is_admin?
+      true
+    else
+      false
     end
-    _user
   end
 end

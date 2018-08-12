@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: circleci/ruby:2.4.1-jessie
       - image: library/mongo:3.4-jessie
-      - image: library/redis
+      - image: library/memcached
     steps:
       - checkout
       - run: bundle install
