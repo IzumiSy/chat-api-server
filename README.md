@@ -20,7 +20,7 @@ Sample front-end app: [IzumiSy/chat-frontend](https://github.com/IzumiSy/chat-fr
 ```bash
 $ bundle install
 ```
-You also need to install MongoDB and Redis in addition if not yet.
+You also need to install MongoDB and Memcached in addition if not yet.
 
 ### Edit .env
 ```bash
