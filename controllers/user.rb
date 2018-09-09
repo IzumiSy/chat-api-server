@@ -1,6 +1,16 @@
 require_relative "./base"
 
 class UserRoutes < RouteBase
+  use Rack::Cors, debug: true, logger: Logger.new(STDOUT) do
+    allow do
+      origins ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:8000')
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head],
+        credentials: true
+    end
+  end
+
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do

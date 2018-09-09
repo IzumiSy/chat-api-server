@@ -53,16 +53,6 @@ class Application < Sinatra::Base
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
 
-  use Rack::Cors do
-    allow do
-      origins ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:8000')
-      resource '*',
-        headers: :any,
-        methods: [:get, :post, :put, :patch, :delete, :options, :head],
-        credentials: true
-    end
-  end
-
   memcached_servers =
     ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
 
