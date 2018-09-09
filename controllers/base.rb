@@ -3,6 +3,15 @@ require_relative 'helpers/validation'
 
 class RouteBase < Sinatra::Base
   use Rack::PostBodyContentTypeParser
+  use Rack::Cors do
+    allow do
+      origins ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:8000')
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :put, :patch, :delete, :options, :head],
+        credentials: true
+    end
+  end
 
   configure do
     register Sinatra::Errorcodes
