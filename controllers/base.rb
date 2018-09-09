@@ -2,6 +2,8 @@ require_relative 'helpers/authorization'
 require_relative 'helpers/validation'
 
 class RouteBase < Sinatra::Base
+  use Rack::PostBodyContentTypeParser
+
   configure do
     register Sinatra::Errorcodes
     register Sinatra::Namespace

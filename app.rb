@@ -23,6 +23,7 @@ require 'rack-health'
 require 'rack-cache'
 require 'rack/session/dalli'
 require 'rack/cors'
+require 'rack/contrib'
 
 require_relative 'controllers/basic'
 require_relative 'controllers/room'
