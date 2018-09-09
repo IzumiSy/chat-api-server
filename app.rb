@@ -53,11 +53,6 @@ class Application < Sinatra::Base
   use Rack::SslEnforcer, except_environments: ['development', 'test']
   use Mongoid::QueryCache::Middleware
 
-  use Rack::Cache,
-    verbose: true,
-    metastore: "memcached://#{memcached_servers}",
-    entitystore: "memcached://#{memcached_servers}"
-
   memcached_servers =
     ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
 
@@ -70,4 +65,9 @@ class Application < Sinatra::Base
       username: ENV['MEMCACHEDCLOUD_USERNAME'],
       password: ENV['MEMCACHEDCLOUD_PASSWORD']
     )
+
+  use Rack::Cache,
+    verbose: true,
+    metastore: "memcached://#{memcached_servers}",
+    entitystore: "memcached://#{memcached_servers}"
 end
