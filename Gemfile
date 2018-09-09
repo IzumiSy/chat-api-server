@@ -22,6 +22,7 @@ gem 'dalli'
 gem 'rack-cache'
 gem 'rack-health'
 gem 'rack-cors'
+gem 'rack-contrib'
 
 gem 'rake'
 
