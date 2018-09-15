@@ -1,16 +1,6 @@
 require_relative "./base"
 
 class UserRoutes < RouteBase
-  use Rack::Cors, debug: true, logger: Logger.new(STDOUT) do
-    allow do
-      origins ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:8000')
-      resource '*',
-        headers: :any,
-        methods: [:get, :post, :put, :patch, :delete, :options, :head],
-        credentials: true
-    end
-  end
-
   # This user creation port does not need to use slice
   # to limite user data to return.
   post '/api/user/new' do
@@ -62,22 +52,22 @@ class UserRoutes < RouteBase
   end
 
   get '/api/user/:id' do
+    must_be_logged_in!
+
     validates do
       required("id").filled
     end
-
-    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     body User.fetch_user_data(user_id, :USER)
   end
 
   get '/api/user/:id/room' do
+    must_be_logged_in!
+
     validates do
       required("id").filled
     end
-
-    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     body User.fetch_user_data(user_id, :ROOM)
@@ -87,12 +77,12 @@ class UserRoutes < RouteBase
   # Notes: somehow PUT is not working well in this port
   # so I decided to use POST instead for updating user's data
   post '/api/user/:id' do
+    must_be_logged_in!
+
     validates do
       required("id").filled(:str?)
       required("data").filled(:hash?)
     end
-
-    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     data = params[:data]
@@ -105,11 +95,11 @@ class UserRoutes < RouteBase
 
   # TODO: need test
   delete '/api/user/:id' do
+    must_be_logged_in!
+
     validates do
       required("id").filled
     end
-
-    raise HTTPError::BadRequest unless is_logged_in?
 
     user_id = params[:id]
     user = User.find_by!(id: user_id);

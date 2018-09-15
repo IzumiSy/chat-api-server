@@ -21,7 +21,6 @@ class RouteBase < Sinatra::Base
     set :show_exceptions, false
     set :halt_with_errors, true
 
-    enable :cross_origin
     enable :logging
   end
 
