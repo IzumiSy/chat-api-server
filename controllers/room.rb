@@ -6,7 +6,7 @@ class RoomRoutes < RouteBase
     raise HTTPError::BadRequest unless is_logged_in?
   end
 
-  get '/api/room' do
+  get '/api/rooms' do
     # [NOTE] Performance tuning tips
     # - to_json calls find() internally, so it is called here only once.
     # - length property and count() calls a counting method internally
