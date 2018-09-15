@@ -2,11 +2,9 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class RoomRoutes < RouteBase
-  before do
-    raise HTTPError::BadRequest unless is_logged_in?
-  end
-
   get '/api/rooms' do
+    must_be_logged_in!
+
     # [NOTE] Performance tuning tips
     # - to_json calls find() internally, so it is called here only once.
     # - length property and count() calls a counting method internally
@@ -23,11 +21,11 @@ class RoomRoutes < RouteBase
   end
 
   post '/api/room/new' do
+    must_be_logged_in_as_admin!
+
     validates do
       required("name").filled(:str?)
     end
-
-    raise HTTPError::Unauthorized unless is_admin?
 
     room_name = params[:name]
     room = Room.new(name: room_name)
@@ -37,6 +35,8 @@ class RoomRoutes < RouteBase
   end
 
   get '/api/room/:id' do
+    must_be_logged_in!
+
     validates do
       required(:id).filled(:str?)
     end
@@ -47,6 +47,8 @@ class RoomRoutes < RouteBase
   end
 
   get '/api/room/:id/users' do
+    must_be_logged_in!
+
     validates do
       required("id").filled(:str?)
     end
@@ -58,6 +60,8 @@ class RoomRoutes < RouteBase
   end
 
   post '/api/room/:id/enter' do
+    must_be_logged_in!
+
     validates do
       required("id").filled(:str?)
     end
@@ -69,6 +73,8 @@ class RoomRoutes < RouteBase
   end
 
   post '/api/room/:id/leave' do
+    must_be_logged_in!
+
     validates do
       required("id").filled(:str?)
     end

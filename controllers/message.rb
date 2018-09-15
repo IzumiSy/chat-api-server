@@ -2,13 +2,11 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class MessageRoutes < RouteBase
-  before do
-    raise HTTPError::BadRequest unless is_logged_in?
-  end
-
   # Message post API does not check if the room_id valid
   # or not, because it doesnt need to care its existence.
   post '/api/message/:room_id' do
+    must_be_logged_in!
+
     validates do
       required(:room_id).filled(:str?)
       required(:content).filled(:str?)

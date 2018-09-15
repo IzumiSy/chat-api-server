@@ -11,19 +11,11 @@ module Authorization
     session[:user_id] && User.find(session[:user_id])
   end
 
-  def is_logged_in?
-    if current_user
-      true
-    else
-      false
-    end
+  def must_be_logged_in!
+    raise HTTPError::Unauthorized unless current_user
   end
 
-  def is_admin?
-    if current_user && current_user.is_admin?
-      true
-    else
-      false
-    end
+  def must_be_logged_in_as_admin!
+    raise HTTPError::Unauthorized unless current_user && current_user.is_admin?
   end
 end
