@@ -10,7 +10,7 @@ describe "POST /api/room/new" do
 
   it "should NOT create a room without parameters" do
     post "/api/room/new", {}, 'rack.session' => { user_id: user.id }
-    expect(last_response.status).to eq(400)
+    expect(last_response.status).to eq(401)
   end
 
   it "should NOT create a room by non-admin user" do
