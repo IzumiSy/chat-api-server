@@ -66,8 +66,6 @@ class RoomRoutes < RouteBase
       required("id").filled(:str?)
     end
 
-    raise HTTPError::BadRequest unless is_logged_in?
-
     room_id = params[:id]
     Room.transaction_enter(room_id, current_user)
   end
