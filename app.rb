@@ -56,7 +56,6 @@ class Application < Sinatra::Base
   memcached_servers =
     ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
 
-  enable :sessions
   set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
   set :session_store, Rack::Session::Dalli,
     key: '__chat_api_server',
