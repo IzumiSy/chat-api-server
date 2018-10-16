@@ -17,7 +17,7 @@ class MessageRoutes < RouteBase
 
     raise HTTPError::BadRequest if room_id.empty? or content.empty?
 
-    data = { user_id: user.id, content: content, created_at: Time.now, user: current_user }
+    data = { user_id: current_user.id, content: content, created_at: Time.now, user: current_user }
     MessageService.broadcast_message(room_id, data)
   end
 end
