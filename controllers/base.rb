@@ -6,11 +6,28 @@ class RouteBase < Sinatra::Base
     register Sinatra::Errorcodes
     register Sinatra::Namespace
 
-    set :raise_errors, false
-    set :show_exceptions, false
-    set :halt_with_errors, true
+    disable :raise_errors
+    disable :show_exceptions
+    disable :protection
 
+    enable :halt_with_errors
     enable :logging
+
+    memcached_servers =
+      ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
+
+    use Rack::Session::Dalli,
+      key: 'rack.session',
+      cache: Dalli::Client.new(
+        memcached_servers,
+        username: ENV['MEMCACHEDCLOUD_USERNAME'],
+        password: ENV['MEMCACHEDCLOUD_PASSWORD']
+      )
+
+    use Rack::Cache,
+      verbose: true,
+      metastore: "memcached://#{memcached_servers}",
+      entitystore: "memcached://#{memcached_servers}"
 
     use Rack::PostBodyContentTypeParser
     use Rack::Cors do
