@@ -9,7 +9,6 @@ require 'sysrandom/securerandom'
 require 'digest/md5'
 
 require 'mongoid'
-require 'mongoid/paranoia'
 require 'dry-validation'
 
 require 'parallel'

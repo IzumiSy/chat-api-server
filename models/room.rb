@@ -3,7 +3,6 @@ require_relative "../services/message_service"
 class Room
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Paranoia
 
   has_many :users
 
