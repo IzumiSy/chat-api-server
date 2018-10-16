@@ -12,7 +12,6 @@ gem 'shotgun'
 gem 'thin'
 
 gem 'mongoid'
-gem 'mongoid_paranoia'
 
 gem 'sysrandom'
 gem 'bcrypt'
