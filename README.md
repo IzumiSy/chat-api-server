@@ -31,7 +31,7 @@ $ vi .env
 
 ### Give seeds
 ```bash
-$ rake db:seed_rooms
+$ bundle exec rake seed_rooms
 ```
 
 ## Run

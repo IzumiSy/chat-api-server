@@ -37,37 +37,10 @@ Dotenv.load
 Mongoid.load!('mongoid.yml', ENV['RACK_ENV'])
 
 class Application < Sinatra::Base
-  register Sinatra::RocketIO
-  register Sinatra::Async
-
   configure do
-    set :rocketio, websocket: false, comet: true
+    use BasicRoutes
+    use UserRoutes
+    use RoomRoutes
+    use MessageRoutes
   end
-
-  use BasicRoutes
-  use UserRoutes
-  use RoomRoutes
-  use MessageRoutes
-
-  use Rack::Health, path: '/healthcheck'
-  use Rack::SslEnforcer, except_environments: ['development', 'test']
-  use Mongoid::QueryCache::Middleware
-
-  memcached_servers =
-    ENV.fetch('MEMCACHEDCLOUD_SERVERS', '127.0.0.1:11211')
-
-  enable :sessions
-  set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
-  set :session_store, Rack::Session::Dalli,
-    key: '__chat_api_server',
-    cache: Dalli::Client.new(
-      memcached_servers,
-      username: ENV['MEMCACHEDCLOUD_USERNAME'],
-      password: ENV['MEMCACHEDCLOUD_PASSWORD']
-    )
-
-  use Rack::Cache,
-    verbose: true,
-    metastore: "memcached://#{memcached_servers}",
-    entitystore: "memcached://#{memcached_servers}"
 end
