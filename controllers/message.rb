@@ -19,6 +19,8 @@ class MessageRoutes < RouteBase
 
     data = { user_id: current_user.id, content: content, created_at: Time.now, user: current_user }
     MessageService.broadcast_message(room_id, data)
+
+    empty_json!
   end
 end
 

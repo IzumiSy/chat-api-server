@@ -105,5 +105,7 @@ class UserRoutes < RouteBase
     user = User.find_by!(id: user_id);
 
     User.user_deletion(user)
+
+    empty_json!
   end
 end
