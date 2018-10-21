@@ -64,4 +64,8 @@ class RouteBase < Sinatra::Base
   end
 
   helpers Authorization, Validation
+
+  def empty_json!
+    body {}.to_json
+  end
 end

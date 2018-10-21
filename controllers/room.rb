@@ -68,6 +68,8 @@ class RoomRoutes < RouteBase
 
     room_id = params[:id]
     Room.transaction_enter(room_id, current_user)
+
+    empty_json!
   end
 
   post '/api/room/:id/leave' do
@@ -84,6 +86,8 @@ class RoomRoutes < RouteBase
     else
       Room.transaction_leave(room_id, current_user)
     end
+
+    empty_json!
   end
 end
 
