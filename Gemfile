@@ -28,6 +28,9 @@ gem 'rake'
 gem 'parallel'
 gem 'promise'
 
+# For security reasons
+gem 'rack', '>= 2.0.6'
+
 group :development, :test do
   gem 'rb-readline'
   gem 'pry', require: true

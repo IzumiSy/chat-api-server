@@ -97,7 +97,7 @@ GEM
     pry-byebug (3.6.0)
       byebug (~> 10.0)
       pry (~> 0.10)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-cache (1.8.0)
       rack (>= 0.4)
     rack-contrib (2.1.0)
@@ -197,6 +197,7 @@ DEPENDENCIES
   promise
   pry
   pry-byebug
+  rack (>= 2.0.6)
   rack-cache
   rack-contrib
   rack-cors
