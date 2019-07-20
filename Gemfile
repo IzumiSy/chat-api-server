@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "2.4.4"
+ruby "2.5.5"
 
 gem 'sinatra', '~> 2.0.2'
 gem 'sinatra-errorcodes'
@@ -52,4 +52,3 @@ end
 group :production do
   gem 'rack-ssl-enforcer'
 end
-
