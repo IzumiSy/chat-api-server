@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.5.5-jessie
+      - image: circleci/ruby:2.5.5-buster
       - image: library/mongo:3.4-jessie
       - image: library/memcached
     steps:
