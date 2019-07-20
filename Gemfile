@@ -44,7 +44,7 @@ group :test do
   gem 'mongoid-rspec'
   gem 'rack-test'
 
-  gem 'database_cleaner', git: 'https://github.com/DatabaseCleaner/database_cleaner.git'
+  gem 'database_cleaner'
   gem 'factory_girl'
   gem 'faker'
 end
