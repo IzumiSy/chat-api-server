@@ -6,7 +6,25 @@ jobs:
       - image: circleci/ruby:2.5.5-buster
       - image: library/mongo:3.4-jessie
       - image: library/memcached
+
     steps:
       - checkout
-      - run: bundle install
-      - run: bundle exec rspec spec --format progress
+
+      - run:
+          name: setup bundler 2
+          command: |
+            sudo gem update --system
+            sudo gem uninstall bundler
+            sudo rm /usr/local/bin/bundle
+            sudo rm /usr/local/bin/bundler
+            sudo gem install bundler
+
+      - run:
+          name: install deps
+          command: |
+            bundle install
+
+      - run:
+          name: run tests
+          command: |
+            bundle exec rspec spec --format progress
