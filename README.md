@@ -18,7 +18,7 @@ Sample front-end app: [IzumiSy/chat-frontend](https://github.com/IzumiSy/chat-fr
 ## Setup
 ```bash
 $ docker-compose build
-$ docker-compose run app bundle exec rake seed_rooms
+$ docker-compose run app bundle exec rake seed
 $ docker-compose up
 ```
 
@@ -38,7 +38,7 @@ $ vi .env
 
 ### Give seeds
 ```bash
-$ bundle exec rake seed_rooms
+$ bundle exec rake seed
 ```
 
 ## Run
