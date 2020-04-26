@@ -19,7 +19,7 @@ test:
       <<: *client_options
       database: test
       hosts:
-        - localhost:27017
+        - mongodb:27017
 
 development:
   options:
@@ -29,7 +29,7 @@ development:
       <<: *client_options
       database: development
       hosts:
-        - localhost:27017
+        - mongodb:27017
 
 production:
   options:
