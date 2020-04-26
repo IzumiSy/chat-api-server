@@ -18,3 +18,5 @@ services:
     image: "mongo:3.6.17"
     ports:
       - "27017:27017"
+    volumes:
+      - ./persistence:/data/db
