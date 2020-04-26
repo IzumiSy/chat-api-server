@@ -4,7 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/ruby:2.6.6
-      - image: library/mongo:3.4-jessie
+      - image: library/mongo:3.6.17
       - image: library/memcached
 
     steps:
