@@ -16,6 +16,13 @@ Sample front-end app: [IzumiSy/chat-frontend](https://github.com/IzumiSy/chat-fr
 - [License](#License)
 
 ## Setup
+```bash
+$ docker-compose build
+$ docker-compose run app bundle exec rake seed_rooms
+$ docker-compose up
+```
+
+## Setup (non-dockerized)
 ### Install gems
 ```bash
 $ bundle install
@@ -43,9 +50,6 @@ $ bundle exec thin start -p 3000
 ```bash
 $ bundle exec rspec
 ```
-
-## Contribute
-PRs accepted.
 
 ## License
 MIT © IzumiSy
