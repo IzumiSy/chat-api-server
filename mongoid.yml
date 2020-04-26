@@ -29,7 +29,7 @@ development:
       <<: *client_options
       database: development
       hosts:
-        - localhost:27017
+        - mongodb:27017
 
 production:
   options:
