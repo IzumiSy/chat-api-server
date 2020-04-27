@@ -2,7 +2,7 @@ require_relative "./base"
 require_relative "../services/message_service"
 
 class RoomRoutes < RouteBase
-  get '/api/rooms' do
+  aget '/api/rooms' do
     must_be_logged_in!
 
     # [NOTE] Performance tuning tips
@@ -20,7 +20,7 @@ class RoomRoutes < RouteBase
     body room_all
   end
 
-  post '/api/room/new' do
+  apost '/api/room/new' do
     must_be_logged_in_as_admin!
 
     validates do
@@ -34,7 +34,7 @@ class RoomRoutes < RouteBase
     room.to_json(only: Room::ROOM_DATA_LIMITS)
   end
 
-  get '/api/room/:id' do
+  aget '/api/room/:id' do
     must_be_logged_in!
 
     validates do
@@ -46,7 +46,7 @@ class RoomRoutes < RouteBase
     Room.find_by!(id: room_id).to_json(only: ROOM_DATA_LIMITS)
   end
 
-  get '/api/room/:id/users' do
+  aget '/api/room/:id/users' do
     must_be_logged_in!
 
     validates do
@@ -59,7 +59,7 @@ class RoomRoutes < RouteBase
       .users.asc(:name).to_json(only: User::USER_DATA_LIMITS)
   end
 
-  post '/api/room/:id/enter' do
+  apost '/api/room/:id/enter' do
     must_be_logged_in!
 
     validates do
@@ -72,7 +72,7 @@ class RoomRoutes < RouteBase
     empty_json!
   end
 
-  post '/api/room/:id/leave' do
+  apost '/api/room/:id/leave' do
     must_be_logged_in!
 
     validates do
