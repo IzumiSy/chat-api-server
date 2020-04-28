@@ -1,29 +1,17 @@
 version: 2
-
 jobs:
   build:
-    docker:
-      - image: circleci/ruby:2.6.6
-      - image: library/mongo:3.6.17
-      - image: library/memcached
-
+    machine: true
     steps:
       - checkout
-
       - run:
-          name: setup bundler 2
+          name: install docker-compose
           command: |
-            sudo gem update --system
-            sudo gem uninstall bundler
-            sudo rm /usr/local/bin/bundle
-            sudo gem install bundler
-
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
-          name: install deps
+          name: build and run tests
           command: |
-            bundle install
-
-      - run:
-          name: run tests
-          command: |
-            bundle exec rspec spec --format progress
+            mkdir ~/persistence
+            docker-compose run app bundle exec rspec spec --format progress

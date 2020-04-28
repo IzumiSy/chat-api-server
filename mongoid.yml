@@ -13,13 +13,12 @@ default: &default
 test:
   options:
     <<: *options
-    log_level: :warn
   clients:
     default:
       <<: *client_options
       database: test
       hosts:
-        - localhost:27017
+        - mongodb:27017
 
 development:
   options:
