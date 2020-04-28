@@ -9,13 +9,13 @@ jobs:
       - checkout
 
       - run:
-        name: install docker-compose
-        command: |
-          curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-          chmod +x ~/docker-compose
-          sudo mv ~/docker-compose /usr/local/bin/docker-compose
+          name: install docker-compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
-        name: run tests
-        command: |
-          docker-compose run bundle exec rspec spec --format progress
+          name: run tests
+          command: |
+            docker-compose run bundle exec rspec spec --format progress
