@@ -17,4 +17,4 @@ jobs:
       - run:
           name: run tests
           command: |
-            docker-compose run bundle exec rspec spec --format progress
+            docker-compose run app bundle exec rspec spec --format progress
