@@ -5,8 +5,10 @@ class UserRoutes < RouteBase
   # to limite user data to return.
   post '/api/user/new' do
     validates do
-      required("name").filled(:str?)
-      optional("face")
+      schema do
+        required(:name).filled(:string)
+        optional(:face)
+      end
     end
 
     client_ip = request.ip
@@ -55,7 +57,9 @@ class UserRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     user_id = params[:id]
@@ -66,7 +70,9 @@ class UserRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     user_id = params[:id]
@@ -80,8 +86,12 @@ class UserRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled(:str?)
-      required("data").filled(:hash?)
+      schema do
+        required(:id).filled(:string)
+        required(:data).hash do
+          optional(:name).filled(:string)
+        end
+      end
     end
 
     user_id = params[:id]
@@ -98,7 +108,9 @@ class UserRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     user_id = params[:id]

@@ -14,4 +14,5 @@ jobs:
           name: build and run tests
           command: |
             mkdir ~/persistence
+            docker-compose up -d
             docker-compose run app bundle exec rspec spec --format progress

@@ -36,7 +36,7 @@ class RouteBase < Sinatra::Base
     use Rack::SslEnforcer, except_environments: ['development', 'test']
     use Mongoid::QueryCache::Middleware
 
-    use Rack::PostBodyContentTypeParser
+    use Rack::JSONBodyParser
     use Rack::Cors do
       allow do
         origins ENV.fetch('CORS_ALLOWED_ORIGINS', 'http://localhost:8000')

@@ -8,14 +8,14 @@ class MessageRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required(:room_id).filled(:str?)
-      required(:content).filled(:str?)
+      schema do
+        required(:room_id).filled(:string)
+        required(:content).filled(:string)
+      end
     end
 
     room_id = params[:room_id]
     content = params[:content]
-
-    raise HTTPError::BadRequest if room_id.empty? or content.empty?
 
     data = { user_id: current_user.id, content: content, created_at: Time.now, user: current_user }
     MessageService.broadcast_message(room_id, data)

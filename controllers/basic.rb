@@ -5,8 +5,10 @@ class BasicRoutes < RouteBase
   # in order to allow call of admin restricted API
   post '/api/admin/auth' do
     validates do
-      required("auth_hash").filled(:str?)
-      required("user_id").filled(:str?)
+      schema do
+        required(:auth_hash).filled(:string)
+        required(:user_id).filled(:string)
+      end
     end
 
     admin_pass = ENV['ADMIN_PASS']

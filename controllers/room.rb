@@ -24,7 +24,9 @@ class RoomRoutes < RouteBase
     must_be_logged_in_as_admin!
 
     validates do
-      required("name").filled(:str?)
+      schema do
+        required(:name).filled(:string)
+      end
     end
 
     room_name = params[:name]
@@ -38,7 +40,9 @@ class RoomRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required(:id).filled(:str?)
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     room_id = params[:id]
@@ -50,7 +54,9 @@ class RoomRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled(:str?)
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     room_id = params[:id]
@@ -63,7 +69,9 @@ class RoomRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled(:str?)
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     room_id = params[:id]
@@ -76,7 +84,9 @@ class RoomRoutes < RouteBase
     must_be_logged_in!
 
     validates do
-      required("id").filled(:str?)
+      schema do
+        required(:id).filled(:string)
+      end
     end
 
     room_id = params[:id]
