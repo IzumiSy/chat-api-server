@@ -1,3 +1,5 @@
+require 'dry-validation'
+
 module Validation
   def validates(&block)
     schema = Class.new(Dry::Validation::Contract, &block).new
