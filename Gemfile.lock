@@ -109,7 +109,7 @@ GEM
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
-    rack (2.2.2)
+    rack (2.2.3.1)
     rack-cache (1.11.1)
       rack (>= 0.4)
     rack-contrib (2.2.0)
